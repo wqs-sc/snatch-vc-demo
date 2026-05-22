@@ -3118,3 +3118,163 @@ a {
   align-items: center;
   gap: 12px;
 }
+
+/* ==========================================
+   RESPONSIVE DESIGN & MOBILE OPTIMIZATIONS
+   ========================================== */
+
+/* Responsive Grids */
+.responsive-grid {
+  display: grid;
+  gap: 20px;
+}
+.three-col-grid {
+  grid-template-columns: repeat(3, 1fr);
+}
+.two-col-grid {
+  grid-template-columns: 1fr 1fr;
+}
+.two-one-grid {
+  grid-template-columns: 1.2fr 0.8fr;
+}
+.two-one-half-grid {
+  grid-template-columns: 1.15fr 0.85fr;
+}
+
+@media (max-width: 1199px) {
+  body {
+    height: auto;
+    min-height: 100vh;
+    overflow-y: auto;
+  }
+  .workspace-wrapper {
+    flex-direction: column;
+    overflow: visible;
+  }
+  .workspace-left {
+    flex: none;
+    width: 100%;
+    overflow-y: visible;
+    padding: 30px 24px;
+  }
+  .workspace-right {
+    width: 100%;
+    border-left: none;
+    border-top: 1px solid var(--border-light);
+    background: radial-gradient(circle at center, rgba(168, 85, 247, 0.08) 0%, transparent 70%);
+    padding: 40px 0;
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    --phone-scale: 0.85;
+    height: calc(820px * var(--phone-scale));
+    min-height: 0;
+  }
+  .iphone-simulator {
+    transform: scale(var(--phone-scale)) !important;
+    transform-origin: center center;
+    margin: 0 auto;
+    transition: transform 0.3s ease;
+  }
+  /* Grid conversions */
+  .three-col-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+  .two-one-grid,
+  .two-one-half-grid {
+    grid-template-columns: 1fr;
+  }
+  /* Table scroll container enforcement */
+  .studio-table {
+    min-width: 800px;
+  }
+}
+
+@media (max-width: 767px) {
+  .demo-header {
+    height: auto;
+    flex-direction: column;
+    align-items: center;
+    padding: 16px;
+    gap: 12px;
+    text-align: center;
+  }
+  .demo-title-container {
+    width: 100%;
+    justify-content: center;
+  }
+  .demo-status {
+    width: 100%;
+    justify-content: center;
+    font-size: 0.75rem;
+  }
+
+  /* Horizontal scroll navigation pills */
+  .demo-nav {
+    width: 100%;
+    display: flex;
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    white-space: nowrap;
+    border-radius: 12px;
+    padding: 6px;
+    scrollbar-width: none;
+    -webkit-overflow-scrolling: touch;
+  }
+  .demo-nav::-webkit-scrollbar {
+    display: none;
+  }
+  .demo-nav-item {
+    flex: 0 0 auto;
+    padding: 8px 14px;
+    font-size: 0.8rem;
+  }
+
+  /* Left panel adjustment */
+  .workspace-left {
+    padding: 24px 16px;
+  }
+
+  /* Dynamic phone scaling based on screen width */
+  .workspace-right {
+    --phone-scale: calc(min(0.85, (100vw - 32px) / 410));
+    height: calc(820px * var(--phone-scale));
+    padding: 20px 0;
+  }
+  .iphone-simulator {
+    transform: scale(var(--phone-scale)) !important;
+  }
+
+  /* Grid conversions to single-column */
+  .three-col-grid,
+  .two-col-grid {
+    grid-template-columns: 1fr !important;
+  }
+  .profile-stats-grid,
+  .leaderboard-impact-section {
+    grid-template-columns: 1fr !important;
+  }
+  .demo-prompt-card {
+    flex-direction: column;
+    align-items: stretch !important;
+    gap: 12px;
+  }
+
+  /* Text and spacing adjustments */
+  .overview-heading {
+    font-size: 1.8rem;
+    line-height: 1.2;
+  }
+  .overview-lead {
+    font-size: 0.95rem;
+    margin-bottom: 20px;
+  }
+
+  /* Studio adjustments */
+  .studio-title-area {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+  }
+}
