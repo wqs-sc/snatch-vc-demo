@@ -1,0 +1,64 @@
+=== slide1.xml ===
+S Snatch Turn the real world into a reward hunt. A Snapchat-style AR treasure-hunt platform where brands launch measurable real-world campaigns, users create social hunts, and top players become local distribution. PRE-SEED PITCH AR + REWARDS + LOCAL INFLUENCE SNATCH  |  CONFIDENTIAL  |  1
+
+
+=== slide2.xml ===
+S Snatch Attention is expensive. Offline behavior is hard to measure. Brands need channels people actively seek out, not more placements people avoid. 01 Consumers avoid interruption Feeds, pop-ups, pre-rolls, cold outreach, and retargeting are skipped, muted, blocked, or ignored. 02 Brands rent attention Performance channels are crowded auctions. Costs rise while differentiation gets weaker. 03 Offline impact is opaque Marketers still struggle to link spend to real-world visits, events, and store behavior. The new channel is not another ad. It is a reason to move. SNATCH  |  CONFIDENTIAL  |  2
+
+
+=== slide3.xml ===
+S Snatch People do not hate brands. They hate being chased. Make the brand the prize, and the user becomes the hunter. From interruption → to invitation From passive impressions → to active exploration From campaign reports → to real-world behavior data From ads people avoid → to rewards people chase “There may be a real prize near me.” SNATCH  |  CONFIDENTIAL  |  3
+
+
+=== slide4.xml ===
+S Snatch Three product layers. One real-world game network. Brands bring rewards. Users bring culture. Snatch Mode keeps the world alive. PERFORMANCE MEDIA Campaign Studio Paid hunts for brands, agencies, venues, retailers, events, and local merchants. 1 SOCIAL CREATION Quick Hunt Lightweight private hunts for friends, offices, campuses, parties, and communities. 2 RETENTION + DISTRIBUTION Snatch Mode Always-on game layer with XP, levels, scan abilities, leaderboards, and local status. 3 The wedge: make location-based brand campaigns feel like play, not advertising. SNATCH  |  CONFIDENTIAL  |  4
+
+
+=== slide5.xml ===
+
+
+
+=== slide6.xml ===
+
+
+
+=== slide7.xml ===
+
+
+
+=== slide8.xml ===
+
+
+
+=== slide9.xml ===
+
+
+
+=== slide10.xml ===
+S Snatch Business model: campaign revenue first, marketplace upside later Start where brands already spend. Compound into a reward and local influence marketplace. Sponsored Hunts $5k–$50k fixed-fee activations by location, duration, prize pool, audience, and objective. Performance Add-ons Premium pricing for verified redemptions, referrals, scans, leads, and in-store conversion events. Reward Marketplace Brands, venues, creators, and event operators list rewards and pay for featured placement. Local Hunt Ambassadors Brands activate top hunters in a region to seed campaigns and drive early participation. Pilot economics target: $10k pilot fee • $2k–$4k prize cost • 50–70% gross margin after platform/ops SNATCH  |  CONFIDENTIAL  |  10
+
+
+=== slide11.xml ===
+S Snatch Positioned across three growing budgets Snatch does not replace ads. It adds a performance layer over physical reality. $1T+ global ad investment expected to cross this level $678.7B 2025 digital ad spend forecast by dentsu $30.6B → $113.6B mobile AR market forecast 2025 to 2030 Digital ads AR gaming Retail media Experiential Influencer marketing Snatch wedge: measurable, reward-driven campaigns that move people from screen attention to real-world action. Sources: dentsu Global Ad Spend Forecasts; Global Market Insights; Nielsen/eMarketer retail media commentary. SNATCH  |  CONFIDENTIAL  |  11
+
+
+=== slide12.xml ===
+S Snatch Why Snatch can win The defensibility compounds through behavior data, reward supply, campaign playbooks, and local hunter status. Behavior graph Know which mechanics make people move, scan, redeem, refer, and return in each location. Reward supply Exclusive rewards, venue partnerships, event tie-ins, and limited drops become difficult to copy locally. Campaign playbooks Repeatable templates for malls, campuses, stadiums, cafés, city events, and product launches. Local hunter network Top players become trusted regional promoters and distribution nodes for brands. Analogy: Pokémon Go proved location-based play can move people. Snatch applies that behavior to brand campaigns and rewards. SNATCH  |  CONFIDENTIAL  |  12
+
+
+=== slide13.xml ===
+S Snatch Go-to-market: prove paid demand in tight clusters Start narrow, produce case studies, then repeat category by category. 01 Beachhead Malls, cafés, QSR, retail launches, universities, offices, conferences, and city events. 02 Demo today A polished app + studio demo that shows campaign creation, holographic discovery, Quick Hunt, and Snatch Mode. 03 Pilot offer 4-week branded hunt with sponsored reward pool, mobile demo, dashboard report, and local ambassador activation. 04 First milestone 10 paid pilots, 25k users, 30%+ hunt completion, repeat demand from at least 3 brands. SNATCH  |  CONFIDENTIAL  |  13
+
+
+=== slide14.xml ===
+S Snatch Build order: demo now, product after funding Today’s MVP should sell the vision without getting trapped in long engineering work. TODAY Clickable demo mode Studio creates a prize. Mobile finds it. Quick Hunt and Snatch Mode are polished mock/demo flows. WEEKS 1–4 Real pilot MVP Supabase backend, campaign CRUD, claim logic, wallet, basic analytics, demo-safe geo simulation. WEEKS 5–10 Field pilots Run 3–5 local hunts, measure completions, redemption, referrals, and partner feedback. WEEKS 11–12 Raise package Case studies, dashboard, cohort data, LOIs, demo video, and pre-seed memo. MVP principle: demo the magic. Build the rails after the funding path is clear. SNATCH  |  CONFIDENTIAL  |  14
+
+
+=== slide15.xml ===
+S Snatch The ask: fund the first proof of a new media channel Pre-seed capital converts a strong mechanic into data, pilots, and repeatable revenue. $750k pre-seed target 18 months runway to repeatable pilots 10+ paid brand pilots target 25k+ users across launch clusters Use of funds Product engineering 45% • Pilot operations 25% • Brand partnerships 15% • Rewards/liquidity 10% • Legal/admin 5% Snatch: the ad people choose to chase. SNATCH  |  CONFIDENTIAL  |  15
+
+
+=== slide16.xml ===
+S Snatch Appendix: sources and assumptions Directional market framing. Replace with actual pilot traction as campaigns run. dentsu Global Ad Spend Forecasts: 2025 digital ad spend forecast and algorithmic media trends. Reuters / WPP Media: global ad revenue and digital share forecasts. Global Market Insights: mobile AR market forecast. Nielsen / eMarketer: retail media growth commentary. Public Pokémon Go reporting: location-based AR as proof of consumer movement. Financial projections are discussion assumptions, not audited performance. SNATCH  |  CONFIDENTIAL  |  16
+
+
