@@ -32,9 +32,10 @@
         <button class="demo-nav-item" data-view="ambassadors">Local Ambassadors</button>
       </nav>
 
-      <div class="demo-status">
+      <div class="demo-status" style="gap: 12px">
         <span class="status-dot"></span>
         <span>Simulator Connected: LIVE</span>
+        <button id="start-auto-tour-btn" class="neon-btn lime" style="font-size: 0.7rem; padding: 4px 10px; margin-left: 10px; cursor: pointer; text-shadow: none; font-weight: 700; border-radius: 6px;">START AUTO TOUR</button>
       </div>
     </header>
 
@@ -207,6 +208,25 @@
             </div>
           </div>
 
+          <!-- Telemetry live ops banner -->
+          <div class="studio-telemetry-bar" id="studio-telemetry" style="display: none;">
+            <div class="telemetry-item">
+              <span class="telemetry-dot active"></span>
+              <span class="telemetry-label">Active Hunters:</span>
+              <span class="telemetry-value" id="telemetry-hunters">0</span>
+            </div>
+            <div class="telemetry-divider"></div>
+            <div class="telemetry-item">
+              <span class="telemetry-label">Impressions/min:</span>
+              <span class="telemetry-value" id="telemetry-impressions">0</span>
+            </div>
+            <div class="telemetry-divider"></div>
+            <div class="telemetry-item">
+              <span class="telemetry-label">Total Seeded Drops:</span>
+              <span class="telemetry-value" id="telemetry-drops">0</span>
+            </div>
+          </div>
+
           <div class="studio-grid">
             <!-- Col 1: Campaign Configuration -->
             <div class="studio-col">
@@ -366,6 +386,14 @@
                     cx="180"
                     cy="150"
                     r="70"
+                  />
+                  <!-- Pulse geofence expanding ring -->
+                  <circle
+                    id="studio-geofence-pulse-ring"
+                    cx="180"
+                    cy="150"
+                    r="70"
+                    style="display: none; fill: none; stroke: var(--lime); stroke-width: 2px; opacity: 0; pointer-events: none;"
                   />
 
                   <!-- Soho center text -->
@@ -1413,12 +1441,25 @@
               </div>
             </div>
           </div>
+          
+          <!-- Regional Live Ops Ticker -->
+          <div class="glass-card lime-glow stagger-item delay-3" style="margin-top: 20px; padding: 14px 20px;">
+            <h4 style="font-family: var(--font-title); font-size: 0.85rem; color: var(--lime); text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 10px; display: flex; align-items: center; gap: 8px;">
+              <span class="live-dot"></span> LIVE OPS: REGIONAL ACTIVITY FEED
+            </h4>
+            <div id="ambassador-ticker-container" style="height: 48px; overflow: hidden; position: relative;">
+              <div id="ambassador-ticker-inner" style="position: absolute; width: 100%; transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);">
+                <!-- Dynamically scrolled alerts -->
+              </div>
+            </div>
+          </div>
         </section>
       </main>
 
       <!-- RIGHT PANEL: iPhone Simulator (Always On) -->
       <aside class="workspace-right">
-        <div class="iphone-simulator">
+        <div class="iphone-float-wrapper">
+          <div class="iphone-simulator">
           <!-- Island Notch -->
           <div class="iphone-island"></div>
 
@@ -1455,6 +1496,7 @@
 
           <!-- Phone screen dynamic content container -->
           <div class="iphone-screen">
+            <div class="iphone-screen-glare"></div>
             <div class="camera-flash-active" id="phone-camera-flash" style="display: none"></div>
 
             <!-- ==============================================
@@ -1505,6 +1547,8 @@
               >
                 <div class="camera-grid-lines"></div>
                 <div class="radar-overlay"></div>
+                <div class="viewfinder-sweep-line"></div>
+                <div class="radar-pulse-ring"></div>
                 <div class="camera-sidebar">
                   <div class="camera-sidebar-btn" title="Flip Camera">
                     <svg
@@ -1808,6 +1852,8 @@
               >
                 <div class="camera-grid-lines"></div>
                 <div class="radar-overlay purple-theme"></div>
+                <div class="viewfinder-sweep-line purple-theme"></div>
+                <div class="radar-pulse-ring purple-theme"></div>
                 <div class="camera-sidebar">
                   <div class="camera-sidebar-btn purple-theme" title="Flip Camera">
                     <svg
@@ -2571,6 +2617,8 @@
               >
                 <div class="camera-grid-lines"></div>
                 <div class="radar-overlay"></div>
+                <div class="viewfinder-sweep-line"></div>
+                <div class="radar-pulse-ring"></div>
                 <div class="camera-sidebar">
                   <div class="camera-sidebar-btn" title="Flip Camera">
                     <svg
@@ -2923,7 +2971,7 @@
                   "
                 >
                   <!-- Simulated QR code lines -->
-                  <svg viewBox="0 0 100 100" width="150" height="150" style="fill: #ffffff">
+                  <svg id="qh-qr-code" viewBox="0 0 100 100" width="150" height="150" style="fill: #ffffff">
                     <!-- Corner anchors -->
                     <rect
                       x="5"
@@ -3091,52 +3139,9 @@
 
                   <div style="display: flex; align-items: center; gap: 8px">
                     <!-- Avatar list circles -->
-                    <div style="display: flex; -webkit-margin-start: 0">
-                      <img
-                        src="https://images.unsplash.com/photo-1539571696357-5a69c17a67c6?auto=format&fit=crop&w=60&q=80"
-                        style="
-                          width: 28px;
-                          height: 28px;
-                          border-radius: 50%;
-                          border: 2px solid #0b0b0c;
-                          object-fit: cover;
-                        "
-                      />
-                      <img
-                        src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=60&q=80"
-                        style="
-                          width: 28px;
-                          height: 28px;
-                          border-radius: 50%;
-                          border: 2px solid #0b0b0c;
-                          margin-left: -8px;
-                          object-fit: cover;
-                        "
-                      />
-                      <img
-                        src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&w=60&q=80"
-                        style="
-                          width: 28px;
-                          height: 28px;
-                          border-radius: 50%;
-                          border: 2px solid #0b0b0c;
-                          margin-left: -8px;
-                          object-fit: cover;
-                        "
-                      />
-                      <img
-                        src="https://images.unsplash.com/photo-1522075469751-3a6694fb2f61?auto=format&fit=crop&w=60&q=80"
-                        style="
-                          width: 28px;
-                          height: 28px;
-                          border-radius: 50%;
-                          border: 2px solid #0b0b0c;
-                          margin-left: -8px;
-                          object-fit: cover;
-                        "
-                      />
+                    <div id="qh-avatar-list" style="display: flex; -webkit-margin-start: 0">
                     </div>
-                    <span
+                    <span id="qh-crew-count-badge"
                       style="
                         font-size: 0.65rem;
                         color: var(--lime);
@@ -3145,7 +3150,7 @@
                         padding: 2px 6px;
                         border-radius: 4px;
                       "
-                      >+3 crew</span
+                      >+0 crew</span
                     >
                   </div>
                 </div>
@@ -3168,6 +3173,12 @@
               >
                 START PLAYER HUNT
               </button>
+
+              <!-- Quick Hunt Countdown Overlay -->
+              <div id="qh-countdown-overlay" class="quickhunt-countdown-overlay">
+                <div style="font-size: 0.75rem; color: var(--text-secondary); text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 10px;">Hunt starting in</div>
+                <div id="qh-countdown-number" class="countdown-number">5</div>
+              </div>
             </div>
 
             <!-- 4. PLAYER HUNT SCREEN -->
@@ -3215,6 +3226,8 @@
               >
                 <div class="camera-grid-lines"></div>
                 <div class="radar-overlay"></div>
+                <div class="viewfinder-sweep-line"></div>
+                <div class="radar-pulse-ring"></div>
                 <div class="camera-sidebar">
                   <div class="camera-sidebar-btn" title="Flip Camera">
                     <svg
@@ -3780,6 +3793,8 @@
               >
                 <div class="camera-grid-lines"></div>
                 <div class="radar-overlay purple-theme"></div>
+                <div class="viewfinder-sweep-line" style="background: linear-gradient(to bottom, var(--purple), transparent); box-shadow: 0 0 10px var(--purple-glow);"></div>
+                <div class="radar-pulse-ring" style="border-color: rgba(168, 85, 247, 0.25); animation-name: radar-pulse-purple;"></div>
                 <div class="camera-sidebar">
                   <div class="camera-sidebar-btn purple-theme" title="Flip Camera">
                     <svg
@@ -4558,11 +4573,85 @@
             </button>
           </div>
 
+          <!-- Level Up Modal Overlay -->
+          <div class="modal-overlay" id="phone-modal-levelup">
+            <div class="success-modal purple-theme">
+              <div class="modal-check" style="background: var(--purple); box-shadow: 0 0 15px var(--purple-glow);">★</div>
+              <div class="modal-title" style="color: var(--purple);">LEVEL UP!</div>
+              <h3 style="font-size: 1.25rem; font-family: var(--font-title); margin-bottom: 5px; text-align: center;" id="levelup-level-title">Level 13</h3>
+              <p style="font-size: 0.8rem; color: var(--text-secondary); text-align: center; margin-bottom: 20px;">You've unlocked +250 Ability Points (AP)</p>
+              <div style="background: rgba(168, 85, 247, 0.1); border: 1px solid rgba(168, 85, 247, 0.3); border-radius: 12px; padding: 15px; width: 100%; text-align: center; margin-bottom: 20px;">
+                <span style="font-size: 0.75rem; color: var(--text-secondary); display: block; text-transform: uppercase; letter-spacing: 0.05em;">New Abilities Available</span>
+                <span style="font-size: 1.1rem; color: #ffffff; font-weight: 800; display: block; margin-top: 4px;">Scan Range Level 4</span>
+              </div>
+              <button class="neon-btn purple" id="levelup-claim-btn" style="width: 100%;">CLAIM AP</button>
+            </div>
+          </div>
+
+          <!-- Radar Sonar Ripple -->
+          <div id="phone-radar-ripple"></div>
+
           <div class="iphone-home-indicator"></div>
         </div>
-      </aside>
-    </div>
+      </div>
+    </aside>
+  </div>
 
-    <script src="app.js"></script>
-  </body>
+  <!-- Campaign Provisioning Modal Overlay -->
+  <div id="campaign-provisioning-modal" class="provisioning-overlay">
+    <div class="provisioning-card glass-card">
+      <div class="provisioning-header">
+        <div class="s-logo-box">S</div>
+        <h3 style="font-family: var(--font-title); font-weight: 800; font-size: 1.1rem; margin: 0;">PROVISIONING CAMPAIGN</h3>
+      </div>
+      <div class="provisioning-steps">
+        <div class="prov-step" id="prov-step-1">
+          <div class="prov-icon spinner"></div>
+          <div class="prov-label">Registering geofence coordinates...</div>
+        </div>
+        <div class="prov-step" id="prov-step-2">
+          <div class="prov-icon pending"></div>
+          <div class="prov-label">Seeding AR sneaker assets to Edge CDN...</div>
+        </div>
+        <div class="prov-step" id="prov-step-3">
+          <div class="prov-icon pending"></div>
+          <div class="prov-label">Syncing live telemetry pipelines...</div>
+        </div>
+        <div class="prov-step" id="prov-step-4">
+          <div class="prov-icon pending"></div>
+          <div class="prov-label">Broadcasting launch signal to mobile clients...</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Spotlight Overlay -->
+  <div id="demo-spotlight-overlay" class="demo-spotlight-overlay"></div>
+
+  <!-- Auto Tour HUD Banner -->
+  <div id="demo-tour-hud" class="demo-tour-hud">
+    <div class="hud-left">
+      <div class="hud-logo">S</div>
+      <div>
+        <div class="hud-title">INVESTOR AUTO TOUR</div>
+        <div class="hud-step-desc" id="hud-step-text">Step 1 of 9: Welcome to Snatch</div>
+      </div>
+    </div>
+    <div class="hud-controls">
+      <button id="hud-pause-btn" class="hud-btn">
+        <svg viewBox="0 0 24 24" width="12" height="12" fill="currentColor"><rect x="4" y="4" width="4" height="16"/><rect x="16" y="4" width="4" height="16"/></svg>
+        <span id="hud-pause-text">PAUSE</span>
+      </button>
+      <button id="hud-skip-btn" class="hud-btn">
+        <svg viewBox="0 0 24 24" width="12" height="12" fill="currentColor"><polygon points="5 4 15 12 5 20 5 4"/><line x1="19" y1="5" x2="19" y2="19" stroke="currentColor" stroke-width="3"/></svg>
+        SKIP
+      </button>
+      <button id="hud-exit-btn" class="hud-btn exit">
+        EXIT
+      </button>
+    </div>
+  </div>
+
+  <script src="app.js"></script>
+</body>
 </html>

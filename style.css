@@ -27,6 +27,7 @@
 
   --transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   --transition-bounce: all 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+  --transition-premium: all 300ms cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 /* Global Reset & Base */
@@ -535,9 +536,10 @@ a {
   box-shadow:
     inset 0 1px 1px rgba(255, 255, 255, 0.05),
     0 10px 30px -10px rgba(0, 0, 0, 0.5);
-  transition: var(--transition-smooth);
+  transition: var(--transition-premium);
   position: relative;
   overflow: hidden;
+  transform: translateY(0) scale(1);
 }
 
 .glass-card::before {
@@ -567,6 +569,7 @@ a {
 }
 
 .glass-card:hover {
+  transform: translateY(-4px) scale(1.01);
   background: rgba(28, 26, 42, 0.6);
   border-color: rgba(255, 255, 255, 0.15);
   box-shadow:
@@ -3278,3 +3281,639 @@ a {
     gap: 8px;
   }
 }
+
+/* ==========================================================================
+   PHASE 3: PREMIUM DEMO MOTION & POLISH
+   ========================================================================== */
+
+/* 1. Global Motion System & Animations */
+.staggerSlideIn {
+  animation: staggerSlideIn 0.5s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+@keyframes staggerSlideIn {
+  from {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Stagger Delays */
+.delay-1 { animation-delay: 60ms; }
+.delay-2 { animation-delay: 120ms; }
+.delay-3 { animation-delay: 180ms; }
+.delay-4 { animation-delay: 240ms; }
+.delay-5 { animation-delay: 300ms; }
+
+/* Pulse Glow Keyframes */
+@keyframes neonPulseLime {
+  0%, 100% {
+    box-shadow: 0 0 10px rgba(173, 255, 47, 0.2), inset 0 1px 1px rgba(255, 255, 255, 0.05);
+  }
+  50% {
+    box-shadow: 0 0 20px rgba(173, 255, 47, 0.4), inset 0 1px 1px rgba(255, 255, 255, 0.1);
+  }
+}
+
+@keyframes neonPulsePurple {
+  0%, 100% {
+    box-shadow: 0 0 10px rgba(168, 85, 247, 0.2), inset 0 1px 1px rgba(255, 255, 255, 0.05);
+  }
+  50% {
+    box-shadow: 0 0 20px rgba(168, 85, 247, 0.4), inset 0 1px 1px rgba(255, 255, 255, 0.1);
+  }
+}
+
+.pulse-glow-lime {
+  animation: neonPulseLime 3s infinite ease-in-out;
+}
+
+.pulse-glow-purple {
+  animation: neonPulsePurple 3s infinite ease-in-out;
+}
+
+/* 2. Campaign Studio Realism & SVG Pulse Ring */
+@keyframes mapGeofencePulseRing {
+  0% {
+    r: 70px;
+    opacity: 0.8;
+    stroke-width: 2px;
+  }
+  100% {
+    r: 150px;
+    opacity: 0;
+    stroke-width: 1px;
+  }
+}
+
+.studio-geofence-pulse-ring-active {
+  animation: mapGeofencePulseRing 2.5s infinite cubic-bezier(0.16, 1, 0.3, 1) !important;
+  display: block !important;
+}
+
+/* Telemetry Live Ops Bar */
+.studio-telemetry-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  background: rgba(18, 17, 28, 0.6);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 12px;
+  padding: 12px 20px;
+  margin-bottom: 20px;
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  box-shadow: inset 0 1px 1px rgba(255, 255, 255, 0.05), 0 4px 20px rgba(0, 0, 0, 0.3);
+}
+
+.telemetry-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.telemetry-dot {
+  width: 6px;
+  height: 6px;
+  background: #94a3b8;
+  border-radius: 50%;
+}
+
+.telemetry-dot.active {
+  background: var(--lime);
+  box-shadow: 0 0 10px var(--lime);
+  animation: telemetryPulse 1.5s infinite ease-in-out;
+}
+
+@keyframes telemetryPulse {
+  0%, 100% { opacity: 0.5; }
+  50% { opacity: 1; }
+}
+
+.telemetry-label {
+  font-family: var(--font-title);
+  font-size: 0.75rem;
+  color: var(--text-secondary);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  font-weight: 700;
+}
+
+.telemetry-value {
+  font-family: var(--font-title);
+  font-size: 1rem;
+  color: #fff;
+  font-weight: 800;
+}
+
+.telemetry-divider {
+  width: 1px;
+  height: 16px;
+  background: rgba(255, 255, 255, 0.1);
+}
+
+/* Campaign Provisioning Modal */
+.provisioning-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(4, 3, 7, 0.85);
+  backdrop-filter: blur(16px);
+  z-index: 9999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.provisioning-overlay.active {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.provisioning-card {
+  width: 90%;
+  max-width: 460px;
+  padding: 30px;
+  border-radius: 24px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  background: rgba(18, 17, 28, 0.7);
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5), 0 0 30px rgba(168, 85, 247, 0.1);
+  transform: translateY(20px) scale(0.95);
+  transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.provisioning-overlay.active .provisioning-card {
+  transform: translateY(0) scale(1);
+}
+
+.provisioning-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 24px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+  padding-bottom: 16px;
+}
+
+.provisioning-steps {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.prov-step {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  opacity: 0.3;
+  transition: opacity 0.3s ease;
+}
+
+.prov-step.active {
+  opacity: 1;
+}
+
+.prov-icon {
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  flex-shrink: 0;
+}
+
+.prov-icon.spinner {
+  border: 2px solid rgba(173, 255, 47, 0.2);
+  border-top-color: var(--lime);
+  animation: provSpinner 0.8s infinite linear;
+}
+
+.prov-icon.pending {
+  border: 2px solid rgba(255, 255, 255, 0.2);
+}
+
+.prov-icon.done::after {
+  content: '✓';
+  color: var(--lime);
+  font-weight: bold;
+  font-size: 0.85rem;
+}
+
+.prov-icon.done {
+  border: 2px solid var(--lime);
+  background: rgba(173, 255, 47, 0.1);
+}
+
+@keyframes provSpinner {
+  to { transform: rotate(360deg); }
+}
+
+.prov-label {
+  font-family: var(--font-body);
+  font-size: 0.9rem;
+  color: var(--text-primary);
+}
+
+/* 3. Phone Simulator Immersion */
+.iphone-float-wrapper {
+  perspective: 1000px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+}
+
+@keyframes simulatorFloat {
+  0%, 100% {
+    transform: translateY(0) rotateX(0deg) rotateY(0deg);
+  }
+  50% {
+    transform: translateY(-8px) rotateX(1deg) rotateY(-0.5deg);
+  }
+}
+
+.iphone-simulator {
+  animation: simulatorFloat 6s infinite ease-in-out;
+  transform-style: preserve-3d;
+  box-shadow: 0 30px 60px rgba(0, 0, 0, 0.6), 0 0 40px rgba(168, 85, 247, 0.15);
+}
+
+/* Phone Screen Glare/Reflection */
+.iphone-screen-glare {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 200%;
+  height: 200%;
+  background: linear-gradient(
+    135deg,
+    rgba(255, 255, 255, 0.08) 0%,
+    rgba(255, 255, 255, 0.02) 30%,
+    transparent 30.1%,
+    transparent 100%
+  );
+  z-index: 999;
+  pointer-events: none;
+  transform: translate(-25%, -25%);
+}
+
+/* Camera viewport enhancements */
+.viewfinder-sweep-line {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 4px;
+  background: linear-gradient(to bottom, var(--lime), transparent);
+  box-shadow: 0 0 8px var(--lime);
+  opacity: 0.6;
+  z-index: 3;
+  pointer-events: none;
+  animation: scanlineSweep 4s infinite linear;
+}
+
+.viewfinder-sweep-line.purple-theme {
+  background: linear-gradient(to bottom, var(--purple), transparent);
+  box-shadow: 0 0 8px var(--purple);
+}
+
+@keyframes scanlineSweep {
+  0% { top: -5%; }
+  100% { top: 105%; }
+}
+
+/* Radar Pulse / Sonar Ripple */
+.radar-pulse-ring {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  border: 1.5px solid var(--lime);
+  background: rgba(173, 255, 47, 0.03);
+  pointer-events: none;
+  z-index: 2;
+  animation: sonarRipple 4s infinite cubic-bezier(0.16, 1, 0.3, 1);
+  opacity: 0;
+}
+
+.radar-pulse-ring.purple-theme {
+  border-color: var(--purple);
+  background: rgba(168, 85, 247, 0.03);
+  animation-name: sonarRipplePurple;
+}
+
+@keyframes sonarRipple {
+  0% {
+    width: 20px;
+    height: 20px;
+    opacity: 0.8;
+  }
+  100% {
+    width: 280px;
+    height: 280px;
+    opacity: 0;
+  }
+}
+
+@keyframes sonarRipplePurple {
+  0% {
+    width: 20px;
+    height: 20px;
+    opacity: 0.8;
+  }
+  100% {
+    width: 280px;
+    height: 280px;
+    opacity: 0;
+  }
+}
+
+/* View transitions (slide left/right tabs) */
+.iphone-view {
+  transition: transform 350ms cubic-bezier(0.16, 1, 0.3, 1), opacity 350ms cubic-bezier(0.16, 1, 0.3, 1);
+  opacity: 0;
+  transform: translateX(30px);
+}
+
+.iphone-view.active {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+/* Quick Hunt countdown overlay */
+.quickhunt-countdown-overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(4, 3, 7, 0.9);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  z-index: 50;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s ease;
+}
+
+.quickhunt-countdown-overlay.active {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.countdown-number {
+  font-family: var(--font-title);
+  font-size: 5rem;
+  font-weight: 800;
+  color: var(--lime);
+  text-shadow: 0 0 20px var(--lime-glow);
+  animation: countdownPulse 1s infinite ease-in-out;
+}
+
+@keyframes countdownPulse {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.15); }
+}
+
+/* QR Code pulse reveal */
+.qr-pulse-reveal {
+  animation: qrReveal 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+@keyframes qrReveal {
+  from {
+    opacity: 0;
+    transform: scale(0.85) rotate(-5deg);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1) rotate(0deg);
+  }
+}
+
+/* Floating XP indicator */
+.floating-xp-indicator {
+  position: absolute;
+  font-family: var(--font-title);
+  font-weight: 800;
+  font-size: 0.95rem;
+  color: var(--lime);
+  text-shadow: 0 0 8px rgba(173, 255, 47, 0.8);
+  pointer-events: none;
+  z-index: 100;
+  animation: riseAndFade 1.2s cubic-bezier(0.25, 1, 0.5, 1) forwards;
+}
+
+@keyframes riseAndFade {
+  0% {
+    transform: translateY(0) scale(0.8);
+    opacity: 0;
+  }
+  15% {
+    transform: translateY(-25px) scale(1.1);
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(-90px) scale(0.9);
+    opacity: 0;
+  }
+}
+
+/* Live regional feed styles */
+.ticker-log-item {
+  font-family: var(--font-body);
+  font-size: 0.8rem;
+  color: var(--text-primary);
+  height: 24px;
+  line-height: 24px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  opacity: 0.95;
+}
+
+.ticker-log-item span {
+  color: var(--lime);
+  font-weight: 700;
+}
+
+.ticker-log-item span.purple {
+  color: var(--purple);
+}
+
+/* 7. Auto Tour Presenter Mode styling */
+.demo-tour-hud {
+  position: fixed;
+  bottom: 24px;
+  left: 50%;
+  transform: translateX(-50%) translateY(120px);
+  width: 90%;
+  max-width: 580px;
+  background: rgba(18, 16, 28, 0.85);
+  border: 1px solid rgba(168, 85, 247, 0.4);
+  box-shadow: 0 15px 45px rgba(0, 0, 0, 0.8), 0 0 25px rgba(168, 85, 247, 0.2);
+  border-radius: 20px;
+  padding: 16px 24px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  z-index: 10000;
+  backdrop-filter: blur(20px);
+  transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+  pointer-events: none;
+}
+
+.demo-tour-hud.active {
+  transform: translateX(-50%) translateY(0);
+  pointer-events: auto;
+}
+
+.hud-left {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.hud-logo {
+  width: 32px;
+  height: 32px;
+  border-radius: 8px;
+  border: 2px solid var(--purple);
+  background: rgba(168, 85, 247, 0.1);
+  color: #fff;
+  font-weight: 800;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-title);
+}
+
+.hud-title {
+  font-family: var(--font-title);
+  font-weight: 800;
+  font-size: 0.75rem;
+  color: var(--purple);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.hud-step-desc {
+  font-family: var(--font-body);
+  font-size: 0.85rem;
+  color: #fff;
+  margin-top: 2px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 280px;
+}
+
+.hud-controls {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.hud-btn {
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  color: #fff;
+  font-family: var(--font-title);
+  font-weight: 700;
+  font-size: 0.65rem;
+  letter-spacing: 0.05em;
+  border-radius: 8px;
+  padding: 6px 12px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.hud-btn:hover {
+  background: rgba(255, 255, 255, 0.15);
+  border-color: rgba(255, 255, 255, 0.25);
+}
+
+.hud-btn.exit {
+  background: rgba(239, 68, 68, 0.2);
+  border-color: rgba(239, 68, 68, 0.4);
+  color: #fca5a5;
+}
+
+.hud-btn.exit:hover {
+  background: rgba(239, 68, 68, 0.35);
+  border-color: rgba(239, 68, 68, 0.6);
+}
+
+/* Spotlight overlay */
+.demo-spotlight-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(3, 2, 6, 0.7);
+  z-index: 9998;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.5s ease;
+}
+
+.demo-spotlight-overlay.active {
+  opacity: 1;
+}
+
+.highlight-element {
+  position: relative;
+  z-index: 10001 !important;
+  box-shadow: 0 0 25px rgba(173, 255, 47, 0.4), 0 0 0 4px var(--lime);
+  pointer-events: auto !important;
+  transition: box-shadow 0.3s ease;
+}
+
+.highlight-element.purple-border {
+  box-shadow: 0 0 25px rgba(168, 85, 247, 0.4), 0 0 0 4px var(--purple);
+}
+
+/* Radar Sonar Ripple Upgrade Animation */
+#phone-radar-ripple {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) scale(0);
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(168, 85, 247, 0.4) 0%, rgba(173, 255, 47, 0.1) 70%, transparent 100%);
+  border: 2px solid var(--purple);
+  box-shadow: 0 0 30px var(--purple-glow);
+  pointer-events: none;
+  opacity: 0;
+  z-index: 1000;
+}
+
+#phone-radar-ripple.active {
+  animation: phoneRadarRippleAnimate 1.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+@keyframes phoneRadarRippleAnimate {
+  0% {
+    transform: translate(-50%, -50%) scale(0.1);
+    opacity: 1;
+  }
+  100% {
+    transform: translate(-50%, -50%) scale(40);
+    opacity: 0;
+  }
+}
+

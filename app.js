@@ -319,53 +319,148 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
+  // Helper for telemetry countup
+  const animateCountUp = (element, start, end, duration) => {
+    let startTime = null;
+    const step = (timestamp) => {
+      if (!startTime) startTime = timestamp;
+      const progress = Math.min((timestamp - startTime) / duration, 1);
+      const val = Math.floor(progress * (end - start) + start);
+      element.textContent = val.toLocaleString();
+      if (progress < 1) {
+        window.requestAnimationFrame(step);
+      } else {
+        element.textContent = end.toLocaleString();
+      }
+    };
+    window.requestAnimationFrame(step);
+  };
+
   // Campaign Launch Sync Event Trigger
   if (launchCampaignBtn) {
     launchCampaignBtn.addEventListener('click', () => {
-      // 1. Play phone camera screen flash overlay
-      if (phoneCameraFlash) {
-        phoneCameraFlash.style.display = 'block';
-        phoneCameraFlash.style.opacity = '1';
-        setTimeout(() => {
-          phoneCameraFlash.style.opacity = '0';
+      const provisioningModal = document.getElementById('campaign-provisioning-modal');
+      if (provisioningModal) {
+        provisioningModal.classList.add('active');
+      }
+
+      const steps = [
+        document.getElementById('prov-step-1'),
+        document.getElementById('prov-step-2'),
+        document.getElementById('prov-step-3'),
+        document.getElementById('prov-step-4')
+      ];
+
+      steps.forEach((step, idx) => {
+        if (!step) return;
+        const icon = step.querySelector('.prov-icon');
+        if (idx === 0) {
+          step.classList.add('active');
+          if (icon) icon.className = 'prov-icon spinner';
+        } else {
+          step.classList.remove('active');
+          if (icon) icon.className = 'prov-icon pending';
+        }
+      });
+
+      const runStep = (idx) => {
+        if (idx >= steps.length) {
           setTimeout(() => {
-            phoneCameraFlash.style.display = 'none';
-          }, 300);
-        }, 150);
-      }
+            if (provisioningModal) {
+              provisioningModal.classList.remove('active');
+            }
 
-      // 2. Set campaign state to active
-      state.campaign.active = true;
+            const pulseRing = document.getElementById('studio-geofence-pulse-ring');
+            if (pulseRing) {
+              pulseRing.classList.add('studio-geofence-pulse-ring-active');
+            }
 
-      // 3. Update SaaS dashboard header and table database statuses
-      const badgeStatus = document.querySelector('.studio-title-heading .badge-status');
-      if (badgeStatus) {
-        badgeStatus.textContent = '• ACTIVE';
-        badgeStatus.classList.remove('draft');
-        badgeStatus.classList.add('active');
-      }
+            // Play phone camera screen flash overlay
+            if (phoneCameraFlash) {
+              phoneCameraFlash.style.display = 'block';
+              phoneCameraFlash.style.opacity = '1';
+              setTimeout(() => {
+                phoneCameraFlash.style.opacity = '0';
+                setTimeout(() => {
+                  phoneCameraFlash.style.display = 'none';
+                }, 300);
+              }, 150);
+            }
 
-      if (tableCellStatus) {
-        tableCellStatus.textContent = 'ACTIVE';
-        tableCellStatus.className = 'badge-status active';
-      }
+            state.campaign.active = true;
 
-      // 4. Update Mobile Simulator Hunts View (Unlock the Nike Drop)
-      if (discoverUnlaunchedMsg) discoverUnlaunchedMsg.style.display = 'none';
-      if (discoverShutterRow) discoverShutterRow.style.display = 'flex';
-      if (discoverRadarPreview) discoverRadarPreview.style.display = 'block';
+            const badgeStatus = document.querySelector('.studio-title-heading .badge-status');
+            if (badgeStatus) {
+              badgeStatus.textContent = '• ACTIVE';
+              badgeStatus.classList.remove('draft');
+              badgeStatus.classList.add('active');
+            }
 
-      if (discoverShoeSvg) {
-        discoverShoeSvg.style.opacity = '1.0';
-        discoverShoeSvg.style.transform = 'scale(1.0)';
-        // Trigger bounce glow effect
-        discoverShoeSvg.classList.add('pulse-item');
-      }
+            if (tableCellStatus) {
+              tableCellStatus.textContent = 'ACTIVE';
+              tableCellStatus.className = 'badge-status active';
+            }
 
-      // 5. Shift left dashboard view to "User App" walk-through to guide next manual steps
+            if (discoverUnlaunchedMsg) discoverUnlaunchedMsg.style.display = 'none';
+            if (discoverShutterRow) discoverShutterRow.style.display = 'flex';
+            if (discoverRadarPreview) discoverRadarPreview.style.display = 'block';
+
+            if (discoverShoeSvg) {
+              discoverShoeSvg.style.opacity = '1.0';
+              discoverShoeSvg.style.transform = 'scale(1.0)';
+              discoverShoeSvg.classList.add('pulse-item');
+            }
+
+            setTimeout(() => {
+              switchDashboardView('user-app');
+            }, 500);
+          }, 600);
+          return;
+        }
+
+        const prevStep = steps[idx - 1];
+        if (prevStep) {
+          const prevIcon = prevStep.querySelector('.prov-icon');
+          if (prevIcon) prevIcon.className = 'prov-icon done';
+        }
+
+        const currentStep = steps[idx];
+        if (currentStep) {
+          currentStep.classList.add('active');
+          const currentIcon = currentStep.querySelector('.prov-icon');
+          if (currentIcon) currentIcon.className = 'prov-icon spinner';
+        }
+
+        if (idx === 2) {
+          const telemetryBar = document.getElementById('studio-telemetry');
+          if (telemetryBar) {
+            telemetryBar.style.display = 'flex';
+            telemetryBar.style.opacity = '0';
+            telemetryBar.style.transition = 'opacity 0.5s ease';
+            telemetryBar.offsetHeight;
+            telemetryBar.style.opacity = '1';
+
+            const huntersVal = document.getElementById('telemetry-hunters');
+            const impressionsVal = document.getElementById('telemetry-impressions');
+            const dropsVal = document.getElementById('telemetry-drops');
+
+            if (huntersVal) animateCountUp(huntersVal, 0, 1248, 1500);
+            if (impressionsVal) animateCountUp(impressionsVal, 0, 4820, 1500);
+            if (dropsVal) {
+              const targetDrops = Math.round(state.campaign.radius / 3.0);
+              animateCountUp(dropsVal, 0, targetDrops, 1500);
+            }
+          }
+        }
+
+        setTimeout(() => {
+          runStep(idx + 1);
+        }, 800);
+      };
+
       setTimeout(() => {
-        switchDashboardView('user-app');
-      }, 500);
+        runStep(1);
+      }, 800);
     });
   }
 
@@ -609,6 +704,7 @@ document.addEventListener('DOMContentLoaded', () => {
   if (qhBtnConfirmLocation) {
     qhBtnConfirmLocation.addEventListener('click', () => {
       switchPhoneScreen('phone-screen-qh-invite');
+      triggerInviteLobbyFlow();
     });
   }
 
@@ -622,10 +718,31 @@ document.addEventListener('DOMContentLoaded', () => {
   // Q3: Start Player Hunt button -> Player Hunt proximity tracking screen
   if (qhBtnStartPlayerHunt) {
     qhBtnStartPlayerHunt.addEventListener('click', () => {
-      if (qhPlayerProximitySlider) qhPlayerProximitySlider.value = 110;
-      if (qhPlayerProximityText) qhPlayerProximityText.textContent = '110m';
-      updateQHPlayerButton(110);
-      switchPhoneScreen('phone-screen-qh-player');
+      const countdownOverlay = document.getElementById('qh-countdown-overlay');
+      const countdownNumber = document.getElementById('qh-countdown-number');
+      if (countdownOverlay && countdownNumber) {
+        countdownOverlay.classList.add('active');
+        let count = 5;
+        countdownNumber.textContent = count;
+        const interval = setInterval(() => {
+          count--;
+          if (count > 0) {
+            countdownNumber.textContent = count;
+          } else {
+            clearInterval(interval);
+            countdownOverlay.classList.remove('active');
+            if (qhPlayerProximitySlider) qhPlayerProximitySlider.value = 110;
+            if (qhPlayerProximityText) qhPlayerProximityText.textContent = '110m';
+            updateQHPlayerButton(110);
+            switchPhoneScreen('phone-screen-qh-player');
+          }
+        }, 1000);
+      } else {
+        if (qhPlayerProximitySlider) qhPlayerProximitySlider.value = 110;
+        if (qhPlayerProximityText) qhPlayerProximityText.textContent = '110m';
+        updateQHPlayerButton(110);
+        switchPhoneScreen('phone-screen-qh-player');
+      }
     });
   }
 
@@ -742,10 +859,41 @@ document.addEventListener('DOMContentLoaded', () => {
 
       // Add XP point visual indicators
       state.player.xp += 350;
+
+      // Spawn floating XP text floater
+      const huntScreen = document.getElementById('phone-screen-hunt');
+      if (huntScreen) {
+        const floater = document.createElement('div');
+        floater.textContent = '+350 XP';
+        floater.style.position = 'absolute';
+        floater.style.left = '50%';
+        floater.style.bottom = '120px';
+        floater.style.transform = 'translateX(-50%)';
+        floater.style.fontFamily = 'var(--font-title)';
+        floater.style.fontWeight = '800';
+        floater.style.fontSize = '1.3rem';
+        floater.style.color = 'var(--purple)';
+        floater.style.textShadow = '0 0 10px var(--purple-glow)';
+        floater.style.zIndex = '50';
+        floater.style.pointerEvents = 'none';
+        floater.style.opacity = '1';
+        floater.style.transition = 'all 0.8s cubic-bezier(0.16, 1, 0.3, 1)';
+
+        huntScreen.appendChild(floater);
+        floater.offsetHeight; // Force reflow
+        floater.style.transform = 'translateX(-50%) translateY(-60px)';
+        floater.style.opacity = '0';
+
+        setTimeout(() => {
+          if (floater.parentNode) floater.parentNode.removeChild(floater);
+        }, 800);
+      }
+
+      let isLevelUp = false;
       if (state.player.xp >= state.player.xpNext) {
         state.player.level += 1;
         state.player.xp = state.player.xp - state.player.xpNext;
-        alert(`LEVEL UP! You are now Level ${state.player.level}!`);
+        isLevelUp = true;
       }
 
       // Update XP stats on Profile Screen
@@ -772,11 +920,22 @@ document.addEventListener('DOMContentLoaded', () => {
       );
       if (totalSnatchesVal) totalSnatchesVal.textContent = state.player.totalSnatches;
 
-      // Navigate back to profile view
-      setTimeout(() => {
-        switchPhoneScreen('phone-screen-profile');
-        highlightPhoneTab('tab-btn-profile');
-      }, 500);
+      if (isLevelUp) {
+        const levelUpModal = document.getElementById('phone-modal-levelup');
+        const levelTitle = document.getElementById('levelup-level-title');
+        if (levelTitle) {
+          levelTitle.textContent = `Level ${state.player.level}`;
+        }
+        if (levelUpModal) {
+          levelUpModal.classList.add('active');
+        }
+      } else {
+        // Navigate back to profile view
+        setTimeout(() => {
+          switchPhoneScreen('phone-screen-profile');
+          highlightPhoneTab('tab-btn-profile');
+        }, 500);
+      }
     });
   }
 
@@ -861,6 +1020,8 @@ document.addEventListener('DOMContentLoaded', () => {
         abilitiesUpgradeTrigger.style.color = '#FFFFFF';
         abilitiesUpgradeTrigger.style.boxShadow = '0 0 25px var(--purple-glow)';
 
+        triggerRadarRipple();
+
         setTimeout(() => {
           abilitiesUpgradeTrigger.textContent = 'UPGRADE ABILITIES';
           abilitiesUpgradeTrigger.style.background = 'var(--lime)';
@@ -868,7 +1029,25 @@ document.addEventListener('DOMContentLoaded', () => {
           abilitiesUpgradeTrigger.style.boxShadow = '0 4px 15px rgba(173, 255, 47, 0.3)';
         }, 2000);
       } else {
-        alert('Insufficient Ability Points! Earn more points by scanning Soho.');
+        // Inline button warning styling modifications to replace alert()
+        const originalText = abilitiesUpgradeTrigger.textContent;
+        const originalBg = abilitiesUpgradeTrigger.style.background;
+        const originalColor = abilitiesUpgradeTrigger.style.color;
+        const originalShadow = abilitiesUpgradeTrigger.style.boxShadow;
+
+        abilitiesUpgradeTrigger.textContent = 'INSUFFICIENT AP';
+        abilitiesUpgradeTrigger.style.background = '#ef4444';
+        abilitiesUpgradeTrigger.style.color = '#ffffff';
+        abilitiesUpgradeTrigger.style.boxShadow = '0 0 20px rgba(239, 68, 68, 0.6)';
+        abilitiesUpgradeTrigger.style.pointerEvents = 'none';
+
+        setTimeout(() => {
+          abilitiesUpgradeTrigger.textContent = originalText;
+          abilitiesUpgradeTrigger.style.background = originalBg;
+          abilitiesUpgradeTrigger.style.color = originalColor;
+          abilitiesUpgradeTrigger.style.boxShadow = originalShadow;
+          abilitiesUpgradeTrigger.style.pointerEvents = 'auto';
+        }, 2000);
       }
     });
   }
@@ -905,6 +1084,477 @@ document.addEventListener('DOMContentLoaded', () => {
   if (leaderboardAmbassadorLink) {
     leaderboardAmbassadorLink.addEventListener('click', () => {
       switchDashboardView('ambassadors');
+    });
+  }
+
+  // ==========================================
+  // 10. PREMIUM INTERACTION SUBSYSTEMS & AUTO TOUR
+  // ==========================================
+
+  // Level Up Custom Modal Claim button event listener
+  const levelupClaimBtn = document.getElementById('levelup-claim-btn');
+  if (levelupClaimBtn) {
+    levelupClaimBtn.addEventListener('click', () => {
+      const levelUpModal = document.getElementById('phone-modal-levelup');
+      if (levelUpModal) {
+        levelUpModal.classList.remove('active');
+      }
+
+      state.player.abilityPoints += 250;
+      if (abilitiesPointsVal) {
+        abilitiesPointsVal.textContent = state.player.abilityPoints.toLocaleString();
+      }
+
+      const profileAbilitiesPtsLabel = document.getElementById('profile-abilities-pts-label');
+      if (profileAbilitiesPtsLabel) {
+        profileAbilitiesPtsLabel.textContent = `${state.player.abilityPoints.toLocaleString()} AP available`;
+      }
+
+      switchPhoneScreen('phone-screen-abilities');
+      deactivatePhoneTabs();
+      triggerRadarRipple();
+    });
+  }
+
+  // Sonar radar ripple upgrade visual feedback
+  const triggerRadarRipple = () => {
+    const ripple = document.getElementById('phone-radar-ripple');
+    if (ripple) {
+      ripple.classList.remove('active');
+      ripple.offsetHeight; // Force repaint
+      ripple.classList.add('active');
+      setTimeout(() => {
+        ripple.classList.remove('active');
+      }, 1500);
+    }
+  };
+
+  // Quick Hunt lobby sequential joins simulation
+  const triggerInviteLobbyFlow = () => {
+    const qrCode = document.getElementById('qh-qr-code');
+    if (qrCode) {
+      qrCode.style.transform = 'scale(0.3)';
+      qrCode.style.opacity = '0';
+      qrCode.style.transition = 'all 0.6s cubic-bezier(0.16, 1, 0.3, 1)';
+      setTimeout(() => {
+        qrCode.style.transform = 'scale(1)';
+        qrCode.style.opacity = '1';
+      }, 50);
+    }
+
+    const avatarList = document.getElementById('qh-avatar-list');
+    const badge = document.getElementById('qh-crew-count-badge');
+    if (avatarList) avatarList.innerHTML = '';
+    if (badge) {
+      badge.textContent = '+0 crew';
+      badge.style.background = 'rgba(255, 255, 255, 0.05)';
+      badge.style.color = 'var(--text-secondary)';
+    }
+
+    const crew = [
+      { name: 'Sarah', init: 'S', color: 'var(--lime)' },
+      { name: 'David', init: 'D', color: 'var(--purple)' },
+      { name: 'Jessica', init: 'J', color: '#ff007f' },
+      { name: 'Michael', init: 'M', color: '#00f0ff' }
+    ];
+
+    crew.forEach((member, index) => {
+      setTimeout(() => {
+        const bubble = document.createElement('div');
+        bubble.style.width = '26px';
+        bubble.style.height = '26px';
+        bubble.style.borderRadius = '50%';
+        bubble.style.background = member.color;
+        bubble.style.color = member.color === 'var(--lime)' ? 'var(--text-dark)' : '#ffffff';
+        bubble.style.display = 'flex';
+        bubble.style.alignItems = 'center';
+        bubble.style.justifyContent = 'center';
+        bubble.style.fontSize = '0.7rem';
+        bubble.style.fontWeight = '800';
+        bubble.style.border = '1.5px solid #111';
+        bubble.style.marginLeft = index === 0 ? '0px' : '-8px';
+        bubble.style.transform = 'scale(0) translateY(10px)';
+        bubble.style.opacity = '0';
+        bubble.style.transition = 'all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275)';
+        bubble.textContent = member.init;
+
+        if (avatarList) avatarList.appendChild(bubble);
+
+        setTimeout(() => {
+          bubble.style.transform = 'scale(1) translateY(0)';
+          bubble.style.opacity = '1';
+        }, 50);
+
+        if (badge) {
+          badge.textContent = `+${index + 1} crew`;
+          badge.style.background = 'rgba(173, 255, 47, 0.1)';
+          badge.style.color = 'var(--lime)';
+        }
+      }, (index + 1) * 800);
+    });
+  };
+
+  // Scrolling Ambassador activity log ticker feed
+  const initializeAmbassadorTicker = () => {
+    const tickerInner = document.getElementById('ambassador-ticker-inner');
+    if (!tickerInner) return;
+
+    const activities = [
+      '<span>@hunter_soho</span> snatched <span>Starbucks $10 Card</span> in SoHo',
+      '<span>@alex_nyc</span> unlocked <span>Nike Sneaker Drop</span> geofence',
+      '<span>@campus_king</span> joined <span>Starbucks Hunt</span> lobby',
+      '<span>@snatch_master</span> level up! Now <span class="purple">Level 15 Hunter</span>',
+      '<span>@brooklyn_girl</span> claimed <span class="purple">Lyft Ride Credit</span> in Williamsburg',
+      '<span>@merchant_soho</span> launched a new <span>Nike SoHo Sneaker Hunt</span>',
+      '<span>@nyu_hunter</span> snatched <span>Starbucks $10 Card</span> in Greenwich Village',
+      '<span>@fast_hunter</span> unlocked <span class="purple">Speed Upgrade Level 3</span>',
+      '<span>@soho_hustler</span> completed a <span>Quick Hunt</span> loop',
+    ];
+
+    let itemIndex = 0;
+    for (let i = 0; i < 5; i++) {
+      const div = document.createElement('div');
+      div.className = 'ticker-log-item';
+      div.innerHTML = activities[itemIndex % activities.length];
+      tickerInner.appendChild(div);
+      itemIndex++;
+    }
+
+    let scrollOffset = 0;
+    setInterval(() => {
+      const div = document.createElement('div');
+      div.className = 'ticker-log-item';
+      div.innerHTML = activities[itemIndex % activities.length];
+      tickerInner.appendChild(div);
+      itemIndex++;
+
+      scrollOffset += 24;
+      tickerInner.style.transform = `translateY(-${scrollOffset}px)`;
+
+      if (tickerInner.children.length > 10) {
+        const first = tickerInner.children[0];
+        tickerInner.removeChild(first);
+        scrollOffset -= 24;
+        tickerInner.style.transition = 'none';
+        tickerInner.style.transform = `translateY(-${scrollOffset}px)`;
+        tickerInner.offsetHeight; // Force reflow
+        tickerInner.style.transition = 'transform 0.5s cubic-bezier(0.16, 1, 0.3, 1)';
+      }
+    }, 2500);
+  };
+  initializeAmbassadorTicker();
+
+  // Investor Auto Tour Step Controller
+  class SnatchDemoTour {
+    constructor() {
+      this.currentStep = 0;
+      this.isPlaying = false;
+      this.timer = null;
+      this.activeIntervals = [];
+      this.steps = [
+        {
+          name: "Welcome to Snatch Dashboard",
+          desc: "Step 1 of 9: Welcome! Exploring Snatch Workspace Dashboard",
+          highlightId: "workspace-navigator",
+          action: () => {
+            switchDashboardView('overview');
+          },
+          duration: 3500
+        },
+        {
+          name: "Define Campaign",
+          desc: "Step 2 of 9: Customizing & seeding campaign drops live",
+          highlightId: "campaign-title-input",
+          action: () => {
+            switchDashboardView('studio');
+            setTimeout(() => {
+              const input = document.getElementById('campaign-title-input');
+              if (input) {
+                const text = "Nike Air SoHo Sneaker Hunt";
+                input.value = "";
+                let idx = 0;
+                const t = setInterval(() => {
+                  if (idx < text.length) {
+                    input.value += text[idx];
+                    input.dispatchEvent(new Event('input'));
+                    idx++;
+                  } else {
+                    clearInterval(t);
+                  }
+                }, 60);
+                this.activeIntervals.push(t);
+              }
+            }, 400);
+          },
+          duration: 4500
+        },
+        {
+          name: "Adjust Geofence Radius",
+          desc: "Step 3 of 9: Adjusting proximity drop geofence scope",
+          highlightId: "campaign-radius-slider",
+          action: () => {
+            const slider = document.getElementById('campaign-radius-slider');
+            if (slider) {
+              let val = 250;
+              const t = setInterval(() => {
+                if (val < 420) {
+                  val += 15;
+                  slider.value = val;
+                  slider.dispatchEvent(new Event('input'));
+                } else {
+                  clearInterval(t);
+                }
+              }, 60);
+              this.activeIntervals.push(t);
+            }
+          },
+          duration: 3500
+        },
+        {
+          name: "Deploy to Network",
+          desc: "Step 4 of 9: Broadcasting geofence campaign drops",
+          highlightId: "launch-campaign-btn",
+          action: () => {
+            const btn = document.getElementById('launch-campaign-btn');
+            if (btn) btn.click();
+          },
+          duration: 2000
+        },
+        {
+          name: "Live Provisioning",
+          desc: "Step 5 of 9: Real-time stepper geofence registration",
+          highlightId: "campaign-provisioning-modal",
+          action: () => {
+            // Provisioning modal runs automatically on launch click
+          },
+          duration: 5000
+        },
+        {
+          name: "Player Viewfinder",
+          desc: "Step 6 of 9: Switched to client-side iPhone AR tracker view",
+          highlightClass: "iphone-simulator",
+          action: () => {
+            switchDashboardView('user-app');
+          },
+          duration: 4000
+        },
+        {
+          name: "AR Approach Scan",
+          desc: "Step 7 of 9: Approaching drop location within 25m threshold",
+          highlightId: "approach-proximity-slider",
+          action: () => {
+            const slider = document.getElementById('approach-proximity-slider');
+            if (slider) {
+              let val = 120;
+              const t = setInterval(() => {
+                if (val > 20) {
+                  val -= 10;
+                  slider.value = val;
+                  slider.dispatchEvent(new Event('input'));
+                } else {
+                  clearInterval(t);
+                  setTimeout(() => {
+                    const snatchBtn = document.getElementById('approach-snatch-trigger');
+                    if (snatchBtn) snatchBtn.click();
+                  }, 400);
+                }
+              }, 100);
+              this.activeIntervals.push(t);
+            }
+          },
+          duration: 4500
+        },
+        {
+          name: "Claiming Rewards",
+          desc: "Step 8 of 9: Synchronizing voucher code to wallet passes",
+          highlightId: "phone-modal-snatched",
+          action: () => {
+            setTimeout(() => {
+              const walletBtn = document.getElementById('success-wallet-btn');
+              if (walletBtn) walletBtn.click();
+            }, 1200);
+          },
+          duration: 4500
+        },
+        {
+          name: "Progress & Level Up",
+          desc: "Step 9 of 9: Scanning, levelling up, and upgrading perks",
+          highlightClass: "iphone-simulator",
+          action: () => {
+            const profileTab = document.getElementById('tab-btn-profile');
+            if (profileTab) profileTab.click();
+
+            setTimeout(() => {
+              const smBtn = document.getElementById('profile-enter-sm-btn');
+              if (smBtn) smBtn.click();
+
+              setTimeout(() => {
+                state.player.xp = state.player.xpNext - 200;
+                const shutter = document.getElementById('hunt-shutter-trigger');
+                if (shutter) shutter.click();
+
+                setTimeout(() => {
+                  const claimBtn = document.getElementById('levelup-claim-btn');
+                  if (claimBtn) claimBtn.click();
+
+                  setTimeout(() => {
+                    const upgradeBtn = document.getElementById('abilities-upgrade-trigger');
+                    if (upgradeBtn) upgradeBtn.click();
+
+                    setTimeout(() => {
+                      this.exit();
+                    }, 2500);
+                  }, 1500);
+                }, 2000);
+              }, 1500);
+            }, 1500);
+          },
+          duration: 12000
+        }
+      ];
+    }
+
+    start() {
+      this.currentStep = 0;
+      this.isPlaying = true;
+
+      const hud = document.getElementById('demo-tour-hud');
+      if (hud) hud.classList.add('active');
+
+      const overlay = document.getElementById('demo-spotlight-overlay');
+      if (overlay) overlay.classList.add('active');
+
+      this.runStep();
+    }
+
+    runStep() {
+      this.clearStepState();
+
+      if (this.currentStep >= this.steps.length) {
+        this.exit();
+        return;
+      }
+
+      const step = this.steps[this.currentStep];
+
+      const stepText = document.getElementById('hud-step-text');
+      if (stepText) {
+        stepText.textContent = step.desc;
+      }
+
+      if (step.highlightId) {
+        const el = document.getElementById(step.highlightId);
+        if (el) el.classList.add('highlight-element');
+      } else if (step.highlightClass) {
+        const el = document.querySelector('.' + step.highlightClass);
+        if (el) el.classList.add('highlight-element');
+      }
+
+      step.action();
+
+      if (this.isPlaying) {
+        this.timer = setTimeout(() => {
+          this.next();
+        }, step.duration);
+      }
+    }
+
+    next() {
+      this.currentStep++;
+      this.runStep();
+    }
+
+    pause() {
+      this.isPlaying = false;
+      if (this.timer) clearTimeout(this.timer);
+      this.timer = null;
+
+      const pauseText = document.getElementById('hud-pause-text');
+      if (pauseText) pauseText.textContent = "RESUME";
+
+      const pauseBtn = document.getElementById('hud-pause-btn');
+      if (pauseBtn) {
+        pauseBtn.querySelector('svg').innerHTML = '<polygon points="5 4 19 12 5 20 5 4" fill="currentColor"/>';
+      }
+    }
+
+    resume() {
+      this.isPlaying = true;
+      const pauseText = document.getElementById('hud-pause-text');
+      if (pauseText) pauseText.textContent = "PAUSE";
+
+      const pauseBtn = document.getElementById('hud-pause-btn');
+      if (pauseBtn) {
+        pauseBtn.querySelector('svg').innerHTML = '<rect x="4" y="4" width="4" height="16" fill="currentColor"/><rect x="16" y="4" width="4" height="16" fill="currentColor"/>';
+      }
+
+      const step = this.steps[this.currentStep];
+      this.timer = setTimeout(() => {
+        this.next();
+      }, step.duration / 2);
+    }
+
+    clearStepState() {
+      if (this.timer) clearTimeout(this.timer);
+      this.timer = null;
+
+      this.activeIntervals.forEach(clearInterval);
+      this.activeIntervals = [];
+
+      document.querySelectorAll('.highlight-element').forEach(el => {
+        el.classList.remove('highlight-element');
+      });
+    }
+
+    exit() {
+      this.isPlaying = false;
+      this.clearStepState();
+
+      const hud = document.getElementById('demo-tour-hud');
+      if (hud) hud.classList.remove('active');
+
+      const overlay = document.getElementById('demo-spotlight-overlay');
+      if (overlay) overlay.classList.remove('active');
+    }
+  }
+
+  const tour = new SnatchDemoTour();
+
+  const startAutoTourBtn = document.getElementById('start-auto-tour-btn');
+  if (startAutoTourBtn) {
+    startAutoTourBtn.addEventListener('click', () => {
+      tour.start();
+    });
+  }
+
+  if (startDemoBtn) {
+    startDemoBtn.addEventListener('click', () => {
+      tour.start();
+    });
+  }
+
+  const hudPauseBtn = document.getElementById('hud-pause-btn');
+  if (hudPauseBtn) {
+    hudPauseBtn.addEventListener('click', () => {
+      if (tour.isPlaying) {
+        tour.pause();
+      } else {
+        tour.resume();
+      }
+    });
+  }
+
+  const hudSkipBtn = document.getElementById('hud-skip-btn');
+  if (hudSkipBtn) {
+    hudSkipBtn.addEventListener('click', () => {
+      tour.next();
+    });
+  }
+
+  const hudExitBtn = document.getElementById('hud-exit-btn');
+  if (hudExitBtn) {
+    hudExitBtn.addEventListener('click', () => {
+      tour.exit();
     });
   }
 });
