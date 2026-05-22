@@ -37,7 +37,7 @@
 }
 
 body {
-  background: radial-gradient(circle at 50% 50%, #120e25 0%, #060608 100%);
+  background: radial-gradient(circle at 50% -10%, #150f33 0%, #07060b 60%, #030305 100%);
   color: var(--text-primary);
   font-family: var(--font-body);
   overflow-x: hidden;
@@ -187,10 +187,26 @@ a {
   position: absolute;
   inset: 0;
   background:
-    radial-gradient(circle at 20% 30%, rgba(173, 255, 47, 0.035) 0%, transparent 55%),
-    radial-gradient(circle at 80% 70%, rgba(168, 85, 247, 0.045) 0%, transparent 55%);
+    radial-gradient(circle at 20% 30%, rgba(173, 255, 47, 0.04) 0%, transparent 60%),
+    radial-gradient(circle at 80% 70%, rgba(168, 85, 247, 0.05) 0%, transparent 60%);
   pointer-events: none;
   z-index: 0;
+  animation: ambientAura 25s infinite alternate ease-in-out;
+}
+
+@keyframes ambientAura {
+  0% {
+    opacity: 0.8;
+    transform: scale(1) translate(0px, 0px);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.08) translate(15px, -15px);
+  }
+  100% {
+    opacity: 0.8;
+    transform: scale(1) translate(0px, 0px);
+  }
 }
 
 /* Left panel (Workspace views) */
@@ -217,7 +233,9 @@ a {
 .workspace-right {
   width: 440px;
   border-left: 1px solid var(--border-light);
-  background: radial-gradient(circle at top right, rgba(168, 85, 247, 0.08), transparent 60%);
+  background:
+    radial-gradient(circle at top right, rgba(168, 85, 247, 0.1) 0%, transparent 60%),
+    radial-gradient(circle at bottom left, rgba(173, 255, 47, 0.03) 0%, transparent 60%);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -251,13 +269,55 @@ a {
     0 0 0 2px #4b4b52,
     /* Sleek outer titanium metallic bezel ring */ 0 0 0 6px #2d2d30,
     /* Inner dark bezel buffer */ 0 0 0 12px #18181b,
-    /* Main outer physical frame */ 0 25px 50px -12px rgba(0, 0, 0, 0.85),
-    /* High-contrast drop shadow */ 0 0 40px rgba(173, 255, 47, 0.04); /* Ambient neon glow */
+    /* Main outer physical frame */ 0 25px 55px -12px rgba(0, 0, 0, 0.9),
+    /* Ambient neon glow */ 0 0 35px rgba(173, 255, 47, 0.03),
+    0 0 55px rgba(168, 85, 247, 0.02);
   border: 4px solid #09090b;
   overflow: hidden;
   z-index: 10;
   transform: scale(0.95);
   transition: var(--transition-bounce);
+  animation: phoneNeonBreathe 8s infinite alternate ease-in-out;
+}
+
+@keyframes phoneNeonBreathe {
+  0% {
+    box-shadow:
+      0 0 0 2px #4b4b52,
+      0 0 0 6px #2d2d30,
+      0 0 0 12px #18181b,
+      0 25px 50px -12px rgba(0, 0, 0, 0.85),
+      0 0 35px rgba(173, 255, 47, 0.03),
+      0 0 55px rgba(168, 85, 247, 0.02);
+  }
+  100% {
+    box-shadow:
+      0 0 0 2px #5a5a63,
+      0 0 0 6px #333336,
+      0 0 0 12px #1c1c1f,
+      0 28px 55px -10px rgba(0, 0, 0, 0.9),
+      0 0 45px rgba(173, 255, 47, 0.08),
+      0 0 75px rgba(168, 85, 247, 0.06);
+  }
+}
+
+/* Glass reflection edge line */
+.iphone-simulator::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  width: 1.5px;
+  background: linear-gradient(
+    to bottom,
+    transparent 5%,
+    rgba(255, 255, 255, 0.15) 20%,
+    rgba(255, 255, 255, 0.02) 60%,
+    transparent 95%
+  );
+  z-index: 999;
+  pointer-events: none;
 }
 
 /* Glass reflection shine across phone screen */
@@ -267,8 +327,9 @@ a {
   inset: 0;
   background: linear-gradient(
     135deg,
-    rgba(255, 255, 255, 0.06) 0%,
-    rgba(255, 255, 255, 0) 45%,
+    rgba(255, 255, 255, 0.08) 0%,
+    rgba(255, 255, 255, 0.02) 25%,
+    rgba(255, 255, 255, 0) 50%,
     rgba(255, 255, 255, 0) 100%
   );
   z-index: 1000;
@@ -411,24 +472,34 @@ a {
 }
 
 .s-logo-box {
+  position: relative;
   width: 32px;
   height: 32px;
-  background: #000000;
+  background: #0a0915;
   border-radius: 8px;
-  border: 2px solid var(--lime);
   display: flex;
   align-items: center;
   justify-content: center;
   font-family: var(--font-title);
-  color: var(--lime);
+  color: #ffffff; /* White letter S */
   font-weight: 800;
-  font-size: 1.25rem;
-  box-shadow:
-    inset 0 2px 4px rgba(0, 0, 0, 0.8),
-    0 0 12px rgba(173, 255, 47, 0.45);
-  text-shadow: 0 0 5px rgba(173, 255, 47, 0.6);
+  font-size: 1.3rem;
   line-height: 1;
   padding-top: 1px;
+  box-shadow:
+    inset 0 2px 4px rgba(0, 0, 0, 0.8),
+    0 0 15px rgba(173, 255, 47, 0.3);
+  z-index: 1;
+}
+
+.s-logo-box::after {
+  content: '';
+  position: absolute;
+  inset: -1.5px;
+  border-radius: inherit;
+  background: linear-gradient(135deg, var(--lime), var(--purple));
+  z-index: -1;
+  box-shadow: 0 0 10px rgba(173, 255, 47, 0.25);
 }
 
 .snatch-logo-text {
@@ -467,6 +538,32 @@ a {
   transition: var(--transition-smooth);
   position: relative;
   overflow: hidden;
+}
+
+.glass-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -150%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.04), transparent);
+  transform: skewX(-25deg);
+  transition: 0.8s cubic-bezier(0.2, 0.8, 0.2, 1);
+  pointer-events: none;
+  z-index: 1;
+}
+
+.glass-card.purple-glow::before {
+  background: linear-gradient(90deg, transparent, rgba(168, 85, 247, 0.08), transparent);
+}
+
+.glass-card.lime-glow::before {
+  background: linear-gradient(90deg, transparent, rgba(173, 255, 47, 0.08), transparent);
+}
+
+.glass-card:hover::before {
+  left: 150%;
 }
 
 .glass-card:hover {
