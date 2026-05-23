@@ -7,26 +7,43 @@
     <link rel="stylesheet" href="style.css" />
   </head>
   <body>
+    <canvas id="ambient-particles-canvas"></canvas>
     <!-- VC Demo Navigation Header -->
     <header class="demo-header">
       <div class="demo-title-container">
         <div class="snatch-logo-container">
-          <div class="s-logo-box">S</div>
+          <div class="s-logo-box">
+            <svg
+              viewBox="0 0 24 24"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+              class="s-logo-svg"
+            >
+              <path
+                d="M16.5 8.5H10C8.5 8.5 7.5 9.5 7.5 11C7.5 12.2 8.5 13 9.5 13.3L14.5 14.7C15.5 15 16.5 15.8 16.5 17C16.5 18.5 15.5 19.5 14 19.5H7.5"
+                stroke="currentColor"
+                stroke-width="3.5"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              />
+            </svg>
+          </div>
           <div class="snatch-logo-text">
             Snatch
-            <span class="snatch-logo-subtext"
-              >Real World Hunts. <span class="lime-txt">Real Rewards.</span></span
-            >
+            <span class="snatch-logo-subtext">HUNT. SNATCH. REWARD.</span>
           </div>
         </div>
         <div class="badge">PRE-SEED DEMO</div>
+        <div class="header-slogan-text">
+          REAL WORLD HUNTS.&nbsp;<span class="lime-txt">REAL REWARDS.</span>
+        </div>
       </div>
 
       <!-- Demo Mode Navigator -->
       <nav class="demo-nav" id="workspace-navigator">
         <button class="demo-nav-item active" data-view="overview">Overview</button>
-        <button class="demo-nav-item" data-view="studio">Campaign Studio</button>
         <button class="demo-nav-item" data-view="user-app">User App (Hunts)</button>
+        <button class="demo-nav-item" data-view="studio">Campaign Studio</button>
         <button class="demo-nav-item" data-view="quick-hunt">Quick Hunt</button>
         <button class="demo-nav-item" data-view="snatch-mode">Snatch Mode</button>
         <button class="demo-nav-item" data-view="ambassadors">Local Ambassadors</button>
@@ -35,21 +52,22 @@
       <div class="demo-status" style="gap: 12px">
         <span class="status-dot"></span>
         <span>Simulator Connected: LIVE</span>
-        <button
-          id="start-auto-tour-btn"
-          class="neon-btn lime"
+        <span
+          class="badge"
           style="
-            font-size: 0.7rem;
-            padding: 4px 10px;
-            margin-left: 10px;
-            cursor: pointer;
-            text-shadow: none;
+            font-size: 0.65rem;
+            padding: 3px 8px;
+            margin-left: 5px;
+            background: rgba(173, 255, 47, 0.1);
+            color: var(--lime);
+            border: 1px solid var(--lime);
+            border-radius: 4px;
             font-weight: 700;
-            border-radius: 6px;
+            letter-spacing: 0.05em;
           "
         >
-          START AUTO TOUR
-        </button>
+          NETWORK ONLINE
+        </span>
       </div>
     </header>
 
@@ -59,15 +77,842 @@
       <main class="workspace-left" id="workspace-views">
         <!-- VIEW 1: OVERVIEW / STORY MODE -->
         <section class="workspace-view active" id="view-overview">
+          <!-- Cinematic Hero Visualizer -->
+          <div class="hero-cinematic-stage">
+            <!-- Background mockup image overlay -->
+            <div class="hero-bg-media">
+              <img src="Snatch_mockup.png" alt="City Hunt" class="hero-bg-media-img" />
+              <div class="hero-bg-media-overlay"></div>
+              <div class="hero-scanlines"></div>
+              <div class="hero-grid-overlay"></div>
+            </div>
+
+            <!-- Minimal Text typography overlay -->
+            <div class="hero-cinematic-header">
+              <span
+                class="badge"
+                style="
+                  background: rgba(173, 255, 47, 0.1);
+                  border: 1px solid var(--lime);
+                  color: var(--lime);
+                  font-size: 0.65rem;
+                  padding: 4px 12px;
+                  border-radius: 9999px;
+                  font-weight: 700;
+                  letter-spacing: 0.05em;
+                "
+                >AR DECOY ENGINE ACTIVE</span
+              >
+              <h1 class="hero-cinematic-title">
+                REAL WORLD HUNTS.<br />
+                <span class="lime-txt">REAL REWARDS.</span>
+              </h1>
+              <p class="hero-cinematic-subtitle">
+                Snatch transforms cities into live AR gaming economies.
+              </p>
+              <div class="hero-cinematic-concept">
+                “Pokémon Go meets Fortnite rarity systems meets real-world rewards.”
+              </div>
+            </div>
+
+            <!-- Ambient grid and city scan -->
+            <!-- Ambient vector city map and active drop points -->
+            <div class="cinematic-map-bg">
+              <svg viewBox="0 0 1000 250" preserveAspectRatio="xMidYMid slice">
+                <!-- Grid pattern underneath map -->
+                <defs>
+                  <pattern id="map-grid" width="20" height="20" patternUnits="userSpaceOnUse">
+                    <path
+                      d="M 20 0 L 0 0 0 20"
+                      fill="none"
+                      stroke="rgba(255, 255, 255, 0.015)"
+                      stroke-width="1"
+                    />
+                  </pattern>
+                </defs>
+                <rect width="1000" height="250" fill="url(#map-grid)" />
+
+                <!-- Base Street Network (SoHo) -->
+                <g
+                  stroke="rgba(255, 255, 255, 0.04)"
+                  stroke-width="2.5"
+                  fill="none"
+                  stroke-linecap="round"
+                >
+                  <!-- Cross streets -->
+                  <line x1="0" y1="80" x2="1000" y2="80" />
+                  <!-- Prince St -->
+                  <line x1="0" y1="160" x2="1000" y2="160" />
+                  <!-- Spring St -->
+                  <line x1="0" y1="230" x2="1000" y2="230" />
+                  <!-- Broome St -->
+
+                  <!-- North-South Streets (slanted / angled slightly for dynamic map look) -->
+                  <line x1="120" y1="-10" x2="200" y2="260" />
+                  <!-- Wooster St -->
+                  <line x1="240" y1="-10" x2="320" y2="260" />
+                  <!-- Greene St -->
+                  <line x1="360" y1="-10" x2="440" y2="260" />
+                  <!-- Mercer St -->
+                  <line x1="480" y1="-10" x2="560" y2="260" stroke-width="4.5" />
+                  <!-- Broadway -->
+                  <line x1="600" y1="-10" x2="680" y2="260" />
+                  <!-- Crosby St -->
+                  <line x1="720" y1="-10" x2="800" y2="260" stroke-width="4" />
+                  <!-- Lafayette St -->
+                  <line x1="840" y1="-10" x2="920" y2="260" />
+                  <!-- Mulberry St -->
+                  <line x1="960" y1="-10" x2="1040" y2="260" />
+                  <!-- Mott St -->
+                </g>
+
+                <!-- Detailed Building Outlines (Footprints) -->
+                <g
+                  fill="rgba(255, 255, 255, 0.005)"
+                  stroke="rgba(255, 255, 255, 0.015)"
+                  stroke-width="1"
+                >
+                  <polygon points="140,10 220,10 235,65 155,65" />
+                  <polygon points="260,10 340,10 355,65 275,65" />
+                  <polygon points="160,95 240,95 255,145 175,145" />
+                  <polygon points="280,95 360,95 375,145 295,145" />
+                  <!-- Broadway Blocks -->
+                  <polygon points="400,10 470,10 485,65 415,65" />
+                  <polygon points="505,10 585,10 600,65 520,65" />
+                  <polygon points="420,95 490,95 505,145 435,145" />
+                  <polygon points="525,95 605,95 620,145 540,145" />
+                  <polygon points="440,175 510,175 520,220 450,220" />
+                  <polygon points="545,175 625,175 635,220 555,220" />
+                  <!-- Lafayette area Blocks -->
+                  <polygon points="645,10 705,10 720,65 660,65" />
+                  <polygon points="745,10 825,10 840,65 760,65" />
+                  <polygon points="665,95 725,95 740,145 680,145" />
+                  <polygon points="765,95 845,95 860,145 780,145" />
+                </g>
+
+                <!-- Faction Active Target Lines / GPS routes -->
+                <path
+                  d="M 370,15 L 430,160 L 500,160 L 800,160 L 820,230"
+                  fill="none"
+                  stroke="rgba(168, 85, 247, 0.3)"
+                  stroke-width="2"
+                  class="telemetry-route"
+                />
+                <path
+                  d="M 120,80 L 300,80 L 320,160 L 500,160"
+                  fill="none"
+                  stroke="rgba(173, 255, 47, 0.25)"
+                  stroke-width="1.5"
+                  class="telemetry-route"
+                  style="animation-duration: 15s; stroke-dasharray: 4 4"
+                />
+                <path
+                  d="M 500,160 L 520,230 L 900,230"
+                  fill="none"
+                  stroke="rgba(249, 115, 22, 0.2)"
+                  stroke-width="2"
+                  class="telemetry-route"
+                  style="animation-duration: 25s; stroke-dasharray: 8 4"
+                />
+
+                <!-- Street Names & Typography Labels -->
+                <g
+                  fill="rgba(255, 255, 255, 0.2)"
+                  font-size="7"
+                  font-family="'Inter', sans-serif"
+                  font-weight="600"
+                  letter-spacing="1.5"
+                >
+                  <text x="20" y="75">PRINCE ST</text>
+                  <text x="20" y="155">SPRING ST</text>
+                  <text x="20" y="225">BROOME ST</text>
+                  <text x="430" y="50" transform="rotate(72 430 50)">BROADWAY</text>
+                  <text x="770" y="50" transform="rotate(72 770 50)">LAFAYETTE ST</text>
+
+                  <!-- Coordinate HUD labels -->
+                  <text x="880" y="25" font-size="6" fill="rgba(255, 255, 255, 0.15)">
+                    LAT: 40.7246° N
+                  </text>
+                  <text x="880" y="35" font-size="6" fill="rgba(255, 255, 255, 0.15)">
+                    LNG: 73.9994° W
+                  </text>
+                  <text x="880" y="45" font-size="6" fill="rgba(255, 255, 255, 0.15)">
+                    GRID ZONE: SOHO_NY
+                  </text>
+                </g>
+
+                <!-- Radar scanning rings / Active telemetry markers at bases of pedestals (200, 500, 800, Y=160) -->
+                <!-- Node 1: Legendary Orange (X: 200, Y: 160) -->
+                <g>
+                  <circle
+                    cx="200"
+                    cy="160"
+                    r="14"
+                    stroke="#f97316"
+                    stroke-width="1.2"
+                    fill="none"
+                    opacity="0.3"
+                    stroke-dasharray="3 3"
+                  />
+                  <circle
+                    cx="200"
+                    cy="160"
+                    r="8"
+                    stroke="#f97316"
+                    stroke-width="1.5"
+                    fill="rgba(249, 115, 22, 0.08)"
+                  />
+                  <circle cx="200" cy="160" r="2.5" fill="#f97316" />
+                  <circle
+                    cx="200"
+                    cy="160"
+                    r="20"
+                    stroke="#f97316"
+                    stroke-width="1"
+                    fill="none"
+                    opacity="0"
+                  >
+                    <animate attributeName="r" values="4;28" dur="3.5s" repeatCount="indefinite" />
+                    <animate
+                      attributeName="opacity"
+                      values="0.7;0"
+                      dur="3.5s"
+                      repeatCount="indefinite"
+                    />
+                  </circle>
+                </g>
+
+                <!-- Node 2: Mythic Red (X: 500, Y: 160) -->
+                <g>
+                  <circle
+                    cx="500"
+                    cy="160"
+                    r="14"
+                    stroke="#ef4444"
+                    stroke-width="1.2"
+                    fill="none"
+                    opacity="0.3"
+                    stroke-dasharray="3 3"
+                  />
+                  <circle
+                    cx="500"
+                    cy="160"
+                    r="8"
+                    stroke="#ef4444"
+                    stroke-width="1.5"
+                    fill="rgba(239, 68, 68, 0.08)"
+                  />
+                  <circle cx="500" cy="160" r="2.5" fill="#ef4444" />
+                  <circle
+                    cx="500"
+                    cy="160"
+                    r="20"
+                    stroke="#ef4444"
+                    stroke-width="1"
+                    fill="none"
+                    opacity="0"
+                  >
+                    <animate attributeName="r" values="4;28" dur="3s" repeatCount="indefinite" />
+                    <animate
+                      attributeName="opacity"
+                      values="0.8;0"
+                      dur="3s"
+                      repeatCount="indefinite"
+                    />
+                  </circle>
+                </g>
+
+                <!-- Node 3: Epic Purple (X: 800, Y: 160) -->
+                <g>
+                  <circle
+                    cx="800"
+                    cy="160"
+                    r="14"
+                    stroke="#a855f7"
+                    stroke-width="1.2"
+                    fill="none"
+                    opacity="0.3"
+                    stroke-dasharray="3 3"
+                  />
+                  <circle
+                    cx="800"
+                    cy="160"
+                    r="8"
+                    stroke="#a855f7"
+                    stroke-width="1.5"
+                    fill="rgba(168, 85, 247, 0.08)"
+                  />
+                  <circle cx="800" cy="160" r="2.5" fill="#a855f7" />
+                  <circle
+                    cx="800"
+                    cy="160"
+                    r="20"
+                    stroke="#a855f7"
+                    stroke-width="1"
+                    fill="none"
+                    opacity="0"
+                  >
+                    <animate attributeName="r" values="4;28" dur="4s" repeatCount="indefinite" />
+                    <animate
+                      attributeName="opacity"
+                      values="0.6;0"
+                      dur="4s"
+                      repeatCount="indefinite"
+                    />
+                  </circle>
+                </g>
+
+                <!-- Dotted active hunter nodes (live telemetry) -->
+                <g>
+                  <circle cx="310" cy="100" r="2" fill="#39FF14" />
+                  <circle
+                    cx="310"
+                    cy="100"
+                    r="8"
+                    stroke="#39FF14"
+                    stroke-width="0.5"
+                    fill="none"
+                    opacity="0"
+                  >
+                    <animate attributeName="r" values="2;9" dur="2s" repeatCount="indefinite" />
+                    <animate
+                      attributeName="opacity"
+                      values="0.8;0"
+                      dur="2s"
+                      repeatCount="indefinite"
+                    />
+                  </circle>
+                </g>
+                <g>
+                  <circle cx="680" cy="190" r="2" fill="#39FF14" />
+                  <circle
+                    cx="680"
+                    cy="190"
+                    r="8"
+                    stroke="#39FF14"
+                    stroke-width="0.5"
+                    fill="none"
+                    opacity="0"
+                  >
+                    <animate attributeName="r" values="2;9" dur="2.5s" repeatCount="indefinite" />
+                    <animate
+                      attributeName="opacity"
+                      values="0.8;0"
+                      dur="2.5s"
+                      repeatCount="indefinite"
+                    />
+                  </circle>
+                </g>
+                <g>
+                  <circle cx="850" cy="70" r="2" fill="#39FF14" />
+                  <circle
+                    cx="850"
+                    cy="70"
+                    r="8"
+                    stroke="#39FF14"
+                    stroke-width="0.5"
+                    fill="none"
+                    opacity="0"
+                  >
+                    <animate attributeName="r" values="2;9" dur="1.8s" repeatCount="indefinite" />
+                    <animate
+                      attributeName="opacity"
+                      values="0.8;0"
+                      dur="1.8s"
+                      repeatCount="indefinite"
+                    />
+                  </circle>
+                </g>
+              </svg>
+            </div>
+            <div class="cinematic-glow-aura"></div>
+
+            <!-- Floating Collectibles Stage -->
+            <div class="hologram-stage-container">
+              <!-- Hologram 1: Sneaker (Legendary) -->
+              <div
+                class="stage-hologram legendary-stage"
+                style="--stage-left: 20%; --stage-delay: 0s"
+              >
+                <div class="stage-hologram-beam"></div>
+                <div class="stage-hologram-glow"></div>
+
+                <div
+                  class="holo-object-3d"
+                  style="
+                    --holo-glow-soft: rgba(249, 115, 22, 0.45);
+                    --holo-glow-bright: #f97316;
+                    width: 90px;
+                    height: 90px;
+                    margin-bottom: 10px;
+                  "
+                >
+                  <div class="holo-object-inner">
+                    <div class="holo-shadow"></div>
+                    <div class="holo-orbit holo-orbit-1"></div>
+                    <div class="holo-orbit holo-orbit-2"></div>
+                    <div class="holo-side-glow"></div>
+                    <div class="holo-scanline"></div>
+
+                    <svg
+                      class="holo-layer holo-back"
+                      viewBox="0 0 100 100"
+                      style="
+                        --holo-glow-soft: rgba(249, 115, 22, 0.45);
+                        --holo-glow-bright: #f97316;
+                      "
+                    >
+                      <defs>
+                        <filter id="neonGlowLeg" x="-20%" y="-20%" width="140%" height="140%">
+                          <feGaussianBlur stdDeviation="3" result="blur" />
+                          <feMerge>
+                            <feMergeNode in="blur" />
+                            <feMergeNode in="SourceGraphic" />
+                          </feMerge>
+                        </filter>
+                      </defs>
+                      <g
+                        stroke="#f97316"
+                        fill="none"
+                        stroke-width="1.5"
+                        opacity="0.7"
+                        filter="url(#neonGlowLeg)"
+                      >
+                        <!-- Sole/Midsole base outline -->
+                        <path d="M 20,70 Q 25,74 35,74 T 70,72 Q 80,68 85,60" stroke-width="2.5" />
+                        <!-- Upper main collar and heel outline -->
+                        <path
+                          d="M 20,70 L 25,58 Q 30,52 40,54 L 52,56 Q 58,45 68,42 L 80,48 Q 85,52 85,60"
+                          stroke-width="2"
+                        />
+                        <path d="M 16,71 C 12,65 14,53 22,53" />
+                        <path d="M 22,53 Q 23,45 28,40" />
+                      </g>
+                    </svg>
+
+                    <svg
+                      class="holo-layer holo-core"
+                      viewBox="0 0 100 100"
+                      style="--holo-glow-soft: rgba(249, 115, 22, 0.6); --holo-glow-bright: #f97316"
+                    >
+                      <g stroke="#f97316" fill="none" stroke-width="2" filter="url(#neonGlowLeg)">
+                        <!-- Swoosh logo fill -->
+                        <path
+                          d="M 45,58 Q 55,56 68,59 Q 58,63 46,63 Z"
+                          fill="rgba(249, 115, 22, 0.3)"
+                          stroke-width="1.2"
+                        />
+                        <!-- High-top Collar & Tongue background fill -->
+                        <path
+                          d="M 28,40 L 40,24 L 54,30 L 47,44 Z"
+                          fill="rgba(249, 115, 22, 0.15)"
+                          stroke-width="1"
+                        />
+                        <!-- Heel LEDs -->
+                        <circle cx="21" cy="65" r="1.5" fill="#f97316" stroke="none" />
+                        <circle cx="26" cy="67" r="1.5" fill="#f97316" stroke="none" />
+                        <circle cx="31" cy="69" r="1.5" fill="#f97316" stroke="none" />
+                      </g>
+                    </svg>
+
+                    <svg
+                      class="holo-layer holo-front"
+                      viewBox="0 0 100 100"
+                      style="--holo-glow-soft: rgba(249, 115, 22, 0.5); --holo-glow-bright: #f97316"
+                    >
+                      <g stroke="#f97316" fill="none" stroke-width="2" filter="url(#neonGlowLeg)">
+                        <!-- Upper laces / Velcro strap -->
+                        <path
+                          d="M 32,36 L 46,39 L 44,43 L 30,40 Z"
+                          fill="rgba(249, 115, 22, 0.15)"
+                          stroke-width="1.5"
+                        />
+                        <line x1="35" y1="38" x2="35" y2="41" stroke-width="1" />
+                        <line x1="39" y1="39" x2="39" y2="42" stroke-width="1" />
+                        <line x1="43" y1="40" x2="43" y2="43" stroke-width="1" />
+                        <!-- Power Laces (glowing bars) -->
+                        <line
+                          x1="47"
+                          y1="45"
+                          x2="52"
+                          y2="47"
+                          stroke-width="2.5"
+                          stroke-linecap="round"
+                        />
+                        <line
+                          x1="50"
+                          y1="49"
+                          x2="56"
+                          y2="51"
+                          stroke-width="2.5"
+                          stroke-linecap="round"
+                        />
+                        <line
+                          x1="53"
+                          y1="53"
+                          x2="59"
+                          y2="55"
+                          stroke-width="2.5"
+                          stroke-linecap="round"
+                        />
+                        <!-- Lacing straps/cables -->
+                        <path d="M 45,64 Q 55,60 68,64" stroke-width="1.5" stroke-linecap="round" />
+                        <path
+                          d="M 50,56 L 56,48 M 53,53 L 59,45"
+                          stroke-width="1.5"
+                          stroke-linecap="round"
+                        />
+                        <!-- Front strap / glow badges -->
+                        <path
+                          d="M 50,60 L 62,56 L 68,62 L 53,63 Z"
+                          stroke-width="1"
+                          fill="rgba(249, 115, 22, 0.15)"
+                        />
+                      </g>
+                    </svg>
+                  </div>
+                </div>
+
+                <div class="stage-label">
+                  <span class="rarity-tag legendary">LEGENDARY</span>
+                  <span class="label-title">Nike Air Mag</span>
+                  <span class="label-meta">EST. VALUE: $1,200</span>
+                </div>
+              </div>
+
+              <!-- Hologram 2: Cash Vault (Mythic) -->
+              <div
+                class="stage-hologram mythic-stage"
+                style="--stage-left: 50%; --stage-delay: -2.2s"
+              >
+                <div class="stage-hologram-beam"></div>
+                <div class="stage-hologram-glow"></div>
+
+                <div
+                  class="holo-object-3d"
+                  style="
+                    --holo-glow-soft: rgba(239, 68, 68, 0.45);
+                    --holo-glow-bright: #ef4444;
+                    width: 90px;
+                    height: 90px;
+                    margin-bottom: 10px;
+                  "
+                >
+                  <div class="holo-object-inner">
+                    <div class="holo-shadow"></div>
+                    <div class="holo-orbit holo-orbit-1"></div>
+                    <div class="holo-orbit holo-orbit-2"></div>
+                    <div class="holo-side-glow"></div>
+                    <div class="holo-scanline"></div>
+
+                    <svg
+                      class="holo-layer holo-back"
+                      viewBox="0 0 100 100"
+                      style="--holo-glow-soft: rgba(239, 68, 68, 0.45); --holo-glow-bright: #ef4444"
+                    >
+                      <defs>
+                        <filter id="neonGlowMyth" x="-20%" y="-20%" width="140%" height="140%">
+                          <feGaussianBlur stdDeviation="3" result="blur" />
+                          <feMerge>
+                            <feMergeNode in="blur" />
+                            <feMergeNode in="SourceGraphic" />
+                          </feMerge>
+                        </filter>
+                      </defs>
+                      <g
+                        stroke="#ef4444"
+                        fill="none"
+                        stroke-width="1.5"
+                        opacity="0.7"
+                        filter="url(#neonGlowMyth)"
+                      >
+                        <!-- Main isometric cube frame (back lines) -->
+                        <polygon points="50,20 80,35 80,65 50,80 20,65 20,35" stroke-width="2" />
+                        <line x1="20" y1="35" x2="50" y2="50" stroke-width="1" opacity="0.5" />
+                        <line x1="80" y1="35" x2="50" y2="50" stroke-width="1" opacity="0.5" />
+                        <line x1="50" y1="80" x2="50" y2="50" stroke-width="1" opacity="0.5" />
+                      </g>
+                    </svg>
+
+                    <svg
+                      class="holo-layer holo-core"
+                      viewBox="0 0 100 100"
+                      style="--holo-glow-soft: rgba(239, 68, 68, 0.6); --holo-glow-bright: #ef4444"
+                    >
+                      <g stroke="#ef4444" fill="none" stroke-width="2" filter="url(#neonGlowMyth)">
+                        <!-- Front frame bevel & glowing infill -->
+                        <polygon
+                          points="50,23 77,36.5 77,63.5 50,77 23,63.5 23,36.5"
+                          stroke-width="1.5"
+                          fill="rgba(239, 68, 68, 0.15)"
+                        />
+                        <circle
+                          cx="50"
+                          cy="50"
+                          r="22"
+                          stroke-width="1"
+                          stroke-dasharray="3 3"
+                          opacity="0.6"
+                        />
+                      </g>
+                    </svg>
+
+                    <svg
+                      class="holo-layer holo-front"
+                      viewBox="0 0 100 100"
+                      style="--holo-glow-soft: rgba(239, 68, 68, 0.5); --holo-glow-bright: #ef4444"
+                    >
+                      <g stroke="#ef4444" fill="none" stroke-width="2" filter="url(#neonGlowMyth)">
+                        <!-- Large dial lock center gear -->
+                        <circle cx="50" cy="50" r="12" stroke-width="2.5" />
+                        <circle cx="50" cy="50" r="5" stroke-width="1.5" />
+                        <!-- Vault lock handle & dial spokes -->
+                        <line
+                          x1="50"
+                          y1="32"
+                          x2="50"
+                          y2="38"
+                          stroke-width="2.5"
+                          stroke-linecap="round"
+                        />
+                        <line
+                          x1="50"
+                          y1="62"
+                          x2="50"
+                          y2="68"
+                          stroke-width="2.5"
+                          stroke-linecap="round"
+                        />
+                        <line
+                          x1="32"
+                          y1="50"
+                          x2="38"
+                          y2="50"
+                          stroke-width="2.5"
+                          stroke-linecap="round"
+                        />
+                        <line
+                          x1="62"
+                          y1="50"
+                          x2="68"
+                          y2="50"
+                          stroke-width="2.5"
+                          stroke-linecap="round"
+                        />
+                      </g>
+                    </svg>
+                  </div>
+                </div>
+
+                <div class="stage-label">
+                  <span class="rarity-tag mythic">MYTHIC</span>
+                  <span class="label-title">City Jackpot Vault</span>
+                  <span class="label-meta">CLAIM VELOCITY: 4M AGO</span>
+                </div>
+              </div>
+
+              <!-- Hologram 3: Mystery Crate (Epic) -->
+              <div
+                class="stage-hologram epic-stage"
+                style="--stage-left: 80%; --stage-delay: -4.4s"
+              >
+                <div class="stage-hologram-beam"></div>
+                <div class="stage-hologram-glow"></div>
+
+                <div
+                  class="holo-object-3d"
+                  style="
+                    --holo-glow-soft: rgba(168, 85, 247, 0.45);
+                    --holo-glow-bright: #a855f7;
+                    width: 90px;
+                    height: 90px;
+                    margin-bottom: 10px;
+                  "
+                >
+                  <div class="holo-object-inner">
+                    <div class="holo-shadow"></div>
+                    <div class="holo-orbit holo-orbit-1"></div>
+                    <div class="holo-orbit holo-orbit-2"></div>
+                    <div class="holo-side-glow"></div>
+                    <div class="holo-scanline"></div>
+
+                    <svg
+                      class="holo-layer holo-back"
+                      viewBox="0 0 100 100"
+                      style="
+                        --holo-glow-soft: rgba(168, 85, 247, 0.45);
+                        --holo-glow-bright: #a855f7;
+                      "
+                    >
+                      <defs>
+                        <filter id="neonGlowEpic" x="-20%" y="-20%" width="140%" height="140%">
+                          <feGaussianBlur stdDeviation="3" result="blur" />
+                          <feMerge>
+                            <feMergeNode in="blur" />
+                            <feMergeNode in="SourceGraphic" />
+                          </feMerge>
+                        </filter>
+                      </defs>
+                      <g
+                        stroke="#a855f7"
+                        fill="none"
+                        stroke-width="1.5"
+                        opacity="0.7"
+                        filter="url(#neonGlowEpic)"
+                      >
+                        <!-- Main isometric crate frame box -->
+                        <polygon points="50,22 80,37 80,67 50,82 20,67 20,37" stroke-width="2" />
+                        <!-- Back structural corners -->
+                        <line x1="20" y1="37" x2="20" y2="67" stroke-width="1.2" />
+                        <line x1="80" y1="37" x2="80" y2="67" stroke-width="1.2" />
+                      </g>
+                    </svg>
+
+                    <svg
+                      class="holo-layer holo-core"
+                      viewBox="0 0 100 100"
+                      style="--holo-glow-soft: rgba(168, 85, 247, 0.6); --holo-glow-bright: #a855f7"
+                    >
+                      <g stroke="#a855f7" fill="none" stroke-width="2" filter="url(#neonGlowEpic)">
+                        <!-- Inner panel outlines & glowing core -->
+                        <polyline points="20,37 50,52 80,37" stroke-width="2" />
+                        <line x1="50" y1="52" x2="50" y2="82" stroke-width="2" />
+                        <polygon
+                          points="21,32 45,41.5 45,71.5 21,62"
+                          stroke-width="1"
+                          fill="rgba(168, 85, 247, 0.08)"
+                        />
+                        <polygon
+                          points="55,41.5 79,32 79,62 55,71.5"
+                          stroke-width="1"
+                          fill="rgba(168, 85, 247, 0.08)"
+                        />
+                      </g>
+                    </svg>
+
+                    <svg
+                      class="holo-layer holo-front"
+                      viewBox="0 0 100 100"
+                      style="--holo-glow-soft: rgba(168, 85, 247, 0.5); --holo-glow-bright: #a855f7"
+                    >
+                      <g stroke="#a855f7" fill="none" stroke-width="2" filter="url(#neonGlowEpic)">
+                        <!-- Front lock latch mechanism -->
+                        <rect
+                          x="42"
+                          y="44"
+                          width="16"
+                          height="16"
+                          rx="3"
+                          fill="rgba(168, 85, 247, 0.3)"
+                          stroke-width="2"
+                        />
+                        <circle cx="50" cy="52" r="2.5" fill="#a855f7" />
+                        <!-- Top vertex cap front details -->
+                        <polygon
+                          points="50,15 57,17.7 50,20.5 43,17.7"
+                          fill="rgba(168, 85, 247, 0.2)"
+                          stroke-width="1"
+                        />
+                      </g>
+                    </svg>
+                  </div>
+                </div>
+
+                <div class="stage-label">
+                  <span class="rarity-tag epic">EPIC</span>
+                  <span class="label-title">Mystery Crate</span>
+                  <span class="label-meta">NYC DISTRICT DROP</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Parallax foreground city scan overlays -->
+            <div class="parallax-city-scan">
+              <div class="scan-grid-line"></div>
+              <div class="sonar-beacon" style="left: 30%; bottom: 10%"></div>
+              <div class="sonar-beacon" style="left: 70%; bottom: 20%"></div>
+            </div>
+
+            <div class="hero-stage-caption">
+              <span>REAL-WORLD INTERACTIVE LAYER</span>
+              <span class="pulse-dot"></span>
+              <span>LIVE HUNTER TELEMETRY ONLINE</span>
+            </div>
+          </div>
+
+          <!-- NEW: Immersive Discovery Section -->
+          <div class="discovery-immersive-panel">
+            <div class="discovery-grid-layout">
+              <div class="discovery-text-pane">
+                <div class="section-hud-label">// SECTION 02: AR DETECTION ACTIVE</div>
+                <h2 class="discovery-heading">THE DISCOVERY FANTASY</h2>
+                <p class="discovery-description">
+                  Walk your city. Snatch reveals a hidden dimension of legendary digital
+                  collectibles and real-world physical rewards floating in high-fidelity AR space.
+                </p>
+
+                <div class="journey-flow-indicator">
+                  <div class="flow-step">
+                    <div style="display: flex; align-items: center; gap: 8px">
+                      <span class="flow-num">01</span>
+                      <span class="flow-title">DISCOVER</span>
+                    </div>
+                    <span class="flow-desc">Detect drop zone markers in street views</span>
+                  </div>
+                  <div class="flow-divider"></div>
+                  <div class="flow-step">
+                    <div style="display: flex; align-items: center; gap: 8px">
+                      <span class="flow-num">02</span>
+                      <span class="flow-title">APPROACH</span>
+                    </div>
+                    <span class="flow-desc">Navigate proximity meters to lock target</span>
+                  </div>
+                  <div class="flow-divider"></div>
+                  <div class="flow-step">
+                    <div style="display: flex; align-items: center; gap: 8px">
+                      <span class="flow-num">03</span>
+                      <span class="flow-title">SNATCH</span>
+                    </div>
+                    <span class="flow-desc">Trigger high-precision capture sequences</span>
+                  </div>
+                  <div class="flow-divider"></div>
+                  <div class="flow-step">
+                    <div style="display: flex; align-items: center; gap: 8px">
+                      <span class="flow-num">04</span>
+                      <span class="flow-title">OWN</span>
+                    </div>
+                    <span class="flow-desc">Store, trade, or redeem verified prize keys</span>
+                  </div>
+                </div>
+              </div>
+
+              <div class="discovery-visual-pane">
+                <div class="discovery-mockup-wrapper">
+                  <img
+                    src="Snatchmode_mockup.png"
+                    alt="AR Discovery View"
+                    class="discovery-mockup-img"
+                  />
+                  <div class="holo-grid-overlay"></div>
+                  <div class="discovery-scanlines"></div>
+                  <div class="discovery-radar-pulse"></div>
+                  <div class="discovery-neon-glow"></div>
+                  <div class="telemetry-tag" style="top: 15px; left: 15px">TARGET: LOCKED</div>
+                  <div class="telemetry-tag" style="bottom: 15px; right: 15px">DISTANCE: 14.2m</div>
+                </div>
+              </div>
+            </div>
+          </div>
+
           <div class="overview-layout">
             <div class="overview-left">
-              <h1 class="overview-heading">
-                Turn the real world<br />into a <span class="gradient-txt">reward hunt.</span>
-              </h1>
-              <p class="overview-lead">
-                Snatch is a Snapchat-style AR treasure-hunt platform where brands launch measurable
-                real-world campaigns, users create social hunts, and top players become local
-                distribution.
+              <h2 class="section-title">
+                The Real-World<br /><span class="accent-dot">Gaming Economy.</span>
+              </h2>
+              <p class="section-subtitle" style="margin-bottom: 36px">
+                Snatch is a city-scale AR hunt engine and interactive reward layer that turns
+                physical space into a competitive gaming arena. Brands deploy high-value drops,
+                creators launch viral challenge bounties, and players rule their local territory.
               </p>
 
               <div class="overview-features-list">
@@ -75,11 +920,12 @@
                   <span class="overview-feature-num">01</span>
                   <div>
                     <h3 class="overview-feature-title">
-                      Attention is Expensive, Interruption Fails
+                      The Attention Hack: Gamifying the Real World
                     </h3>
                     <p class="overview-feature-desc">
-                      Consumers skip feeds, block pop-ups, and mute ads. Marketers struggle to link
-                      digital spend to offline store traffic and real-world behavior.
+                      Feeds are crowded and digital ads are ignored. Snatch bridges the
+                      physical-digital divide by placing high-prestige loot, mystery vaults, and
+                      exclusive drops directly in the streets.
                     </p>
                   </div>
                 </div>
@@ -87,11 +933,11 @@
                 <div class="overview-feature-item">
                   <span class="overview-feature-num">02</span>
                   <div>
-                    <h3 class="overview-feature-title">Make the Brand the Prize</h3>
+                    <h3 class="overview-feature-title">High-Velocity Drop Psychology</h3>
                     <p class="overview-feature-desc">
-                      When rewards are hidden around a city, users transition from passive viewers
-                      to active explorers. They seek out and chase campaigns instead of avoiding
-                      them.
+                      By layering game mechanics—scarcity, rarity tiers, and live hunter maps—over
+                      physical locations, we trigger intense FOMO. Users don't view ads; they hunt
+                      and claim rare drops.
                     </p>
                   </div>
                 </div>
@@ -99,13 +945,13 @@
                 <div class="overview-feature-item">
                   <span class="overview-feature-num">03</span>
                   <div>
-                    <h3 class="overview-feature-title">The Three-Layer Wedge Network</h3>
+                    <h3 class="overview-feature-title">The Experiential Gaming Infrastructure</h3>
                     <p class="overview-feature-desc">
-                      <strong>Campaign Studio:</strong> Paid merchant drop engine. <br /><strong
+                      <strong>Campaign Studio:</strong> Live event mission control. <br /><strong
                         >Quick Hunt:</strong
                       >
-                      C2C social loops. <br /><strong>Snatch Mode:</strong> An always-on game layer
-                      that keeps players engaged between campaigns.
+                      C2C viral creator loops. <br /><strong>Snatch Mode:</strong> Always-on
+                      progression and retention layer keeping hunters active 24/7.
                     </p>
                   </div>
                 </div>
@@ -131,11 +977,11 @@
                       margin-bottom: 2px;
                     "
                   >
-                    Ready to see it in action?
+                    Interactive Sandbox Active
                   </h4>
                   <p style="font-size: 0.8rem; color: var(--text-secondary)">
-                    Click the Campaign Studio tab to customize and launch a sponsored brand
-                    campaign!
+                    Navigate to the Campaign Studio tab below or click explore to customize and
+                    launch a live city event!
                   </p>
                 </div>
                 <button
@@ -143,7 +989,7 @@
                   id="start-demo-btn"
                   style="padding: 10px 18px; font-size: 0.8rem"
                 >
-                  Start Demo Tour &rarr;
+                  Explore Sandbox &rarr;
                 </button>
               </div>
             </div>
@@ -166,56 +1012,531 @@
                 style="background: rgba(168, 85, 247, 0.03); border-color: rgba(168, 85, 247, 0.15)"
               >
                 <h4 style="font-size: 0.9rem; margin-bottom: 6px; color: var(--purple)">
-                  The Ask: $750k Target
+                  The Ask: Pre-Seed Round
                 </h4>
                 <p style="font-size: 0.8rem; color: var(--text-secondary); line-height: 1.4">
-                  Fueling 18 months runway to deliver 10+ paid pilot activations and cross 25,000+
-                  active launch users.
+                  Fueling expansion of the AR reward network, expanding creator toolkits, and
+                  scaling our citywide legendary drop operations.
                 </p>
               </div>
 
               <div class="story-card">
-                <h4 style="font-size: 0.9rem; margin-bottom: 6px">Target Beachheads</h4>
+                <h4 style="font-size: 0.9rem; margin-bottom: 6px">Target Markets</h4>
                 <p style="font-size: 0.8rem; color: var(--text-secondary); line-height: 1.4">
-                  Focusing on high-density retail spaces: premium shopping malls, university
-                  campuses, cafés, and local events.
+                  Launching in tier-1 metro hubs, university campuses, gaming conventions, and major
+                  entertainment festivals (esports, music festivals).
                 </p>
               </div>
 
               <div class="story-card">
-                <h4 style="font-size: 0.9rem; margin-bottom: 6px">Compounding Defensibility</h4>
+                <h4 style="font-size: 0.9rem; margin-bottom: 6px">Viral Loop Infrastructure</h4>
                 <p style="font-size: 0.8rem; color: var(--text-secondary); line-height: 1.4">
-                  Built on proprietary location behavior graphs, partner reward pools, and a local
-                  brand ambassador network.
+                  Built on top-tier creator integration, digital scarcity algorithms, live player
+                  proximity telemetry, and territory conquest loops.
                 </p>
               </div>
 
               <div class="overview-stat-grid">
                 <div class="stat-card">
-                  <span class="stat-label">AR Market Growth</span>
-                  <span class="stat-value">$113B+</span>
-                  <span class="stat-sub positive">Forecast by 2030</span>
+                  <span class="stat-label">Gen Z Market TAM</span>
+                  <span class="stat-value">$350B+</span>
+                  <span class="stat-sub positive">Experiential & Gaming</span>
                 </div>
                 <div class="stat-card">
-                  <span class="stat-label">Pilot Economics</span>
-                  <span class="stat-value">50-70%</span>
-                  <span class="stat-sub positive">Gross Margin</span>
+                  <span class="stat-label">Viral Loop K-Factor</span>
+                  <span class="stat-value">2.4x</span>
+                  <span class="stat-sub positive">Organic Growth</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Interactive AR Territory & Rarity Spectrum Showcase [NEW] -->
+          <div class="premium-editorial-card" style="margin-top: 24px; padding: 36px">
+            <h3
+              style="
+                font-family: var(--font-title);
+                font-size: 1.1rem;
+                color: var(--lime);
+                margin-bottom: 16px;
+                text-transform: uppercase;
+                letter-spacing: 0.05em;
+              "
+            >
+              Interactive AR Territory & Rarity Spectrum
+            </h3>
+            <div class="responsive-grid three-col-grid" style="gap: 20px; align-items: start">
+              <!-- Mini Conquest Map -->
+              <div
+                style="
+                  background: #0b0b0d;
+                  border: 1px solid var(--border-light);
+                  border-radius: 8px;
+                  padding: 12px;
+                  height: 210px;
+                  display: flex;
+                  flex-direction: column;
+                "
+              >
+                <span
+                  style="
+                    font-size: 0.6rem;
+                    color: var(--text-secondary);
+                    font-weight: 700;
+                    text-transform: uppercase;
+                    margin-bottom: 10px;
+                    letter-spacing: 0.05em;
+                    display: flex;
+                    align-items: center;
+                    gap: 4px;
+                  "
+                >
+                  <span class="pulse-dot"></span> LIVE FACTION CONTROL MAP
+                </span>
+                <svg viewBox="0 0 300 150" style="flex: 1; width: 100%; height: auto">
+                  <!-- Manhattan district cells -->
+                  <polygon
+                    points="30,110 90,85 85,55 25,75"
+                    class="conquest-cell active"
+                    id="cell-tribeca"
+                    data-district="Tribeca"
+                    data-faction="FST (Faction Street Team)"
+                    data-control="62%"
+                    data-drops="14 active"
+                  />
+                  <polygon
+                    points="90,85 150,65 145,35 85,55"
+                    class="conquest-cell"
+                    id="cell-soho"
+                    data-district="SoHo"
+                    data-faction="Nexus Crew"
+                    data-control="45%"
+                    data-drops="28 active"
+                  />
+                  <polygon
+                    points="150,65 210,45 205,15 145,35"
+                    class="conquest-cell"
+                    id="cell-nolita"
+                    data-district="Nolita"
+                    data-faction="Cyber Runners"
+                    data-control="54%"
+                    data-drops="19 active"
+                  />
+                  <polygon
+                    points="85,55 145,35 140,5 80,25"
+                    class="conquest-cell"
+                    id="cell-village"
+                    data-district="Greenwich Village"
+                    data-faction="Alpha Squad"
+                    data-control="71%"
+                    data-drops="12 active"
+                  />
+
+                  <text
+                    x="55"
+                    y="85"
+                    fill="#ffffff"
+                    font-size="6"
+                    font-weight="700"
+                    text-anchor="middle"
+                    pointer-events="none"
+                  >
+                    TRIBECA
+                  </text>
+                  <text
+                    x="115"
+                    y="60"
+                    fill="#ffffff"
+                    font-size="6"
+                    font-weight="700"
+                    text-anchor="middle"
+                    pointer-events="none"
+                  >
+                    SOHO
+                  </text>
+                  <text
+                    x="175"
+                    y="40"
+                    fill="#ffffff"
+                    font-size="6"
+                    font-weight="700"
+                    text-anchor="middle"
+                    pointer-events="none"
+                  >
+                    NOLITA
+                  </text>
+                  <text
+                    x="110"
+                    y="30"
+                    fill="#ffffff"
+                    font-size="6"
+                    font-weight="700"
+                    text-anchor="middle"
+                    pointer-events="none"
+                  >
+                    VILLAGE
+                  </text>
+                </svg>
+              </div>
+
+              <!-- District Stats sidebar -->
+              <div
+                class="story-card"
+                style="
+                  margin: 0;
+                  padding: 16px;
+                  background: rgba(255, 255, 255, 0.01);
+                  height: 210px;
+                  display: flex;
+                  flex-direction: column;
+                  justify-content: space-between;
+                "
+              >
+                <div>
+                  <h4
+                    style="
+                      font-size: 0.95rem;
+                      color: var(--purple);
+                      margin-bottom: 8px;
+                      font-family: var(--font-title);
+                    "
+                    id="showcase-district-name"
+                  >
+                    Tribeca
+                  </h4>
+                  <div
+                    style="
+                      font-size: 0.75rem;
+                      color: var(--text-secondary);
+                      display: flex;
+                      flex-direction: column;
+                      gap: 8px;
+                    "
+                  >
+                    <div style="display: flex; justify-content: space-between">
+                      <span>Leading Faction:</span>
+                      <span id="showcase-faction-name" style="color: #ffffff; font-weight: 700"
+                        >FST (Faction Street Team)</span
+                      >
+                    </div>
+                    <div style="display: flex; justify-content: space-between">
+                      <span>Territory Control:</span>
+                      <span id="showcase-control-rate" style="color: var(--lime); font-weight: 700"
+                        >62%</span
+                      >
+                    </div>
+                    <div style="display: flex; justify-content: space-between">
+                      <span>Active AR Drops:</span>
+                      <span id="showcase-drops-count" style="color: #ffffff; font-weight: 700"
+                        >14 active</span
+                      >
+                    </div>
+                  </div>
+                </div>
+                <div
+                  style="
+                    font-size: 0.65rem;
+                    color: var(--text-secondary);
+                    border-top: 1px solid var(--border-light);
+                    padding-top: 8px;
+                  "
+                >
+                  * Click another district on the live map to inspect local ownership stats.
+                </div>
+              </div>
+
+              <!-- Rarity Spectrum Card -->
+              <div
+                class="story-card"
+                style="
+                  margin: 0;
+                  padding: 16px;
+                  background: rgba(255, 255, 255, 0.01);
+                  height: 210px;
+                  display: flex;
+                  flex-direction: column;
+                  justify-content: space-between;
+                "
+              >
+                <div>
+                  <h4
+                    style="
+                      font-size: 0.85rem;
+                      color: #ffffff;
+                      margin-bottom: 12px;
+                      font-family: var(--font-title);
+                      letter-spacing: 0.05em;
+                      text-transform: uppercase;
+                    "
+                  >
+                    AR Scarcity Spectrum
+                  </h4>
+                  <div style="display: flex; flex-direction: column; gap: 6px">
+                    <div
+                      style="
+                        display: flex;
+                        align-items: center;
+                        gap: 8px;
+                        font-size: 0.7rem;
+                        color: var(--text-secondary);
+                      "
+                    >
+                      <span
+                        style="
+                          width: 10px;
+                          height: 10px;
+                          border-radius: 2px;
+                          background: #ef4444;
+                          box-shadow: 0 0 5px rgba(239, 68, 68, 0.5);
+                        "
+                      ></span>
+                      <span style="width: 70px; font-weight: 700; color: #ef4444">MYTHIC</span>
+                      <span>1 in 100 Drops (Jackpot Vault)</span>
+                    </div>
+                    <div
+                      style="
+                        display: flex;
+                        align-items: center;
+                        gap: 8px;
+                        font-size: 0.7rem;
+                        color: var(--text-secondary);
+                      "
+                    >
+                      <span
+                        style="
+                          width: 10px;
+                          height: 10px;
+                          border-radius: 2px;
+                          background: #f97316;
+                          box-shadow: 0 0 5px rgba(249, 115, 22, 0.5);
+                        "
+                      ></span>
+                      <span style="width: 70px; font-weight: 700; color: #f97316">LEGENDARY</span>
+                      <span>1 in 40 Drops (Nike Air Mag)</span>
+                    </div>
+                    <div
+                      style="
+                        display: flex;
+                        align-items: center;
+                        gap: 8px;
+                        font-size: 0.7rem;
+                        color: var(--text-secondary);
+                      "
+                    >
+                      <span
+                        style="
+                          width: 10px;
+                          height: 10px;
+                          border-radius: 2px;
+                          background: #a855f7;
+                          box-shadow: 0 0 5px rgba(168, 85, 247, 0.5);
+                        "
+                      ></span>
+                      <span style="width: 70px; font-weight: 700; color: #a855f7">EPIC</span>
+                      <span>1 in 15 Drops (Mystery Crate)</span>
+                    </div>
+                    <div
+                      style="
+                        display: flex;
+                        align-items: center;
+                        gap: 8px;
+                        font-size: 0.7rem;
+                        color: var(--text-secondary);
+                      "
+                    >
+                      <span
+                        style="
+                          width: 10px;
+                          height: 10px;
+                          border-radius: 2px;
+                          background: #3b82f6;
+                          box-shadow: 0 0 5px rgba(59, 130, 246, 0.5);
+                        "
+                      ></span>
+                      <span style="width: 70px; font-weight: 700; color: #3b82f6">RARE</span>
+                      <span>1 in 5 Drops (XP/Creator Coins)</span>
+                    </div>
+                  </div>
+                </div>
+                <div
+                  style="
+                    font-size: 0.65rem;
+                    color: var(--text-secondary);
+                    border-top: 1px solid var(--border-light);
+                    padding-top: 8px;
+                    line-height: 1.3;
+                  "
+                >
+                  Interactive drop probabilities dynamically update based on localized district
+                  density.
                 </div>
               </div>
             </div>
           </div>
         </section>
 
+        <!-- Cinematic Divider Sweep -->
+        <div class="cinematic-divider"><div class="divider-beam"></div></div>
+
+        <!-- VIEW 3: USER APP HELPER -->
+        <section class="workspace-view" id="view-user-app">
+          <h2 class="section-title">
+            User App <span class="accent-dot">&bull;</span> Interactive Target Scan
+          </h2>
+          <p class="section-subtitle">
+            This demo showcases how a player discovers, approaches, and snatches a live event drop.
+            Note the live sync: launching the campaign in Campaign Studio activates the AR target
+            lock sequence on the mobile viewfinder!
+          </p>
+
+          <!-- Cinematic 4-Phone Explainer Centerpiece -->
+          <div class="explainer-immersive-container">
+            <span
+              class="section-hud-label"
+              style="display: block; text-align: center; margin-bottom: 15px"
+            >
+              // HARDWARE INTERACTIVE VIEWPORT v4.12
+            </span>
+            <div class="explainer-mockup-wrapper">
+              <img
+                src="Snatchmode-Explainer.png"
+                alt="AR Gameplay Flow"
+                class="explainer-mockup-img"
+              />
+              <div class="holo-grid-overlay"></div>
+              <div class="explainer-scanlines"></div>
+              <div class="explainer-glow-overlay"></div>
+              <div class="telemetry-tag" style="top: 15px; left: 15px">
+                OP_MODE: SYSTEM_SIMULATOR
+              </div>
+              <div class="telemetry-tag" style="bottom: 15px; right: 15px">
+                SIGNAL: 5G_CONNECTED
+              </div>
+            </div>
+          </div>
+
+          <div class="responsive-grid two-col-grid">
+            <div class="premium-editorial-card">
+              <h3
+                style="
+                  font-family: var(--font-title);
+                  font-size: 1.2rem;
+                  margin-bottom: 16px;
+                  color: var(--text-primary);
+                  letter-spacing: -0.01em;
+                "
+              >
+                Core Player Journey
+              </h3>
+              <ul
+                style="
+                  list-style: none;
+                  display: flex;
+                  flex-direction: column;
+                  gap: 16px;
+                  font-size: 0.88rem;
+                "
+              >
+                <li style="display: flex; gap: 8px; align-items: flex-start">
+                  <span style="color: var(--lime); font-weight: 700">1. Discover:</span>
+                  <span style="color: var(--text-secondary)"
+                    >The player sees a holographic Nike sneaker floating in their camera view,
+                    pinned to a specific geofenced location in Soho.</span
+                  >
+                </li>
+                <li style="display: flex; gap: 8px; align-items: flex-start">
+                  <span style="color: var(--lime); font-weight: 700">2. Approach:</span>
+                  <span style="color: var(--text-secondary)"
+                    >Tapping the item opens the proximity tracker. The distance meter shows how many
+                    meters away the prize is. The player must walk closer.</span
+                  >
+                </li>
+                <li style="display: flex; gap: 8px; align-items: flex-start">
+                  <span style="color: var(--lime); font-weight: 700">3. Snatch:</span>
+                  <span style="color: var(--text-secondary)"
+                    >Once within range (&lt; 25m), the glowing "SNATCH IT" trigger becomes active.
+                    Clicking it locks the reward.</span
+                  >
+                </li>
+                <li style="display: flex; gap: 8px; align-items: flex-start">
+                  <span style="color: var(--lime); font-weight: 700">4. Wallet:</span>
+                  <span style="color: var(--text-secondary)"
+                    >The reward lands in the wallet with its corresponding redemption barcode/code,
+                    driving the user directly in-store or online.</span
+                  >
+                </li>
+              </ul>
+            </div>
+
+            <div
+              class="premium-editorial-card"
+              style="display: flex; flex-direction: column; justify-content: space-between"
+            >
+              <div>
+                <h3
+                  style="
+                    font-family: var(--font-title);
+                    font-size: 1.2rem;
+                    margin-bottom: 16px;
+                    color: var(--text-primary);
+                    letter-spacing: -0.01em;
+                  "
+                >
+                  VC Pitch Angle
+                </h3>
+                <p
+                  style="
+                    font-size: 0.82rem;
+                    color: var(--text-secondary);
+                    line-height: 1.5;
+                    margin-bottom: 14px;
+                  "
+                >
+                  Traditional location check-ins are boring. Snatch makes the brand drop feel like
+                  high-fidelity video gameplay (like finding rare chest loot in RPGs) while
+                  maintaining zero friction.
+                </p>
+              </div>
+
+              <div class="guide-box">
+                <div class="guide-step">
+                  <span class="guide-num">1</span>
+                  <span class="guide-text"
+                    >Navigate to <span class="highlight">Campaign Studio</span> and click
+                    <span class="lime-txt">LAUNCH HUNT &raquo;</span>.</span
+                  >
+                </div>
+                <div class="guide-step">
+                  <span class="guide-num">2</span>
+                  <span class="guide-text"
+                    >The Phone Simulator will flash and load the
+                    <span class="highlight">Nike sneaker drop</span>. Click the sneaker
+                    on-screen.</span
+                  >
+                </div>
+                <div class="guide-step">
+                  <span class="guide-num">3</span>
+                  <span class="guide-text"
+                    >Click the <span class="lime-txt">shutter button</span> to approach, then click
+                    <span class="lime-txt">SNATCH IT &raquo;</span>!</span
+                  >
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- Cinematic Divider Sweep -->
+        <div class="cinematic-divider"><div class="divider-beam"></div></div>
+
         <!-- VIEW 2: CAMPAIGN STUDIO -->
         <section class="workspace-view" id="view-studio">
           <div class="studio-title-area">
             <div>
-              <h1 class="studio-title-heading">
+              <h2 class="section-title">
                 Campaign Studio <span class="badge-status active">• DRAFT</span>
-              </h1>
-              <p style="font-size: 0.85rem; color: var(--text-secondary); margin-top: 4px">
-                Create, manage, and launch real world hunts.
-              </p>
+              </h2>
+              <p class="section-subtitle">Create, manage, and launch real world hunts.</p>
             </div>
             <div style="font-size: 0.8rem; color: var(--text-secondary)">
               Last saved <span style="color: var(--lime); font-weight: 600">just now</span> ✓
@@ -263,17 +1584,98 @@
                     type="text"
                     class="form-input"
                     id="campaign-title-input"
-                    value="Nike SoHo Sneaker Hunt"
+                    value="Nike Air Mag RTFKT Drop"
                   />
                 </div>
 
                 <div class="form-group">
-                  <label>Reward Type</label>
-                  <select class="form-select">
-                    <option>Physical Reward (3D AR Asset)</option>
-                    <option>Digital Reward (NFT/Collectible)</option>
-                    <option>Merchant Coupon / Gift Card</option>
-                  </select>
+                  <label style="margin-bottom: 8px">Select Campaign Reward</label>
+                  <div class="reward-selection-grid">
+                    <div
+                      class="reward-select-card active legendary"
+                      data-reward="nike-air-mag"
+                      data-rarity="legendary"
+                      data-color="#f97316"
+                      data-val="$1,200"
+                      data-desc="RTFKT x Nike Collaboration. Verified Claim."
+                    >
+                      <div class="reward-select-icon">👟</div>
+                      <div class="reward-select-details">
+                        <span class="reward-select-name">Nike Air Mag</span>
+                        <span class="reward-select-rarity legendary-text">LEGENDARY</span>
+                      </div>
+                    </div>
+                    <div
+                      class="reward-select-card mythic"
+                      data-reward="cash-vault"
+                      data-rarity="mythic"
+                      data-color="#ef4444"
+                      data-val="JACKPOT"
+                      data-desc="Golden City Safe Vault. High-velocity cache."
+                    >
+                      <div class="reward-select-icon">🔑</div>
+                      <div class="reward-select-details">
+                        <span class="reward-select-name">Mythic Vault</span>
+                        <span class="reward-select-rarity mythic-text">MYTHIC</span>
+                      </div>
+                    </div>
+                    <div
+                      class="reward-select-card epic"
+                      data-reward="supreme-crate"
+                      data-rarity="epic"
+                      data-color="#a855f7"
+                      data-val="NYC DROP"
+                      data-desc="RTFKT Mystery Supply Crate. Code active."
+                    >
+                      <div class="reward-select-icon">📦</div>
+                      <div class="reward-select-details">
+                        <span class="reward-select-name">Supreme Crate</span>
+                        <span class="reward-select-rarity epic-text">EPIC</span>
+                      </div>
+                    </div>
+                    <div
+                      class="reward-select-card rare"
+                      data-reward="xp-beacon"
+                      data-rarity="rare"
+                      data-color="#3b82f6"
+                      data-val="XP BOOST"
+                      data-desc="Double XP District Beacon. Limited runtime."
+                    >
+                      <div class="reward-select-icon">⚡</div>
+                      <div class="reward-select-details">
+                        <span class="reward-select-name">XP Beacon</span>
+                        <span class="reward-select-rarity rare-text">RARE</span>
+                      </div>
+                    </div>
+                    <div
+                      class="reward-select-card rare creator"
+                      data-reward="creator-token"
+                      data-rarity="rare"
+                      data-color="#14b8a6"
+                      data-val="FAN REWARD"
+                      data-desc="Influencer Creator Coin Bounty. Fan-exclusive."
+                    >
+                      <div class="reward-select-icon">🪙</div>
+                      <div class="reward-select-details">
+                        <span class="reward-select-name">Creator Token</span>
+                        <span class="reward-select-rarity creator-text">RARE</span>
+                      </div>
+                    </div>
+                    <div
+                      class="reward-select-card legendary vip-pass"
+                      data-reward="vip-pass"
+                      data-rarity="legendary"
+                      data-color="#39FF14"
+                      data-val="ACCESS PASS"
+                      data-desc="Music Festival VIP Access Pass. Snatch exclusive."
+                    >
+                      <div class="reward-select-icon">🎟️</div>
+                      <div class="reward-select-details">
+                        <span class="reward-select-name">VIP Concert Pass</span>
+                        <span class="reward-select-rarity legendary-text">LEGENDARY</span>
+                      </div>
+                    </div>
+                  </div>
                 </div>
 
                 <div class="form-group">
@@ -294,7 +1696,7 @@
                     </div>
                     <div class="reward-preview-info">
                       <div class="reward-preview-title" id="reward-name-preview">
-                        Nike Air Max 2025
+                        Nike Air Mag (RTFKT Edition)
                       </div>
                       <div class="reward-preview-subtitle">Limited Edition Drop</div>
                     </div>
@@ -308,6 +1710,7 @@
                     <input
                       type="text"
                       class="form-input"
+                      id="campaign-location-input"
                       value="SoHo, New York, NY"
                       style="padding-left: 36px"
                     />
@@ -379,7 +1782,12 @@
                   <span class="green-dot"></span>
                   <span>GEOFENCE • <span id="map-geofence-radius-text">250</span>m radius</span>
                 </div>
-                <svg class="svg-map" id="studio-map-svg">
+                <svg
+                  class="svg-map"
+                  id="studio-map-svg"
+                  viewBox="0 0 400 300"
+                  style="cursor: crosshair"
+                >
                   <!-- Major and minor streets represent NYC grid -->
                   <path class="map-street major" d="M -50,50 L 500,120" />
                   <path class="map-street major" d="M 50,0 L 150,300" />
@@ -507,6 +1915,39 @@
                   </div>
                 </div>
               </div>
+
+              <!-- Brand Deployment System Console (using Studio_mockup.png) -->
+              <div class="glass-card" style="padding: 16px; margin-top: 20px">
+                <span
+                  style="
+                    font-size: 0.65rem;
+                    color: var(--text-secondary);
+                    font-weight: 700;
+                    text-transform: uppercase;
+                    margin-bottom: 12px;
+                    display: block;
+                    letter-spacing: 0.05em;
+                  "
+                >
+                  // SATELLITE AR DEPLOYMENT CONSOLE MONITOR
+                </span>
+                <div class="studio-mockup-wrapper">
+                  <img
+                    src="Studio_mockup.png"
+                    alt="AR Brand Deployment Console"
+                    class="studio-mockup-img"
+                  />
+                  <div class="holo-grid-overlay"></div>
+                  <div class="studio-scanlines"></div>
+                  <div class="studio-sonar-radar"></div>
+                  <div class="telemetry-tag" style="top: 15px; left: 15px">
+                    LATENCY: 4ms | DEPLOYMENT: READY
+                  </div>
+                  <div class="telemetry-tag" style="bottom: 15px; right: 15px">
+                    SOHO GRID NODE #0921
+                  </div>
+                </div>
+              </div>
             </div>
 
             <!-- Col 3: Reward Preview -->
@@ -557,7 +1998,7 @@
                     style="font-size: 1.1rem; font-family: var(--font-title); margin-bottom: 2px"
                     id="reward-preview-main-title"
                   >
-                    Nike Air Max 2025
+                    Nike Air Mag (RTFKT Edition)
                   </h4>
                   <p style="font-size: 0.75rem; color: var(--text-secondary); margin-bottom: 20px">
                     Limited Edition Drop
@@ -734,16 +2175,16 @@
                         </div>
                         <div>
                           <div class="table-drop-title" id="table-cell-title">
-                            Nike SoHo Sneaker Hunt
+                            Nike Air Mag RTFKT Drop
                           </div>
                           <div class="table-drop-sub">SoHo, New York</div>
                         </div>
                       </div>
                     </td>
                     <td>
-                      Nike Air Max 2025
+                      Nike Air Mag (RTFKT Edition)
                       <span style="font-size: 0.65rem; color: var(--text-secondary)"
-                        >(Limited Edition)</span
+                        >(Legendary Drop)</span
                       >
                     </td>
                     <td>SoHo, NYC • <span id="table-cell-radius">250</span>m Radius</td>
@@ -765,21 +2206,22 @@
                             height="18"
                             style="fill: none; stroke: var(--purple); stroke-width: 3"
                           >
-                            <rect x="20" y="30" width="60" height="50" rx="5" />
-                            <path d="M20,40 L80,40 M50,30 L50,80 M20,55 L80,55" />
-                            <path d="M40,30 C40,20 50,15 50,15 C50,15 60,20 60,30" />
+                            <!-- Isometric box icon for drops database -->
+                            <polygon points="50,22 80,37 80,67 50,82 20,67 20,37" />
+                            <polyline points="20,37 50,52 80,37" />
+                            <line x1="50" y1="52" x2="50" y2="82" />
                           </svg>
                         </div>
                         <div>
-                          <div class="table-drop-title">Nike Flatiron Gift Drop</div>
+                          <div class="table-drop-title">MrBeast Citywide Crate Drop</div>
                           <div class="table-drop-sub">Flatiron, New York</div>
                         </div>
                       </div>
                     </td>
                     <td>
-                      Nike eGift Card
+                      Epic Mystery Crate
                       <span style="font-size: 0.65rem; color: var(--text-secondary)"
-                        >($25 Value)</span
+                        >($150 Est. Value)</span
                       >
                     </td>
                     <td>Flatiron, NYC • 150m Radius</td>
@@ -801,21 +2243,21 @@
                             height="18"
                             style="fill: none; stroke: var(--purple); stroke-width: 3"
                           >
-                            <rect x="20" y="30" width="60" height="50" rx="5" />
-                            <path d="M20,40 L80,40 M50,30 L50,80 M20,55 L80,55" />
-                            <path d="M40,30 C40,20 50,15 50,15 C50,15 60,20 60,30" />
+                            <polygon points="50,22 80,37 80,67 50,82 20,67 20,37" />
+                            <polyline points="20,37 50,52 80,37" />
+                            <line x1="50" y1="52" x2="50" y2="82" />
                           </svg>
                         </div>
                         <div>
-                          <div class="table-drop-title">Nike UES Mystery Drop</div>
+                          <div class="table-drop-title">Red Bull Concert VIP Pass</div>
                           <div class="table-drop-sub">Upper East Side, NYC</div>
                         </div>
                       </div>
                     </td>
                     <td>
-                      Mystery Box
+                      Mythic Golden Pass
                       <span style="font-size: 0.65rem; color: var(--text-secondary)"
-                        >(Limited Edition)</span
+                        >(Mythic Upgrade)</span
                       >
                     </td>
                     <td>UES, NYC • 200m Radius</td>
@@ -831,153 +2273,22 @@
           </div>
         </section>
 
-        <!-- VIEW 3: USER APP HELPER -->
-        <section class="workspace-view" id="view-user-app">
-          <h1 style="font-size: 1.8rem; color: var(--text-primary); margin-bottom: 8px">
-            User App &bull; Sponsored Hunt Flow
-          </h1>
-          <p
-            style="
-              font-size: 0.9rem;
-              color: var(--text-secondary);
-              line-height: 1.5;
-              margin-bottom: 24px;
-            "
-          >
-            This demo showcases how a player discovers, approaches, and snatches the sponsored
-            campaign launched in the Campaign Studio. Note the live sync: launching the Nike Sneaker
-            hunt triggers it on the mobile device!
-          </p>
-
-          <div class="responsive-grid two-col-grid">
-            <div class="glass-card lime-glow">
-              <h3
-                style="
-                  font-family: var(--font-title);
-                  font-size: 1.05rem;
-                  margin-bottom: 12px;
-                  color: var(--lime);
-                "
-              >
-                Core Player Journey
-              </h3>
-              <ul
-                style="
-                  list-style: none;
-                  display: flex;
-                  flex-direction: column;
-                  gap: 14px;
-                  font-size: 0.85rem;
-                "
-              >
-                <li style="display: flex; gap: 8px; align-items: flex-start">
-                  <span style="color: var(--lime); font-weight: 700">1. Discover:</span>
-                  <span style="color: var(--text-secondary)"
-                    >The player sees a holographic Nike sneaker floating in their camera view,
-                    pinned to a specific geofenced location in Soho.</span
-                  >
-                </li>
-                <li style="display: flex; gap: 8px; align-items: flex-start">
-                  <span style="color: var(--lime); font-weight: 700">2. Approach:</span>
-                  <span style="color: var(--text-secondary)"
-                    >Tapping the item opens the proximity tracker. The distance meter shows how many
-                    meters away the prize is. The player must walk closer.</span
-                  >
-                </li>
-                <li style="display: flex; gap: 8px; align-items: flex-start">
-                  <span style="color: var(--lime); font-weight: 700">3. Snatch:</span>
-                  <span style="color: var(--text-secondary)"
-                    >Once within range (&lt; 25m), the glowing "SNATCH IT" trigger becomes active.
-                    Clicking it locks the reward.</span
-                  >
-                </li>
-                <li style="display: flex; gap: 8px; align-items: flex-start">
-                  <span style="color: var(--lime); font-weight: 700">4. Wallet:</span>
-                  <span style="color: var(--text-secondary)"
-                    >The reward lands in the wallet with its corresponding redemption barcode/code,
-                    driving the user directly in-store or online.</span
-                  >
-                </li>
-              </ul>
-            </div>
-
-            <div
-              class="glass-card purple-glow"
-              style="display: flex; flex-direction: column; justify-content: space-between"
-            >
-              <div>
-                <h3
-                  style="
-                    font-family: var(--font-title);
-                    font-size: 1.05rem;
-                    margin-bottom: 8px;
-                    color: var(--purple);
-                  "
-                >
-                  VC Pitch Angle
-                </h3>
-                <p
-                  style="
-                    font-size: 0.82rem;
-                    color: var(--text-secondary);
-                    line-height: 1.5;
-                    margin-bottom: 14px;
-                  "
-                >
-                  Traditional location check-ins are boring. Snatch makes the brand drop feel like
-                  high-fidelity video gameplay (like finding rare chest loot in RPGs) while
-                  maintaining zero friction.
-                </p>
-              </div>
-
-              <div class="guide-box">
-                <div class="guide-step">
-                  <span class="guide-num">1</span>
-                  <span class="guide-text"
-                    >Navigate to <span class="highlight">Campaign Studio</span> and click
-                    <span class="lime-txt">LAUNCH HUNT &raquo;</span>.</span
-                  >
-                </div>
-                <div class="guide-step">
-                  <span class="guide-num">2</span>
-                  <span class="guide-text"
-                    >The Phone Simulator will flash and load the
-                    <span class="highlight">Nike sneaker drop</span>. Click the sneaker
-                    on-screen.</span
-                  >
-                </div>
-                <div class="guide-step">
-                  <span class="guide-num">3</span>
-                  <span class="guide-text"
-                    >Click the <span class="lime-txt">shutter button</span> to approach, then click
-                    <span class="lime-txt">SNATCH IT &raquo;</span>!</span
-                  >
-                </div>
-              </div>
-            </div>
-          </div>
-        </section>
+        <!-- Cinematic Divider Sweep -->
+        <div class="cinematic-divider"><div class="divider-beam"></div></div>
 
         <!-- VIEW 4: QUICK HUNT HELPER -->
         <section class="workspace-view" id="view-quick-hunt">
-          <h1 style="font-size: 1.8rem; color: var(--text-primary); margin-bottom: 8px">
-            Quick Hunt &bull; Social Loop (C2C)
-          </h1>
-          <p
-            style="
-              font-size: 0.9rem;
-              color: var(--text-secondary);
-              line-height: 1.5;
-              margin-bottom: 24px;
-            "
-          >
-            The social engine of Snatch. Quick Hunts are lightweight, user-generated campaigns.
-            Users hide digital boxes or real-world prizes for their friends, offices, campuses, or
-            communities, driving organic viral growth.
+          <h2 class="section-title">
+            Quick Hunt <span class="accent-dot">&bull;</span> Social Loop (C2C)
+          </h2>
+          <p class="section-subtitle">
+            The creator loop of Snatch. Quick Hunts are community-created drops. Creators launch
+            viral challenge bounties, campus contests, and scavenger hunts for their crew, driving
+            high-velocity social competition and organic network growth.
           </p>
 
           <div class="responsive-grid two-one-grid">
-            <div class="glass-card">
+            <div class="premium-editorial-card">
               <h3
                 style="
                   font-family: var(--font-title);
@@ -995,8 +2306,8 @@
                     1. Configure Details
                   </h4>
                   <p style="font-size: 0.75rem; color: var(--text-secondary); line-height: 1.4">
-                    User specifies name ("Campus Coffee Hunt"), prize ("Starbucks for the winner"),
-                    visibility parameters, and duration limit.
+                    Creator specifies name ("NYC Mystery Crate Bounty"), reward ("Epic Mystery
+                    Crate"), squad restrictions, and viral drop limits.
                   </p>
                 </div>
 
@@ -1005,8 +2316,8 @@
                     2. Geotag & Drop
                   </h4>
                   <p style="font-size: 0.75rem; color: var(--text-secondary); line-height: 1.4">
-                    User switches on camera, places the holographic Starbucks cup on the floor, and
-                    writes a location hint ("Near the lounge").
+                    Creator opens their camera, locks the 3D holographic mystery crate into physical
+                    space, and leaves a location clue ("Under the iron arches").
                   </p>
                 </div>
 
@@ -1015,25 +2326,25 @@
                     3. Invite & Rally
                   </h4>
                   <p style="font-size: 0.75rem; color: var(--text-secondary); line-height: 1.4">
-                    App generates a unique QR Code and join code ("CAMPUS25"). Friends scanning the
-                    code join the live crew lobby instantly.
+                    App generates a unique QR Code and join code ("NYC99X"). Friends scan to join
+                    the live squad lobby instantly.
                   </p>
                 </div>
 
                 <div class="story-card">
                   <h4 style="font-size: 0.85rem; margin-bottom: 4px; color: var(--purple)">
-                    4. The Player Hunt
+                    4. The Squad Hunt
                   </h4>
                   <p style="font-size: 0.75rem; color: var(--text-secondary); line-height: 1.4">
-                    Invited players follow the clue, track their distance indicator on the camera
-                    screen, scan the area, and snatch the prize.
+                    Hunters follow the clue, trace proximity targets, scan the physical location,
+                    and snatch the prize.
                   </p>
                 </div>
               </div>
             </div>
 
             <div
-              class="glass-card purple-glow"
+              class="premium-editorial-card purple-glow"
               style="display: flex; flex-direction: column; justify-content: space-between"
             >
               <div>
@@ -1045,7 +2356,7 @@
                     color: var(--purple);
                   "
                 >
-                  C2C Viral Wedge
+                  C2C Creator Loop
                 </h3>
                 <p
                   style="
@@ -1055,9 +2366,9 @@
                     margin-bottom: 10px;
                   "
                 >
-                  Sponsored brand drops fund the ecosystem, but Quick Hunts drive daily organic
-                  traffic. One user creating a hunt invites 5-10 friends, turning players into
-                  active recruiters.
+                  Brand events seed the economy, but user-generated Quick Drops fuel daily active
+                  network volume. One creator launching a bounty invites active crews of 5-20
+                  players, establishing self-replicating viral growth.
                 </p>
               </div>
 
@@ -1079,28 +2390,56 @@
               </div>
             </div>
           </div>
+
+          <!-- Creator Loop Immersive Console Showcase -->
+          <div
+            class="premium-editorial-card creator-loop-showcase"
+            style="margin-top: 24px; padding: 36px"
+          >
+            <span
+              style="
+                font-size: 0.65rem;
+                color: var(--text-secondary);
+                font-weight: 700;
+                text-transform: uppercase;
+                margin-bottom: 12px;
+                display: block;
+                letter-spacing: 0.05em;
+              "
+            >
+              // CREATOR LOOPS & LOBBY SYSTEM INTERFACE
+            </span>
+            <div class="quickhunt-mockup-wrapper">
+              <img
+                src="Quickhunt_mockup.png"
+                alt="Quick Hunt Creator Dashboard"
+                class="quickhunt-mockup-img"
+              />
+              <div class="holo-grid-overlay"></div>
+              <div class="quickhunt-scanlines"></div>
+              <div class="quickhunt-glow"></div>
+              <div class="telemetry-tag" style="top: 15px; left: 15px">LOBBY: ACTIVE</div>
+              <div class="telemetry-tag" style="bottom: 15px; right: 15px">SQUAD SIZE: 4/4</div>
+            </div>
+          </div>
         </section>
+
+        <!-- Cinematic Divider Sweep -->
+        <div class="cinematic-divider"><div class="divider-beam"></div></div>
 
         <!-- VIEW 5: SNATCH MODE HELPER -->
         <section class="workspace-view" id="view-snatch-mode">
-          <h1 style="font-size: 1.8rem; color: var(--text-primary); margin-bottom: 8px">
-            Snatch Mode &bull; Core Gamification
-          </h1>
-          <p
-            style="
-              font-size: 0.9rem;
-              color: var(--text-secondary);
-              line-height: 1.5;
-              margin-bottom: 24px;
-            "
-          >
-            The always-on retention layer. When there are no sponsored campaigns active, Snatch Mode
-            allows players to level up, upgrade radar range/abilities, and compete for regional
-            dominance on the SoHo leaderboard.
+          <h2 class="section-title">
+            Snatch Mode <span class="accent-dot">&bull;</span> Core Gamification
+          </h2>
+          <p class="section-subtitle">
+            The progression system. Snatch Mode is the always-on gaming layer that transforms
+            walking into routine loot runs. Hunters climb regional ranks, maintain daily streaks,
+            and stockpile legendary gear.
           </p>
 
           <div class="responsive-grid two-col-grid">
-            <div class="glass-card">
+            <div class="premium-editorial-card">
               <h3
                 style="
                   font-family: var(--font-title);
@@ -1138,10 +2477,12 @@
                     />
                   </svg>
                   <div>
-                    <span style="color: var(--text-primary); font-weight: 700">XP & Levels:</span>
+                    <span style="color: var(--text-primary); font-weight: 700"
+                      >Elite Ranks & Seasonal Prestige:</span
+                    >
                     <span style="color: var(--text-secondary)"
-                      >Earn experience points with every successful hunt. Leveling up unlocks
-                      premium drops and advanced tools.</span
+                      >Earn XP on daily scans. Leveling up increases hunter prestige and grants
+                      access to high-tier drop nodes.</span
                     >
                   </div>
                 </li>
@@ -1163,11 +2504,11 @@
                   </svg>
                   <div>
                     <span style="color: var(--text-primary); font-weight: 700"
-                      >Scan Radius Upgrades:</span
+                      >Tactical Sensor Upgrades:</span
                     >
                     <span style="color: var(--text-secondary)"
-                      >Use ability points earned to increase radar pulse range, revealing hidden
-                      rewards further away.</span
+                      >Spend earned credits on radar amplification and loot detection mods to track
+                      rare crates from further away.</span
                     >
                   </div>
                 </li>
@@ -1187,10 +2528,12 @@
                     <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
                   </svg>
                   <div>
-                    <span style="color: var(--text-primary); font-weight: 700">Status Badges:</span>
+                    <span style="color: var(--text-primary); font-weight: 700"
+                      >Epic Vault Keys:</span
+                    >
                     <span style="color: var(--text-secondary)"
-                      >Earning badges like "Fast Finder" or "Local Legend" validates user activity
-                      and unlocks exclusive vendor collaborations.</span
+                      >Unlock titles like "Alpha Pathfinder" or "Mythic Raider" that secure
+                      guaranteed slots in exclusive creator bounties.</span
                     >
                   </div>
                 </li>
@@ -1198,7 +2541,7 @@
             </div>
 
             <div
-              class="glass-card purple-glow"
+              class="premium-editorial-card purple-glow"
               style="display: flex; flex-direction: column; justify-content: space-between"
             >
               <div>
@@ -1210,7 +2553,7 @@
                     color: var(--purple);
                   "
                 >
-                  Ecosystem Retention
+                  Daily Routine Gamification
                 </h3>
                 <p
                   style="
@@ -1220,9 +2563,8 @@
                     margin-bottom: 12px;
                   "
                 >
-                  Snatch Mode turns physical walking routes into a reward gathering grid. Users
-                  build daily routine habits around the app, maintaining high retention rates that
-                  keep the network liquid.
+                  An always-on loop of daily streaks, territory rankings, and seasonal leaderboards.
+                  This keeps players engaged and moving in physical space between major brand drops.
                 </p>
               </div>
 
@@ -1246,29 +2588,58 @@
               </div>
             </div>
           </div>
+
+          <!-- Prestige Progression Immersive Console -->
+          <div
+            class="premium-editorial-card prestige-immersive-panel"
+            style="margin-top: 24px; padding: 36px"
+          >
+            <span
+              style="
+                font-size: 0.65rem;
+                color: var(--text-secondary);
+                font-weight: 700;
+                text-transform: uppercase;
+                margin-bottom: 12px;
+                display: block;
+                letter-spacing: 0.05em;
+              "
+            >
+              // PLAYER PROGRESSION & PRESTIGE INTERFACE
+            </span>
+            <div class="snatchmode-mockup-wrapper">
+              <img
+                src="Snatchmode_mockup.png"
+                alt="Snatch Mode Interface"
+                class="snatchmode-mockup-img"
+              />
+              <div class="holo-grid-overlay"></div>
+              <div class="snatchmode-scanlines"></div>
+              <div class="snatchmode-glow"></div>
+              <div class="telemetry-tag" style="top: 15px; left: 15px">RANK: ELITE V</div>
+              <div class="telemetry-tag" style="bottom: 15px; right: 15px">MULTIPLIER: 2.5x</div>
+            </div>
+          </div>
         </section>
 
-        <!-- VIEW 6: LOCAL AMBASSADORS -->
+        <!-- Cinematic Divider Sweep -->
+        <div class="cinematic-divider"><div class="divider-beam"></div></div>
+
+        <!-- VIEW 6: LOCAL OPERATORS (AMBASSADORS) -->
         <section class="workspace-view" id="view-ambassadors">
-          <h1 style="font-size: 1.8rem; color: var(--text-primary); margin-bottom: 8px">
-            Local Ambassadors &bull; Distribution Scaling
-          </h1>
-          <p
-            style="
-              font-size: 0.9rem;
-              color: var(--text-secondary);
-              line-height: 1.5;
-              margin-bottom: 24px;
-            "
-          >
-            How Snatch scales distribution without massive advertising costs. The top 1% of players
-            in any district are recruited as "Snatch Ambassadors." They are equipped with campaign
-            builder tools to seed games, create local drops, and recruit players.
+          <h2 class="section-title">
+            Local Operators <span class="accent-dot">&bull;</span> Territory Conquest
+          </h2>
+          <p class="section-subtitle">
+            How Snatch secures real-world density. The top 1% of players in any district are
+            designated "District Operators." They run territory hubs, lock down neighborhood
+            control, and organize local drops, turning players into a distributed
+            boots-on-the-ground acquisition engine.
           </p>
 
           <div class="responsive-grid two-one-half-grid">
             <!-- Left Col details -->
-            <div class="glass-card">
+            <div class="premium-editorial-card">
               <h3
                 style="
                   font-family: var(--font-title);
@@ -1277,7 +2648,7 @@
                   color: var(--lime);
                 "
               >
-                Ambassador Value Proposition
+                Operator Value Proposition
               </h3>
 
               <div style="display: flex; flex-direction: column; gap: 16px; font-size: 0.85rem">
@@ -1307,15 +2678,16 @@
                       flex-shrink: 0;
                     "
                   >
-                    S
+                    O
                   </div>
                   <div>
                     <h4 style="color: var(--text-primary); margin-bottom: 4px">
-                      Ambassador Status Perks
+                      District Influence & Loot Access
                     </h4>
                     <p style="color: var(--text-secondary); line-height: 1.4">
-                      Top regional players receive exclusive early-access reward drops from brands,
-                      custom status badges, and cash/points rewards for seeding user traffic.
+                      Territory leaders control high-yield geofence nodes. They get exclusive
+                      early-access keys to Mythic and Legendary drops, custom prestige titles, and a
+                      slice of regional sponsor campaign traffic.
                     </p>
                   </div>
                 </div>
@@ -1346,16 +2718,16 @@
                       flex-shrink: 0;
                     "
                   >
-                    A
+                    C
                   </div>
                   <div>
                     <h4 style="color: var(--text-primary); margin-bottom: 4px">
-                      Activation Playbook
+                      Conquest & Territory Warfare
                     </h4>
                     <p style="color: var(--text-secondary); line-height: 1.4">
-                      Brands partner with local ambassadors to launch campaigns. Ambassadors act as
-                      regional community managers, ensuring immediate user activation and high
-                      completion metrics.
+                      Operators command local factions to dominate district leaderboards. They
+                      launch competitive challenges, securing high player turnout and live drop
+                      coverage for sponsored brand events.
                     </p>
                   </div>
                 </div>
@@ -1378,16 +2750,16 @@
                       flex-shrink: 0;
                     "
                   >
-                    M
+                    T
                   </div>
                   <div>
                     <h4 style="color: var(--text-primary); margin-bottom: 4px">
-                      Network Micro-Communities
+                      Autonomous Territory Seeding
                     </h4>
                     <p style="color: var(--text-secondary); line-height: 1.4">
-                      Instead of high-CAC digital campaigns, Snatch taps into physical density.
-                      Local campus clubs, bars, and communities organize weekly hunts led by
-                      ambassadors.
+                      Rather than wasteful digital marketing, Snatch scales through local presence.
+                      Operators launch scavenger challenges at university campuses, music venues,
+                      and local hubs to expand their faction size.
                     </p>
                   </div>
                 </div>
@@ -1396,106 +2768,319 @@
 
             <!-- Right Col stats and guide -->
             <div
-              class="glass-card purple-glow"
+              class="premium-editorial-card purple-glow"
               style="display: flex; flex-direction: column; justify-content: space-between"
             >
-              <div>
-                <h3
-                  style="
-                    font-family: var(--font-title);
-                    font-size: 1.05rem;
-                    margin-bottom: 12px;
-                    color: var(--purple);
-                  "
-                >
-                  Ambassador Stats
-                </h3>
-                <div class="profile-influence-box" style="margin-bottom: 12px">
-                  <div class="profile-influence-left">
-                    <svg
-                      viewBox="0 0 24 24"
-                      width="16"
-                      height="16"
-                      style="fill: none; stroke: var(--purple); stroke-width: 2"
-                    >
-                      <polygon points="12 2 15 9 22 9 17 14 19 21 12 17 5 21 7 14 2 9 9 9 12 2" />
-                    </svg>
-                    <span>Ambassador Influence</span>
-                  </div>
-                  <div class="profile-influence-val">8,750 XP</div>
+              <h3
+                style="
+                  font-family: var(--font-title);
+                  font-size: 1.05rem;
+                  margin-bottom: 12px;
+                  color: var(--purple);
+                "
+              >
+                Operator Stats
+              </h3>
+              <div class="profile-influence-box" style="margin-bottom: 12px">
+                <div class="profile-influence-left">
+                  <svg
+                    viewBox="0 0 24 24"
+                    width="16"
+                    height="16"
+                    style="fill: none; stroke: var(--purple); stroke-width: 2"
+                  >
+                    <polygon points="12 2 15 9 22 9 17 14 19 21 12 17 5 21 7 14 2 9 9 9 12 2" />
+                  </svg>
+                  <span>Faction Power Index</span>
                 </div>
-
-                <div
-                  style="
-                    display: grid;
-                    grid-template-columns: 1fr 1fr;
-                    gap: 10px;
-                    margin-bottom: 10px;
-                  "
-                >
-                  <div class="stat-card" style="padding: 10px">
-                    <span class="stat-label">Assists</span>
-                    <span class="stat-value" style="font-size: 1.1rem">28</span>
-                  </div>
-                  <div class="stat-card" style="padding: 10px">
-                    <span class="stat-label">Invites</span>
-                    <span class="stat-value" style="font-size: 1.1rem">14</span>
-                  </div>
-                </div>
+                <div class="profile-influence-val">8,750 XP</div>
               </div>
 
-              <div class="guide-box" style="margin-top: 10px">
-                <div class="guide-step">
-                  <span class="guide-num">1</span>
-                  <span class="guide-text"
-                    >The Phone Simulator highlights the
-                    <span class="highlight">Ambassador / Leaderboard Path</span>.</span
-                  >
+              <div
+                style="
+                  display: grid;
+                  grid-template-columns: 1fr 1fr;
+                  gap: 10px;
+                  margin-bottom: 10px;
+                "
+              >
+                <div class="stat-card" style="padding: 10px">
+                  <span class="stat-label">District Control</span>
+                  <span class="stat-value" style="font-size: 1.1rem">28%</span>
                 </div>
-                <div class="guide-step">
-                  <span class="guide-num">2</span>
-                  <span class="guide-text"
-                    >Observe the <span class="highlight">Top Hunters list</span> showing player
-                    metrics and rankings.</span
-                  >
+                <div class="stat-card" style="padding: 10px">
+                  <span class="stat-label">Faction Members</span>
+                  <span class="stat-value" style="font-size: 1.1rem">142</span>
                 </div>
+              </div>
+            </div>
+
+            <div class="guide-box" style="margin-top: 10px">
+              <div class="guide-step">
+                <span class="guide-num">1</span>
+                <span class="guide-text"
+                  >The Phone Simulator highlights the
+                  <span class="highlight">Ambassador / Leaderboard Path</span>.</span
+                >
+              </div>
+              <div class="guide-step">
+                <span class="guide-num">2</span>
+                <span class="guide-text"
+                  >Observe the <span class="highlight">Top Hunters list</span> showing player
+                  metrics and rankings.</span
+                >
               </div>
             </div>
           </div>
 
-          <!-- Regional Live Ops Ticker -->
-          <div
-            class="glass-card lime-glow stagger-item delay-3"
-            style="margin-top: 20px; padding: 14px 20px"
-          >
-            <h4
+          <!-- District Faction conquest layout [NEW] -->
+          <div class="premium-editorial-card" style="margin-top: 24px; padding: 36px">
+            <h3
               style="
                 font-family: var(--font-title);
-                font-size: 0.85rem;
-                color: var(--lime);
+                font-size: 1.1rem;
+                color: var(--purple);
+                margin-bottom: 16px;
                 text-transform: uppercase;
                 letter-spacing: 0.05em;
-                margin-bottom: 10px;
-                display: flex;
-                align-items: center;
-                gap: 8px;
               "
             >
-              <span class="live-dot"></span> LIVE OPS: REGIONAL ACTIVITY FEED
-            </h4>
-            <div
-              id="ambassador-ticker-container"
-              style="height: 48px; overflow: hidden; position: relative"
-            >
+              Manhattan Operator Network & Territory Conquest
+            </h3>
+            <div class="responsive-grid two-one-half-grid" style="gap: 20px; align-items: start">
+              <!-- Large Interactive Conquest Map -->
               <div
-                id="ambassador-ticker-inner"
                 style="
-                  position: absolute;
-                  width: 100%;
-                  transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+                  background: #0b0b0d;
+                  border: 1px solid var(--border-light);
+                  border-radius: 12px;
+                  padding: 16px;
+                  height: 260px;
+                  display: flex;
+                  flex-direction: column;
+                  position: relative;
                 "
               >
-                <!-- Dynamically scrolled alerts -->
+                <span
+                  style="
+                    font-size: 0.65rem;
+                    color: var(--text-secondary);
+                    font-weight: 700;
+                    text-transform: uppercase;
+                    margin-bottom: 12px;
+                    letter-spacing: 0.05em;
+                    display: flex;
+                    align-items: center;
+                    gap: 4px;
+                  "
+                >
+                  <span class="pulse-dot"></span> INTERACTIVE DISTRICT NETWORK MAP
+                </span>
+                <svg
+                  viewBox="0 0 450 200"
+                  style="flex: 1; width: 100%; height: auto"
+                  id="ambassador-conquest-svg"
+                >
+                  <!-- District cells -->
+                  <polygon
+                    points="40,150 140,110 120,70 20,100"
+                    class="conquest-cell active"
+                    data-district="Tribeca Faction Zone"
+                    data-operator="Satoshi Hunter"
+                    data-members="342"
+                    data-influence="92% active"
+                    data-drop="Legendary Safe"
+                  />
+                  <polygon
+                    points="140,110 240,80 220,40 120,70"
+                    class="conquest-cell"
+                    data-district="SoHo Faction Zone"
+                    data-operator="RTFKT Ambassador"
+                    data-members="520"
+                    data-influence="88% active"
+                    data-drop="Nike Air Mag"
+                  />
+                  <polygon
+                    points="240,80 340,50 320,10 220,40"
+                    class="conquest-cell"
+                    data-district="Nolita Faction Zone"
+                    data-operator="Crypto Runner Lead"
+                    data-members="185"
+                    data-influence="61% active"
+                    data-drop="Mystery Crate"
+                  />
+                  <polygon
+                    points="120,70 220,40 200,5 100,30"
+                    class="conquest-cell"
+                    data-district="Greenwich Village Zone"
+                    data-operator="Prestige Operator"
+                    data-members="412"
+                    data-influence="94% active"
+                    data-drop="XP Beacon"
+                  />
+                  <polygon
+                    points="240,140 320,120 300,80 220,100"
+                    class="conquest-cell"
+                    data-district="Chinatown Faction Zone"
+                    data-operator="Street Faction Rep"
+                    data-members="130"
+                    data-influence="45% active"
+                    data-drop="Creator Token"
+                  />
+                  <polygon
+                    points="340,50 430,20 410,-10 320,10"
+                    class="conquest-cell"
+                    data-district="East Village Zone"
+                    data-operator="East Side Captain"
+                    data-members="290"
+                    data-influence="77% active"
+                    data-drop="VIP Concert Pass"
+                  />
+
+                  <text
+                    x="80"
+                    y="115"
+                    fill="#ffffff"
+                    font-size="7"
+                    font-weight="700"
+                    text-anchor="middle"
+                    pointer-events="none"
+                  >
+                    TRIBECA
+                  </text>
+                  <text
+                    x="180"
+                    y="85"
+                    fill="#ffffff"
+                    font-size="7"
+                    font-weight="700"
+                    text-anchor="middle"
+                    pointer-events="none"
+                  >
+                    SOHO
+                  </text>
+                  <text
+                    x="280"
+                    y="55"
+                    fill="#ffffff"
+                    font-size="7"
+                    font-weight="700"
+                    text-anchor="middle"
+                    pointer-events="none"
+                  >
+                    NOLITA
+                  </text>
+                  <text
+                    x="160"
+                    y="45"
+                    fill="#ffffff"
+                    font-size="7"
+                    font-weight="700"
+                    text-anchor="middle"
+                    pointer-events="none"
+                  >
+                    VILLAGE
+                  </text>
+                  <text
+                    x="270"
+                    y="115"
+                    fill="#ffffff"
+                    font-size="7"
+                    font-weight="700"
+                    text-anchor="middle"
+                    pointer-events="none"
+                  >
+                    CHINATOWN
+                  </text>
+                  <text
+                    x="375"
+                    y="25"
+                    fill="#ffffff"
+                    font-size="7"
+                    font-weight="700"
+                    text-anchor="middle"
+                    pointer-events="none"
+                  >
+                    E. VILLAGE
+                  </text>
+                </svg>
+              </div>
+
+              <!-- Conquest stats sidebar -->
+              <div
+                class="story-card"
+                style="
+                  margin: 0;
+                  padding: 20px;
+                  background: rgba(255, 255, 255, 0.01);
+                  height: 260px;
+                  display: flex;
+                  flex-direction: column;
+                  justify-content: space-between;
+                "
+              >
+                <div>
+                  <h4
+                    style="
+                      font-size: 1rem;
+                      color: var(--lime);
+                      margin-bottom: 12px;
+                      font-family: var(--font-title);
+                    "
+                    id="conquest-district-name"
+                  >
+                    Tribeca Faction Zone
+                  </h4>
+                  <div
+                    style="
+                      font-size: 0.8rem;
+                      color: var(--text-secondary);
+                      display: flex;
+                      flex-direction: column;
+                      gap: 10px;
+                    "
+                  >
+                    <div style="display: flex; justify-content: space-between">
+                      <span>District Operator:</span>
+                      <span id="conquest-operator-name" style="color: #ffffff; font-weight: 700"
+                        >Satoshi Hunter</span
+                      >
+                    </div>
+                    <div style="display: flex; justify-content: space-between">
+                      <span>Active Faction Members:</span>
+                      <span
+                        id="conquest-members-count"
+                        style="color: var(--purple); font-weight: 700"
+                        >342 members</span
+                      >
+                    </div>
+                    <div style="display: flex; justify-content: space-between">
+                      <span>Influence Spread:</span>
+                      <span
+                        id="conquest-influence-rate"
+                        style="color: var(--lime); font-weight: 700"
+                        >92% active</span
+                      >
+                    </div>
+                    <div style="display: flex; justify-content: space-between">
+                      <span>Primed AR Drops:</span>
+                      <span id="conquest-drop-type" style="color: #ffffff; font-weight: 700"
+                        >Legendary Safe</span
+                      >
+                    </div>
+                  </div>
+                </div>
+                <div
+                  style="
+                    font-size: 0.7rem;
+                    color: var(--text-secondary);
+                    border-top: 1px solid var(--border-light);
+                    padding-top: 10px;
+                  "
+                >
+                  * District operators organize squad rally points and control early-access reward
+                  drops. Select any sector to inspect telemetry.
+                </div>
               </div>
             </div>
           </div>
@@ -1551,6 +3136,19 @@
               <div class="iphone-screen-glare"></div>
               <div class="camera-flash-active" id="phone-camera-flash" style="display: none"></div>
 
+              <!-- Simulated phone toast notification -->
+              <div class="phone-toast-alert" id="sim-toast-alert">
+                <div class="phone-toast-icon">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <polygon points="12 2 15 9 22 9 17 14 19 21 12 17 5 21 7 14 2 9 9 9 12 2" />
+                  </svg>
+                </div>
+                <div class="phone-toast-content">
+                  <div class="phone-toast-title" id="sim-toast-title">NOTIFICATION</div>
+                  <div class="phone-toast-desc" id="sim-toast-desc">New drop active nearby</div>
+                </div>
+              </div>
+
               <!-- ==============================================
                FLOW A: SPONSORED HUNT VIEWS
                ============================================== -->
@@ -1561,18 +3159,30 @@
                   <div class="snatch-logo-container" style="gap: 6px">
                     <div
                       class="s-logo-box"
-                      style="
-                        width: 22px;
-                        height: 22px;
-                        border-width: 1.5px;
-                        font-size: 0.85rem;
-                        border-radius: 5px;
-                      "
+                      style="width: 22px; height: 22px; border-width: 1.5px; border-radius: 5px"
                     >
-                      S
+                      <svg
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        xmlns="http://www.w3.org/2000/svg"
+                        class="s-logo-svg"
+                      >
+                        <path
+                          d="M16.5 8.5H10C8.5 8.5 7.5 9.5 7.5 11C7.5 12.2 8.5 13 9.5 13.3L14.5 14.7C15.5 15 16.5 15.8 16.5 17C16.5 18.5 15.5 19.5 14 19.5H7.5"
+                          stroke="currentColor"
+                          stroke-width="3.5"
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                        />
+                      </svg>
                     </div>
                     <span
-                      style="font-family: var(--font-title); font-weight: 800; font-size: 0.95rem"
+                      style="
+                        font-family: var(--font-title);
+                        font-weight: 800;
+                        font-size: 0.95rem;
+                        color: #ffffff;
+                      "
                       >Snatch</span
                     >
                   </div>
@@ -1602,6 +3212,48 @@
                   <div class="radar-overlay"></div>
                   <div class="viewfinder-sweep-line"></div>
                   <div class="radar-pulse-ring"></div>
+                  <div class="phone-camera-sweep" id="discover-camera-sweep"></div>
+                  <!-- Drop Broadcasting HUD overlay -->
+                  <div
+                    id="discover-broadcasting-overlay"
+                    style="
+                      position: absolute;
+                      inset: 0;
+                      background: rgba(0, 0, 0, 0.85);
+                      display: none;
+                      flex-direction: column;
+                      align-items: center;
+                      justify-content: center;
+                      z-index: 99;
+                      color: var(--lime);
+                      font-family: var(--font-title);
+                      font-size: 0.85rem;
+                      font-weight: 800;
+                      letter-spacing: 0.1em;
+                    "
+                  >
+                    <div
+                      class="prov-icon spinner"
+                      style="
+                        width: 32px;
+                        height: 32px;
+                        border-color: var(--lime);
+                        border-top-color: transparent;
+                        margin-bottom: 12px;
+                      "
+                    ></div>
+                    <span>BROADCASTING DROP...</span>
+                    <span
+                      style="
+                        font-size: 0.55rem;
+                        color: var(--text-secondary);
+                        margin-top: 6px;
+                        font-weight: 600;
+                      "
+                      id="broadcasting-details"
+                      >Broadcasting to SoHo Grid...</span
+                    >
+                  </div>
                   <div class="camera-sidebar">
                     <div class="camera-sidebar-btn" title="Flip Camera">
                       <svg
@@ -1990,7 +3642,7 @@
                       text-transform: uppercase;
                       letter-spacing: 0.05em;
                     "
-                    >GET CLOSER TO THE PRIZE</span
+                    >TARGET LOCKED &bull; LIVE DROP</span
                   >
                   <div class="slider-container" style="margin-top: 6px; width: 100%; gap: 0">
                     <input
@@ -2047,7 +3699,7 @@
                   ></span>
                 </div>
 
-                <!-- Holographic Gift Box float center -->
+                <!-- Holographic Sneaker float center -->
                 <div
                   class="holo-visual-container"
                   style="z-index: 10; margin-top: 50px; height: 220px"
@@ -2060,7 +3712,7 @@
                     <div class="particle"></div>
                     <div class="particle"></div>
                   </div>
-                  <!-- Floating wireframe gift box SVG -->
+                  <!-- Floating wireframe sneaker SVG -->
                   <div class="holo-svg-wrapper">
                     <svg
                       class="holo-svg purple-theme"
@@ -2111,31 +3763,18 @@
                         stroke-width="2"
                         fill="none"
                       >
-                        <!-- Box structure -->
-                        <rect
-                          x="25"
-                          y="42"
-                          width="50"
-                          height="40"
-                          rx="3"
-                          fill="rgba(168, 85, 247, 0.05)"
-                        />
-                        <line x1="50" y1="42" x2="50" y2="82" stroke-width="2.5" />
-                        <line x1="25" y1="62" x2="75" y2="62" stroke-width="1.5" />
-                        <!-- Lid -->
-                        <rect
-                          x="22"
-                          y="36"
-                          width="56"
-                          height="8"
-                          rx="2"
-                          fill="rgba(168, 85, 247, 0.1)"
-                        />
-                        <!-- Bow -->
+                        <path d="M 20,70 Q 25,74 35,74 T 70,72 Q 80,68 85,60" stroke-width="2.5" />
                         <path
-                          d="M 50,36 C 40,24 48,22 50,30 C 52,22 60,24 50,36 Z"
-                          fill="rgba(168, 85, 247, 0.2)"
+                          d="M 20,70 L 25,58 Q 30,52 40,54 L 52,56 Q 58,45 68,42 L 80,48 Q 85,52 85,60"
+                          stroke-width="2"
                         />
+                        <path d="M 45,64 Q 55,60 68,64" stroke-width="1.5" />
+                        <path
+                          d="M 50,60 L 62,56 L 68,62 L 53,63 Z"
+                          stroke-width="1"
+                          fill="rgba(168, 85, 247, 0.15)"
+                        />
+                        <path d="M 50,56 L 56,48 M 53,53 L 59,45" stroke-width="1.5" />
                       </g>
                     </svg>
                   </div>
@@ -2152,7 +3791,7 @@
                   <div class="modal-title">YOU SNATCHED IT!</div>
 
                   <div class="modal-card-reward">
-                    <div class="modal-card-value" id="success-reward-val">$25</div>
+                    <div class="modal-card-value" id="success-reward-val">$1,200</div>
                     <div class="brand-logo-box">
                       <svg
                         viewBox="0 0 100 100"
@@ -2168,13 +3807,13 @@
                       style="font-size: 0.95rem; font-family: var(--font-title); margin-bottom: 2px"
                       id="success-reward-title"
                     >
-                      Nike eGift Card
+                      Nike Air Mag
                     </h4>
                     <p
                       style="font-size: 0.7rem; color: var(--text-secondary)"
                       id="success-reward-sub"
                     >
-                      Redeem online & in-store
+                      RTFKT x Nike Collaboration. Verified Claim.
                     </p>
 
                     <div class="modal-code-box">
@@ -2221,18 +3860,30 @@
                   <div class="snatch-logo-container" style="gap: 6px">
                     <div
                       class="s-logo-box"
-                      style="
-                        width: 22px;
-                        height: 22px;
-                        border-width: 1.5px;
-                        font-size: 0.85rem;
-                        border-radius: 5px;
-                      "
+                      style="width: 22px; height: 22px; border-width: 1.5px; border-radius: 5px"
                     >
-                      S
+                      <svg
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        xmlns="http://www.w3.org/2000/svg"
+                        class="s-logo-svg"
+                      >
+                        <path
+                          d="M16.5 8.5H10C8.5 8.5 7.5 9.5 7.5 11C7.5 12.2 8.5 13 9.5 13.3L14.5 14.7C15.5 15 16.5 15.8 16.5 17C16.5 18.5 15.5 19.5 14 19.5H7.5"
+                          stroke="currentColor"
+                          stroke-width="3.5"
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                        />
+                      </svg>
                     </div>
                     <span
-                      style="font-family: var(--font-title); font-weight: 800; font-size: 0.95rem"
+                      style="
+                        font-family: var(--font-title);
+                        font-weight: 800;
+                        font-size: 0.95rem;
+                        color: #ffffff;
+                      "
                       >Snatch</span
                     >
                   </div>
@@ -2266,60 +3917,88 @@
                   <!-- List of active rewards -->
                   <div class="reward-card-list">
                     <!-- Card 1: Nike (Dynamic Sync Card) -->
-                    <div class="wallet-reward-card active-item" id="wallet-card-nike">
+                    <div class="wallet-reward-card legendary-card" id="wallet-card-nike">
                       <div class="wallet-card-logo-container">
                         <div class="wallet-card-logo">
                           <svg
                             viewBox="0 0 100 100"
                             width="22"
                             height="22"
-                            style="fill: none; stroke: var(--purple); stroke-width: 3.5"
+                            style="fill: none; stroke: #f97316; stroke-width: 3.5"
                           >
                             <path d="M10,75 L25,45 L45,45 L70,35 L90,55 L90,75 L10,75 Z" />
                           </svg>
                         </div>
                         <div>
-                          <div class="wallet-card-title" id="wallet-nike-title">
-                            Nike eGift Card
+                          <div class="wallet-card-title" id="wallet-nike-title">Nike Air Mag</div>
+                          <div class="wallet-card-desc">
+                            RTFKT x Nike Collaboration. Verified Claim.
                           </div>
-                          <div class="wallet-card-desc">Redeem online & in-store.</div>
-                          <div class="wallet-card-tag new" id="wallet-nike-tag">NEW</div>
+                          <div class="wallet-card-tag legendary" id="wallet-nike-tag">
+                            LEGENDARY
+                          </div>
                         </div>
                       </div>
                       <div class="wallet-card-right">
-                        <div class="wallet-card-value" id="wallet-nike-value">$25</div>
+                        <div class="wallet-card-value" id="wallet-nike-value">$1,200</div>
                       </div>
                     </div>
 
-                    <!-- Card 2: Starbucks -->
-                    <div class="wallet-reward-card green-theme">
+                    <!-- Card 2: Starbucks -> Mythic Cash Vault -->
+                    <div class="wallet-reward-card mythic-card">
                       <div class="wallet-card-logo-container">
                         <div class="wallet-card-logo">
-                          <!-- Starbucks cup-like icon -->
                           <svg
                             viewBox="0 0 100 100"
                             width="22"
                             height="22"
-                            style="fill: none; stroke: var(--lime); stroke-width: 3.5"
+                            style="fill: none; stroke: #ef4444; stroke-width: 3.5"
                           >
-                            <path d="M30,30 L70,30 L65,85 L35,85 Z" />
-                            <ellipse cx="50" cy="30" rx="20" ry="6" />
-                            <circle cx="50" cy="55" r="10" />
+                            <path d="M50,15 L85,32 L85,68 L50,85 L15,68 L15,32 Z" />
+                            <path d="M50,15 L50,85" />
+                            <path d="M15,32 L50,50 L85,32" />
+                            <circle cx="50" cy="50" r="10" />
                           </svg>
                         </div>
                         <div>
-                          <div class="wallet-card-title">Starbucks</div>
-                          <div class="wallet-card-desc">eGift Card. Redeem in-store.</div>
-                          <div class="wallet-card-tag ready">READY</div>
+                          <div class="wallet-card-title">Mythic Cash Vault</div>
+                          <div class="wallet-card-desc">Golden District Jackpot. Claimed!</div>
+                          <div class="wallet-card-tag mythic">MYTHIC</div>
                         </div>
                       </div>
                       <div class="wallet-card-right">
-                        <div class="wallet-card-value">$10</div>
+                        <div class="wallet-card-value">$10,000</div>
                       </div>
                     </div>
 
-                    <!-- Card 3: Lyft -->
-                    <div class="wallet-reward-card">
+                    <!-- Card 3: Lyft -> Nike Air Mag -->
+                    <div class="wallet-reward-card legendary-card">
+                      <div class="wallet-card-logo-container">
+                        <div class="wallet-card-logo">
+                          <svg
+                            viewBox="0 0 100 100"
+                            width="22"
+                            height="22"
+                            style="fill: none; stroke: #f97316; stroke-width: 3.5"
+                          >
+                            <path d="M10,75 L25,45 L45,45 L70,35 L90,55 L90,75 L10,75 Z" />
+                          </svg>
+                        </div>
+                        <div>
+                          <div class="wallet-card-title">Nike Air Mag</div>
+                          <div class="wallet-card-desc">
+                            RTFKT x Nike Collaboration. Verified Claim.
+                          </div>
+                          <div class="wallet-card-tag legendary">LEGENDARY</div>
+                        </div>
+                      </div>
+                      <div class="wallet-card-right">
+                        <div class="wallet-card-value">$1,200</div>
+                      </div>
+                    </div>
+
+                    <!-- Card 4: Uber Eats -> Epic Mystery Crate -->
+                    <div class="wallet-reward-card epic-card">
                       <div class="wallet-card-logo-container">
                         <div class="wallet-card-logo">
                           <svg
@@ -2327,51 +4006,22 @@
                             width="22"
                             height="22"
                             fill="none"
-                            stroke="var(--purple)"
+                            stroke="#a855f7"
                             stroke-width="2"
                           >
-                            <!-- Generic car icon -->
-                            <rect x="3" y="11" width="18" height="8" rx="2" />
-                            <path d="M5 11V7a3 3 0 0 1 3-3h8a3 3 0 0 1 3 3v4" />
-                            <circle cx="6" cy="19" r="2" />
-                            <circle cx="18" cy="19" r="2" />
+                            <path d="M4 8l8-4 8 4v8l-8 4-8-4V8z" />
+                            <path d="M4 8l8 4 8-4" />
+                            <path d="M12 12v8" />
                           </svg>
                         </div>
                         <div>
-                          <div class="wallet-card-title">Lyft Ride Credit</div>
-                          <div class="wallet-card-desc">Lyft Ride Credit. Up to $10.</div>
-                          <div class="wallet-card-tag ready">READY</div>
+                          <div class="wallet-card-title">Epic Mystery Crate</div>
+                          <div class="wallet-card-desc">NYC Scavenger Hunt Drop. Code active.</div>
+                          <div class="wallet-card-tag epic">EPIC</div>
                         </div>
                       </div>
                       <div class="wallet-card-right">
-                        <div class="wallet-card-value">50%</div>
-                      </div>
-                    </div>
-
-                    <!-- Card 4: Uber Eats -->
-                    <div class="wallet-reward-card green-theme">
-                      <div class="wallet-card-logo-container">
-                        <div class="wallet-card-logo">
-                          <svg
-                            viewBox="0 0 24 24"
-                            width="22"
-                            height="22"
-                            fill="none"
-                            stroke="var(--lime)"
-                            stroke-width="2"
-                          >
-                            <circle cx="12" cy="12" r="10" />
-                            <path d="M12 8v8M8 12h8" />
-                          </svg>
-                        </div>
-                        <div>
-                          <div class="wallet-card-title">Uber Eats</div>
-                          <div class="wallet-card-desc">Uber Eats Credit. Min. $20.</div>
-                          <div class="wallet-card-tag ready">READY</div>
-                        </div>
-                      </div>
-                      <div class="wallet-card-right">
-                        <div class="wallet-card-value">$15</div>
+                        <div class="wallet-card-value">$150</div>
                       </div>
                     </div>
                   </div>
@@ -2438,7 +4088,7 @@
                       <input
                         type="text"
                         class="form-input"
-                        value="Campus Coffee Hunt"
+                        value="NYC Mystery Crate Bounty"
                         style="
                           background: rgba(255, 255, 255, 0.03);
                           border-color: rgba(255, 255, 255, 0.1);
@@ -2468,7 +4118,7 @@
                       <input
                         type="text"
                         class="form-input"
-                        value="Starbucks for the winner"
+                        value="Epic Mystery Crate ($150)"
                         style="
                           background: rgba(255, 255, 255, 0.03);
                           border-color: rgba(255, 255, 255, 0.1);
@@ -2788,7 +4438,7 @@
                     gap: 6px;
                   "
                 >
-                  STUDY LOUNGE &raquo;
+                  SOHO DISTRICT &raquo;
                 </div>
 
                 <!-- Right controls tools stack -->
@@ -2880,25 +4530,34 @@
                         opacity="0.6"
                       />
 
-                      <g filter="url(#neonGlow)" stroke="#39FF14" stroke-width="2.5" fill="none">
-                        <!-- Cup -->
-                        <path
-                          d="M 32,32 L 68,32 L 62,80 L 38,80 Z"
-                          fill="rgba(173, 255, 47, 0.05)"
+                      <g filter="url(#neonGlow)" stroke="#39FF14" stroke-width="2" fill="none">
+                        <!-- 3D Isometric Crate -->
+                        <polygon
+                          points="50,22 80,37 80,67 50,82 20,67 20,37"
+                          fill="rgba(173, 255, 47, 0.08)"
                         />
-                        <!-- Lid dome -->
-                        <path d="M 32,32 A 18,18 0 0 1 68,32" stroke-width="2" />
-                        <!-- Straw -->
-                        <line x1="50" y1="32" x2="54" y2="15" stroke-width="3" />
-                        <!-- Inner circle logo placeholder -->
-                        <circle
-                          cx="50"
-                          cy="56"
-                          r="10"
+                        <!-- Lid Seam -->
+                        <polyline points="20,37 50,52 80,37" stroke-width="2.5" />
+                        <!-- Vertical Seam -->
+                        <line
+                          x1="50"
+                          y1="52"
+                          x2="50"
+                          y2="82"
+                          stroke-width="2.5"
+                          stroke-linecap="round"
+                        />
+                        <!-- Padlock mechanism -->
+                        <rect
+                          x="44"
+                          y="46"
+                          width="12"
+                          height="12"
+                          rx="2.5"
+                          fill="rgba(173, 255, 47, 0.2)"
                           stroke-width="1.5"
-                          fill="rgba(173, 255, 47, 0.15)"
                         />
-                        <path d="M 46,56 Q 50,52 54,56" stroke-width="1" />
+                        <circle cx="50" cy="52" r="1.5" fill="#39FF14" />
                       </g>
                     </svg>
                   </div>
@@ -2934,7 +4593,7 @@
                       Clue
                     </div>
                     <div style="font-size: 0.8rem; font-weight: 700; color: #fff; margin-top: 2px">
-                      Near the study lounge
+                      Under the iron arches
                     </div>
                   </div>
                   <div style="cursor: pointer">
@@ -3101,12 +4760,24 @@
                         width: 28px;
                         height: 28px;
                         border-width: 1.5px;
-                        font-size: 0.95rem;
                         box-shadow: 0 0 10px var(--lime);
                         border-radius: 6px;
                       "
                     >
-                      S
+                      <svg
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        xmlns="http://www.w3.org/2000/svg"
+                        class="s-logo-svg"
+                      >
+                        <path
+                          d="M16.5 8.5H10C8.5 8.5 7.5 9.5 7.5 11C7.5 12.2 8.5 13 9.5 13.3L14.5 14.7C15.5 15 16.5 15.8 16.5 17C16.5 18.5 15.5 19.5 14 19.5H7.5"
+                          stroke="currentColor"
+                          stroke-width="3.5"
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                        />
+                      </svg>
                     </div>
                   </div>
 
@@ -3143,7 +4814,7 @@
                           color: var(--lime);
                           letter-spacing: 0.05em;
                         "
-                        >CAMPUS25</span
+                        >NYC99X</span
                       >
                       <button class="copy-btn" style="padding: 2px">
                         <svg
@@ -3488,21 +5159,34 @@
                         fill="none"
                         opacity="0.6"
                       />
-                      <g filter="url(#neonGlow)" stroke="#39FF14" stroke-width="2.5" fill="none">
-                        <path
-                          d="M 32,32 L 68,32 L 62,80 L 38,80 Z"
-                          fill="rgba(173, 255, 47, 0.05)"
+                      <g filter="url(#neonGlow)" stroke="#39FF14" stroke-width="2" fill="none">
+                        <!-- 3D Isometric Crate -->
+                        <polygon
+                          points="50,22 80,37 80,67 50,82 20,67 20,37"
+                          fill="rgba(173, 255, 47, 0.08)"
                         />
-                        <path d="M 32,32 A 18,18 0 0 1 68,32" stroke-width="2" />
-                        <line x1="50" y1="32" x2="54" y2="15" stroke-width="3" />
-                        <circle
-                          cx="50"
-                          cy="56"
-                          r="10"
+                        <!-- Lid Seam -->
+                        <polyline points="20,37 50,52 80,37" stroke-width="2.5" />
+                        <!-- Vertical Seam -->
+                        <line
+                          x1="50"
+                          y1="52"
+                          x2="50"
+                          y2="82"
+                          stroke-width="2.5"
+                          stroke-linecap="round"
+                        />
+                        <!-- Padlock mechanism -->
+                        <rect
+                          x="44"
+                          y="46"
+                          width="12"
+                          height="12"
+                          rx="2.5"
+                          fill="rgba(173, 255, 47, 0.2)"
                           stroke-width="1.5"
-                          fill="rgba(173, 255, 47, 0.15)"
                         />
-                        <path d="M 46,56 Q 50,52 54,56" stroke-width="1" />
+                        <circle cx="50" cy="52" r="1.5" fill="#39FF14" />
                       </g>
                     </svg>
                   </div>
@@ -3567,17 +5251,34 @@
                         width: 22px;
                         height: 22px;
                         border-width: 1.5px;
-                        font-size: 0.85rem;
                         border-radius: 5px;
                         border-color: var(--purple);
                         color: var(--purple);
                         box-shadow: 0 0 5px var(--purple-glow);
                       "
                     >
-                      S
+                      <svg
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        xmlns="http://www.w3.org/2000/svg"
+                        class="s-logo-svg"
+                      >
+                        <path
+                          d="M16.5 8.5H10C8.5 8.5 7.5 9.5 7.5 11C7.5 12.2 8.5 13 9.5 13.3L14.5 14.7C15.5 15 16.5 15.8 16.5 17C16.5 18.5 15.5 19.5 14 19.5H7.5"
+                          stroke="currentColor"
+                          stroke-width="3.5"
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                        />
+                      </svg>
                     </div>
                     <span
-                      style="font-family: var(--font-title); font-weight: 800; font-size: 0.95rem"
+                      style="
+                        font-family: var(--font-title);
+                        font-weight: 800;
+                        font-size: 0.95rem;
+                        color: #ffffff;
+                      "
                       >Snatch Mode</span
                     >
                   </div>
@@ -3995,7 +5696,7 @@
                       text-transform: uppercase;
                       letter-spacing: 0.05em;
                     "
-                    >GET CLOSER</span
+                    >LOCK ACQUIRED &bull; ACTIVE SCAN</span
                   >
                 </div>
 
@@ -4390,17 +6091,34 @@
                         width: 22px;
                         height: 22px;
                         border-width: 1.5px;
-                        font-size: 0.85rem;
                         border-radius: 5px;
                         border-color: var(--purple);
                         color: var(--purple);
                         box-shadow: 0 0 5px var(--purple-glow);
                       "
                     >
-                      S
+                      <svg
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        xmlns="http://www.w3.org/2000/svg"
+                        class="s-logo-svg"
+                      >
+                        <path
+                          d="M16.5 8.5H10C8.5 8.5 7.5 9.5 7.5 11C7.5 12.2 8.5 13 9.5 13.3L14.5 14.7C15.5 15 16.5 15.8 16.5 17C16.5 18.5 15.5 19.5 14 19.5H7.5"
+                          stroke="currentColor"
+                          stroke-width="3.5"
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                        />
+                      </svg>
                     </div>
                     <span
-                      style="font-family: var(--font-title); font-weight: 800; font-size: 0.95rem"
+                      style="
+                        font-family: var(--font-title);
+                        font-weight: 800;
+                        font-size: 0.95rem;
+                        color: #ffffff;
+                      "
                       >Snatch Mode</span
                     >
                   </div>
@@ -4781,7 +6499,22 @@
     <div id="campaign-provisioning-modal" class="provisioning-overlay">
       <div class="provisioning-card glass-card">
         <div class="provisioning-header">
-          <div class="s-logo-box">S</div>
+          <div class="s-logo-box">
+            <svg
+              viewBox="0 0 24 24"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+              class="s-logo-svg"
+            >
+              <path
+                d="M16.5 8.5H10C8.5 8.5 7.5 9.5 7.5 11C7.5 12.2 8.5 13 9.5 13.3L14.5 14.7C15.5 15 16.5 15.8 16.5 17C16.5 18.5 15.5 19.5 14 19.5H7.5"
+                stroke="currentColor"
+                stroke-width="3.5"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              />
+            </svg>
+          </div>
           <h3
             style="font-family: var(--font-title); font-weight: 800; font-size: 1.1rem; margin: 0"
           >
@@ -4806,37 +6539,6 @@
             <div class="prov-label">Broadcasting launch signal to mobile clients...</div>
           </div>
         </div>
-      </div>
-    </div>
-
-    <!-- Spotlight Overlay -->
-    <div id="demo-spotlight-overlay" class="demo-spotlight-overlay"></div>
-
-    <!-- Auto Tour HUD Banner -->
-    <div id="demo-tour-hud" class="demo-tour-hud">
-      <div class="hud-left">
-        <div class="hud-logo">S</div>
-        <div>
-          <div class="hud-title">INVESTOR AUTO TOUR</div>
-          <div class="hud-step-desc" id="hud-step-text">Step 1 of 9: Welcome to Snatch</div>
-        </div>
-      </div>
-      <div class="hud-controls">
-        <button id="hud-pause-btn" class="hud-btn">
-          <svg viewBox="0 0 24 24" width="12" height="12" fill="currentColor">
-            <rect x="4" y="4" width="4" height="16" />
-            <rect x="16" y="4" width="4" height="16" />
-          </svg>
-          <span id="hud-pause-text">PAUSE</span>
-        </button>
-        <button id="hud-skip-btn" class="hud-btn">
-          <svg viewBox="0 0 24 24" width="12" height="12" fill="currentColor">
-            <polygon points="5 4 15 12 5 20 5 4" />
-            <line x1="19" y1="5" x2="19" y2="19" stroke="currentColor" stroke-width="3" />
-          </svg>
-          SKIP
-        </button>
-        <button id="hud-exit-btn" class="hud-btn exit">EXIT</button>
       </div>
     </div>
 
