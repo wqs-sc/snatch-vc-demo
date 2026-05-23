@@ -80,7 +80,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // Phone Simulator - Overall Components
   const phoneCameraFlash = document.getElementById('phone-camera-flash');
-  const phoneAppNavigation = document.getElementById('phone-app-navigation');
   const phoneTabButtons = document.querySelectorAll('#phone-app-navigation .iphone-tab-item');
   const phoneViews = document.querySelectorAll('.iphone-simulator .iphone-view');
 
@@ -158,7 +157,6 @@ document.addEventListener('DOMContentLoaded', () => {
     const now = new Date();
     let hours = now.getHours();
     let minutes = now.getMinutes();
-    const ampm = hours >= 12 ? 'PM' : 'AM';
     hours = hours % 12;
     hours = hours ? hours : 12; // the hour '0' should be '12'
     minutes = minutes < 10 ? '0' + minutes : minutes;
@@ -348,7 +346,7 @@ document.addEventListener('DOMContentLoaded', () => {
         document.getElementById('prov-step-1'),
         document.getElementById('prov-step-2'),
         document.getElementById('prov-step-3'),
-        document.getElementById('prov-step-4')
+        document.getElementById('prov-step-4'),
       ];
 
       steps.forEach((step, idx) => {
@@ -1155,42 +1153,45 @@ document.addEventListener('DOMContentLoaded', () => {
       { name: 'Sarah', init: 'S', color: 'var(--lime)' },
       { name: 'David', init: 'D', color: 'var(--purple)' },
       { name: 'Jessica', init: 'J', color: '#ff007f' },
-      { name: 'Michael', init: 'M', color: '#00f0ff' }
+      { name: 'Michael', init: 'M', color: '#00f0ff' },
     ];
 
     crew.forEach((member, index) => {
-      setTimeout(() => {
-        const bubble = document.createElement('div');
-        bubble.style.width = '26px';
-        bubble.style.height = '26px';
-        bubble.style.borderRadius = '50%';
-        bubble.style.background = member.color;
-        bubble.style.color = member.color === 'var(--lime)' ? 'var(--text-dark)' : '#ffffff';
-        bubble.style.display = 'flex';
-        bubble.style.alignItems = 'center';
-        bubble.style.justifyContent = 'center';
-        bubble.style.fontSize = '0.7rem';
-        bubble.style.fontWeight = '800';
-        bubble.style.border = '1.5px solid #111';
-        bubble.style.marginLeft = index === 0 ? '0px' : '-8px';
-        bubble.style.transform = 'scale(0) translateY(10px)';
-        bubble.style.opacity = '0';
-        bubble.style.transition = 'all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275)';
-        bubble.textContent = member.init;
+      setTimeout(
+        () => {
+          const bubble = document.createElement('div');
+          bubble.style.width = '26px';
+          bubble.style.height = '26px';
+          bubble.style.borderRadius = '50%';
+          bubble.style.background = member.color;
+          bubble.style.color = member.color === 'var(--lime)' ? 'var(--text-dark)' : '#ffffff';
+          bubble.style.display = 'flex';
+          bubble.style.alignItems = 'center';
+          bubble.style.justifyContent = 'center';
+          bubble.style.fontSize = '0.7rem';
+          bubble.style.fontWeight = '800';
+          bubble.style.border = '1.5px solid #111';
+          bubble.style.marginLeft = index === 0 ? '0px' : '-8px';
+          bubble.style.transform = 'scale(0) translateY(10px)';
+          bubble.style.opacity = '0';
+          bubble.style.transition = 'all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275)';
+          bubble.textContent = member.init;
 
-        if (avatarList) avatarList.appendChild(bubble);
+          if (avatarList) avatarList.appendChild(bubble);
 
-        setTimeout(() => {
-          bubble.style.transform = 'scale(1) translateY(0)';
-          bubble.style.opacity = '1';
-        }, 50);
+          setTimeout(() => {
+            bubble.style.transform = 'scale(1) translateY(0)';
+            bubble.style.opacity = '1';
+          }, 50);
 
-        if (badge) {
-          badge.textContent = `+${index + 1} crew`;
-          badge.style.background = 'rgba(173, 255, 47, 0.1)';
-          badge.style.color = 'var(--lime)';
-        }
-      }, (index + 1) * 800);
+          if (badge) {
+            badge.textContent = `+${index + 1} crew`;
+            badge.style.background = 'rgba(173, 255, 47, 0.1)';
+            badge.style.color = 'var(--lime)';
+          }
+        },
+        (index + 1) * 800
+      );
     });
   };
 
@@ -1253,25 +1254,25 @@ document.addEventListener('DOMContentLoaded', () => {
       this.activeIntervals = [];
       this.steps = [
         {
-          name: "Welcome to Snatch Dashboard",
-          desc: "Step 1 of 9: Welcome! Exploring Snatch Workspace Dashboard",
-          highlightId: "workspace-navigator",
+          name: 'Welcome to Snatch Dashboard',
+          desc: 'Step 1 of 9: Welcome! Exploring Snatch Workspace Dashboard',
+          highlightId: 'workspace-navigator',
           action: () => {
             switchDashboardView('overview');
           },
-          duration: 3500
+          duration: 3500,
         },
         {
-          name: "Define Campaign",
-          desc: "Step 2 of 9: Customizing & seeding campaign drops live",
-          highlightId: "campaign-title-input",
+          name: 'Define Campaign',
+          desc: 'Step 2 of 9: Customizing & seeding campaign drops live',
+          highlightId: 'campaign-title-input',
           action: () => {
             switchDashboardView('studio');
             setTimeout(() => {
               const input = document.getElementById('campaign-title-input');
               if (input) {
-                const text = "Nike Air SoHo Sneaker Hunt";
-                input.value = "";
+                const text = 'Nike Air SoHo Sneaker Hunt';
+                input.value = '';
                 let idx = 0;
                 const t = setInterval(() => {
                   if (idx < text.length) {
@@ -1286,12 +1287,12 @@ document.addEventListener('DOMContentLoaded', () => {
               }
             }, 400);
           },
-          duration: 4500
+          duration: 4500,
         },
         {
-          name: "Adjust Geofence Radius",
-          desc: "Step 3 of 9: Adjusting proximity drop geofence scope",
-          highlightId: "campaign-radius-slider",
+          name: 'Adjust Geofence Radius',
+          desc: 'Step 3 of 9: Adjusting proximity drop geofence scope',
+          highlightId: 'campaign-radius-slider',
           action: () => {
             const slider = document.getElementById('campaign-radius-slider');
             if (slider) {
@@ -1308,40 +1309,40 @@ document.addEventListener('DOMContentLoaded', () => {
               this.activeIntervals.push(t);
             }
           },
-          duration: 3500
+          duration: 3500,
         },
         {
-          name: "Deploy to Network",
-          desc: "Step 4 of 9: Broadcasting geofence campaign drops",
-          highlightId: "launch-campaign-btn",
+          name: 'Deploy to Network',
+          desc: 'Step 4 of 9: Broadcasting geofence campaign drops',
+          highlightId: 'launch-campaign-btn',
           action: () => {
             const btn = document.getElementById('launch-campaign-btn');
             if (btn) btn.click();
           },
-          duration: 2000
+          duration: 2000,
         },
         {
-          name: "Live Provisioning",
-          desc: "Step 5 of 9: Real-time stepper geofence registration",
-          highlightId: "campaign-provisioning-modal",
+          name: 'Live Provisioning',
+          desc: 'Step 5 of 9: Real-time stepper geofence registration',
+          highlightId: 'campaign-provisioning-modal',
           action: () => {
             // Provisioning modal runs automatically on launch click
           },
-          duration: 5000
+          duration: 5000,
         },
         {
-          name: "Player Viewfinder",
-          desc: "Step 6 of 9: Switched to client-side iPhone AR tracker view",
-          highlightClass: "iphone-simulator",
+          name: 'Player Viewfinder',
+          desc: 'Step 6 of 9: Switched to client-side iPhone AR tracker view',
+          highlightClass: 'iphone-simulator',
           action: () => {
             switchDashboardView('user-app');
           },
-          duration: 4000
+          duration: 4000,
         },
         {
-          name: "AR Approach Scan",
-          desc: "Step 7 of 9: Approaching drop location within 25m threshold",
-          highlightId: "approach-proximity-slider",
+          name: 'AR Approach Scan',
+          desc: 'Step 7 of 9: Approaching drop location within 25m threshold',
+          highlightId: 'approach-proximity-slider',
           action: () => {
             const slider = document.getElementById('approach-proximity-slider');
             if (slider) {
@@ -1362,24 +1363,24 @@ document.addEventListener('DOMContentLoaded', () => {
               this.activeIntervals.push(t);
             }
           },
-          duration: 4500
+          duration: 4500,
         },
         {
-          name: "Claiming Rewards",
-          desc: "Step 8 of 9: Synchronizing voucher code to wallet passes",
-          highlightId: "phone-modal-snatched",
+          name: 'Claiming Rewards',
+          desc: 'Step 8 of 9: Synchronizing voucher code to wallet passes',
+          highlightId: 'phone-modal-snatched',
           action: () => {
             setTimeout(() => {
               const walletBtn = document.getElementById('success-wallet-btn');
               if (walletBtn) walletBtn.click();
             }, 1200);
           },
-          duration: 4500
+          duration: 4500,
         },
         {
-          name: "Progress & Level Up",
-          desc: "Step 9 of 9: Scanning, levelling up, and upgrading perks",
-          highlightClass: "iphone-simulator",
+          name: 'Progress & Level Up',
+          desc: 'Step 9 of 9: Scanning, levelling up, and upgrading perks',
+          highlightClass: 'iphone-simulator',
           action: () => {
             const profileTab = document.getElementById('tab-btn-profile');
             if (profileTab) profileTab.click();
@@ -1409,8 +1410,8 @@ document.addEventListener('DOMContentLoaded', () => {
               }, 1500);
             }, 1500);
           },
-          duration: 12000
-        }
+          duration: 12000,
+        },
       ];
     }
 
@@ -1470,22 +1471,24 @@ document.addEventListener('DOMContentLoaded', () => {
       this.timer = null;
 
       const pauseText = document.getElementById('hud-pause-text');
-      if (pauseText) pauseText.textContent = "RESUME";
+      if (pauseText) pauseText.textContent = 'RESUME';
 
       const pauseBtn = document.getElementById('hud-pause-btn');
       if (pauseBtn) {
-        pauseBtn.querySelector('svg').innerHTML = '<polygon points="5 4 19 12 5 20 5 4" fill="currentColor"/>';
+        pauseBtn.querySelector('svg').innerHTML =
+          '<polygon points="5 4 19 12 5 20 5 4" fill="currentColor"/>';
       }
     }
 
     resume() {
       this.isPlaying = true;
       const pauseText = document.getElementById('hud-pause-text');
-      if (pauseText) pauseText.textContent = "PAUSE";
+      if (pauseText) pauseText.textContent = 'PAUSE';
 
       const pauseBtn = document.getElementById('hud-pause-btn');
       if (pauseBtn) {
-        pauseBtn.querySelector('svg').innerHTML = '<rect x="4" y="4" width="4" height="16" fill="currentColor"/><rect x="16" y="4" width="4" height="16" fill="currentColor"/>';
+        pauseBtn.querySelector('svg').innerHTML =
+          '<rect x="4" y="4" width="4" height="16" fill="currentColor"/><rect x="16" y="4" width="4" height="16" fill="currentColor"/>';
       }
 
       const step = this.steps[this.currentStep];
@@ -1501,7 +1504,7 @@ document.addEventListener('DOMContentLoaded', () => {
       this.activeIntervals.forEach(clearInterval);
       this.activeIntervals = [];
 
-      document.querySelectorAll('.highlight-element').forEach(el => {
+      document.querySelectorAll('.highlight-element').forEach((el) => {
         el.classList.remove('highlight-element');
       });
     }
